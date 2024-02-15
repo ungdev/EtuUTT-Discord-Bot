@@ -32,7 +32,8 @@ class UE(app_commands.Group):
                     msg = ""
                 msg += f"- Le rôle {role.name} a {len(role.members)} membres.\n"
                 counter += 1
-        await interaction.channel.send(msg)
+        if msg:
+            await interaction.channel.send(msg)
         await interaction.followup.send(
             "\N{WHITE HEAVY CHECK MARK} Commande terminée, "
             f"{counter} rôles ont été identifiés :"
