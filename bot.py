@@ -93,7 +93,9 @@ class EtuUTTBot(discord.Client):
                         f"des commandes slash \n{e}",
                         reference=message,
                     )
+                return
             self.logger.info(f"{message.author}, who isn't authorized, tried to sync the commands")
+            return
 
         # TODO if needed
 

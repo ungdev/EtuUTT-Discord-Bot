@@ -7,7 +7,7 @@ from bot import EtuUTTBot
 
 
 def main():
-    # Load the .env values if a .env file exists (only used in development)
+    # Load the environment variables from the .env file if it exists
     if Path(".env").is_file():
         load_dotenv()
 
