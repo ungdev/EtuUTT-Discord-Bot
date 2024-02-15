@@ -1,0 +1,18 @@
+# Dotenv file
+*.env
+
+# IDE folder
+.idea/
+.vscode/
+
+# Python's venv
+venv/
+
+# Python's cache
+__pycache__/
+
+# Logs folder
+logs/
+
+# Docker compose file
+docker-compose.yaml

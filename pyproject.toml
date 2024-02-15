@@ -1,0 +1,12 @@
+[project]
+name = "etuutt-bot"
+license = "MIT"
+requires-python = ">=3.8"
+
+[tool.ruff]
+line-length = 99
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
