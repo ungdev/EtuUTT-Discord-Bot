@@ -5,13 +5,13 @@ from typing import TYPE_CHECKING
 import discord
 
 from commands.misc import ping, pin, delete
-from commands.ue import UE
+from commands.role import Role
 
 if TYPE_CHECKING:
     from bot import EtuUTTBot
 
 # List the commands and commands groups
-COMMANDS_LIST: tuple = (ping, pin, delete, UE())
+COMMANDS_LIST: tuple = (ping, pin, delete, Role())
 
 SPACES = " " * 38
 

@@ -10,13 +10,15 @@ if TYPE_CHECKING:
 
 
 # define command group based on the Group class
-class UE(app_commands.Group):
+class Role(app_commands.Group):
     # Set command group name and description
     def __init__(self):
         super().__init__(
-            name="ue", description="Commandes liées aux UEs (gestion des rôles et des salons)"
+            name="role",
+            description="Commandes liées à la gestion des rôles (et des salons associés)",
         )
 
+    @app_commands.checks.has_permissions(administrator=True)
     @app_commands.command(
         name="getzeroone", description="Affiche les rôles ayant soit 0 ou 1 personne dedans."
     )
@@ -39,6 +41,7 @@ class UE(app_commands.Group):
             f"{counter} rôles ont été identifiés :"
         )
 
+    @app_commands.checks.has_permissions(administrator=True)
     @app_commands.command(
         name="removeall",
         description="Prend toutes les personnes ayant le rôle et leur retire.",
