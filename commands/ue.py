@@ -38,3 +38,15 @@ class UE(app_commands.Group):
             "\N{WHITE HEAVY CHECK MARK} Commande terminée, "
             f"{counter} rôles ont été identifiés :"
         )
+
+    @app_commands.command(
+        name="removeall",
+        description="Prend toutes les personnes ayant le rôle et leur retire.",
+    )
+    async def remove_all(self, interaction: discord.Interaction[EtuUTTBot], role: discord.Role):
+        await interaction.response.defer(thinking=True)
+        for member in role.members:
+            await member.remove_roles(role)
+        await interaction.followup.send(
+            f"\N{WHITE HEAVY CHECK MARK} Plus personne n'a le rôle {role.name}"
+        )
