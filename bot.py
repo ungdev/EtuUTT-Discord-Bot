@@ -50,6 +50,10 @@ class EtuUTTBot(discord.Client):
         # Used to check the first time the bot does the on_ready event
         self.first = True
 
+    async def setup_hook(self):
+        # Populate the command tree
+        await commands(self.tree)
+
     # Wait until bot is ready
     async def on_ready(self):
         # Waits until internal cache is ready
@@ -58,9 +62,6 @@ class EtuUTTBot(discord.Client):
         # Executed once when bot is ready
         if self.first:
             self.first = False
-
-            # Call commands
-            await commands(self.tree)
 
             # Log in the console that the bot is ready
             self.logger.info(f"{self.user} is now online and ready!")
