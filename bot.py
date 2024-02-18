@@ -54,7 +54,7 @@ class EtuUTTBot(discord.Client):
         # Populate the command tree
         await commands(self.tree)
 
-    # Wait until bot is ready
+    # When the bot is ready
     async def on_ready(self):
         # Waits until internal cache is ready
         await self.wait_until_ready()

@@ -16,3 +16,6 @@ logs/
 
 # Docker compose file
 docker-compose.yaml
+
+# Roles
+roles.txt
