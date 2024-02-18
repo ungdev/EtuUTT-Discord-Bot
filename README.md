@@ -35,4 +35,5 @@ request.
 
 ## Acknowledgments
 
-Thanks to Ivann which did the original Discord bot.
+Thanks to Ivann who did the original Discord bot.  
+It can be found [here](https://github.com/ungdev/discord_bot_firewall).
