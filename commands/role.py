@@ -18,9 +18,9 @@ class Role(app_commands.Group):
         super().__init__(
             name="role",
             description="Commandes liées à la gestion des rôles (et des salons associés)",
+            default_permissions=discord.Permissions(administrator=True),
         )
 
-    @app_commands.checks.has_permissions(administrator=True)
     @app_commands.command(
         name="getzeroone", description="Affiche les rôles ayant soit 0 ou 1 personne dedans."
     )
@@ -55,6 +55,7 @@ class Role(app_commands.Group):
         )
 
     @app_commands.checks.has_permissions(administrator=True)
+    @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.command(
         name="removeall",
         description="Prend toutes les personnes ayant le rôle et leur retire.",
@@ -68,10 +69,11 @@ class Role(app_commands.Group):
         )
 
     @app_commands.checks.has_permissions(administrator=True)
+    @app_commands.checks.bot_has_permissions(manage_channels=True)
     @app_commands.command(
         name="addues",
         description="Crée les salons textuels d'un rôle existant. "
-                    "La catégorie et le rôle doivent déjà exister.",
+        "La catégorie et le rôle doivent déjà exister.",
     )
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: discord.Interaction[EtuUTTBot], category: str):
@@ -90,7 +92,11 @@ class Role(app_commands.Group):
         await interaction.channel.send(category if not None else "a")
 
     @add_ues.autocomplete("category")
-    async def autocomplete_category(self, interaction: discord.Interaction[EtuUTTBot],
-                                    current: str):
-        return [app_commands.Choice(name=category, value=category)
-                for category in parse_categories().keys() if current.upper() in category.upper()]
+    async def autocomplete_category(
+        self, interaction: discord.Interaction[EtuUTTBot], current: str
+    ):
+        return [
+            app_commands.Choice(name=category, value=category)
+            for category in parse_categories().keys()
+            if current.upper() in category
+        ]

@@ -32,10 +32,11 @@ async def pin(interaction: discord.Interaction[EtuUTTBot], message: discord.Mess
 
 # Make a context menu command to delete messages
 @app_commands.guild_only
+@app_commands.default_permissions(manage_messages=True)
+@app_commands.checks.has_permissions(manage_messages=True)
 @app_commands.checks.bot_has_permissions(
     manage_messages=True, read_message_history=True, read_messages=True
 )
-@app_commands.checks.has_permissions(manage_messages=True)
 @app_commands.context_menu(name="Supprimer jusqu'ici")
 async def delete(interaction: discord.Interaction[EtuUTTBot], message: discord.Message):
     await interaction.response.defer(ephemeral=True, thinking=True)

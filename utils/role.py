@@ -26,5 +26,5 @@ def parse_categories() -> dict[str, int]:
     if getenv("UES_CATEGORIES") is not None:
         categories = {}
         for category in getenv("UES_CATEGORIES").split(","):
-            categories[category.split(":")[0]] = int(category.split(":")[1])
+            categories[category.split(":")[0].upper()] = int(category.split(":")[1])
         return categories
