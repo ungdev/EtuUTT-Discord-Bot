@@ -21,6 +21,7 @@ class Role(app_commands.Group):
             default_permissions=discord.Permissions(administrator=True),
         )
 
+    # Check the roles with 0 or 1 user in it
     @app_commands.command(
         name="getzeroone", description="Affiche les rôles ayant soit 0 ou 1 personne dedans."
     )
@@ -54,6 +55,7 @@ class Role(app_commands.Group):
             f"{counter} rôles ont été identifiés :"
         )
 
+    # Remove all users from a role
     @app_commands.checks.has_permissions(administrator=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.command(
@@ -68,29 +70,58 @@ class Role(app_commands.Group):
             f"\N{WHITE HEAVY CHECK MARK} Plus personne n'a le rôle {role.name}"
         )
 
+    # define sub command group to manage channels
+    channel = app_commands.Group(
+        name="channel",
+        description="Commandes liées à la gestion des salons associés aux rôles",
+    )
+
+    # Create the channels for all courses in a specified category
     @app_commands.checks.has_permissions(administrator=True)
     @app_commands.checks.bot_has_permissions(manage_channels=True)
-    @app_commands.command(
-        name="addues",
+    @channel.command(
+        name="addall",
         description="Crée les salons textuels d'un rôle existant. "
         "La catégorie et le rôle doivent déjà exister.",
     )
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: discord.Interaction[EtuUTTBot], category: str):
-        # if len(category) != 19:
-        #     await interaction.response.send_message("Ce n'est pas un ID")
-        # category = int(category)
-        # if category not in (await parse_categories()).keys():
-        #     await interaction.response.send_message("Cet ID ne correspond à aucune catégorie.")
-        #     return
-        # await interaction.response.defer(thinking=True)
-        # roles = (await parse_roles("roles.txt")).get(parse_categories().get(category))
-        # if roles is None:
-        #     await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
-        #     return
-        await interaction.response.send_message(await parse_roles("roles.txt"))
-        await interaction.channel.send(category if not None else "a")
+        if category not in parse_categories().keys():
+            await interaction.response.send_message("Cet ID ne correspond à aucune catégorie.")
+            return
+        await interaction.response.defer(thinking=True)
+        roles = (await parse_roles("roles.txt")).get(category)
+        if roles is None:
+            await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
+            return
+        msg = ""
+        for role in roles:
+            # Arbitrary value to always have messages below 2000 characters (Discord limit)
+            if len(msg) > 1600:
+                await interaction.channel.send(msg)
+                msg = ""
+            role_d = discord.utils.find(
+                lambda r: r.name.upper() == role.upper(), interaction.guild.roles
+            )
+            if role_d is None:
+                msg += f"\N{WHITE QUESTION MARK ORNAMENT} Pas de rôle pour {role}\n"
+                continue
+            await (
+                await interaction.guild.create_text_channel(
+                    role.lower(),
+                    category=interaction.guild.get_channel(parse_categories().get(category)),
+                    overwrites={
+                        interaction.guild.default_role: discord.PermissionOverwrite(
+                            read_messages=False
+                        ),
+                        role_d: discord.PermissionOverwrite(read_messages=True),
+                    },
+                )
+            ).send(f"Bonjour {role_d.mention}, votre salon textuel vient d'être créé !")
+            msg += f"\N{WHITE HEAVY CHECK MARK} Le salon {role.lower()} a été créé\n"
+        await interaction.followup.send("\N{WHITE HEAVY CHECK MARK} La commande est terminée")
 
+    # Autocomplete the category
     @add_ues.autocomplete("category")
     async def autocomplete_category(
         self, interaction: discord.Interaction[EtuUTTBot], current: str
