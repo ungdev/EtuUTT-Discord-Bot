@@ -106,6 +106,14 @@ class Role(app_commands.Group):
             if role_d is None:
                 msg += f"\N{WHITE QUESTION MARK ORNAMENT} Pas de rôle pour {role}\n"
                 continue
+            if (
+                discord.utils.find(
+                    lambda c: c.name.upper() == role.upper(), interaction.guild.channels
+                )
+                is not None
+            ):
+                msg += f"\N{SLEEPING SYMBOL} Le salon textuel {role.lower()} existe déjà\n"
+                continue
             await (
                 await interaction.guild.create_text_channel(
                     role.lower(),
@@ -119,7 +127,8 @@ class Role(app_commands.Group):
                 )
             ).send(f"Bonjour {role_d.mention}, votre salon textuel vient d'être créé !")
             msg += f"\N{WHITE HEAVY CHECK MARK} Le salon {role.lower()} a été créé\n"
-        await interaction.followup.send("\N{WHITE HEAVY CHECK MARK} La commande est terminée")
+        await interaction.channel.send(msg)
+        await interaction.followup.send("\N{WHITE HEAVY CHECK MARK} La commande est terminée :")
 
     # Autocomplete the category
     @add_ues.autocomplete("category")
