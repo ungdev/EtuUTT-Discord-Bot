@@ -99,3 +99,20 @@ class EtuUTTBot(discord.Client):
             else:
                 self.owners = [app_info.owner.id]
         return author.id in self.owners
+
+    # Event when someone joins a guild the bot is in
+    async def on_member_join(self, member: discord.Member):
+        # Ignore join of bots
+        if member.bot:
+            return
+
+        # If member joined the guild the bot is watching
+        if member.guild.id == getenv("GUILD_ID"):
+            await member.send(
+                "Bienvenue sur le serveur Discord des étudiants de l'UTT.\n"
+                "Ceci n'étant pas une zone de non droit, vous **devez** vous identifier "
+                f"en cliquant ici (**que vous soyez étudiant ou prof**) : {getenv('BOT_URL')}"
+                "Vous devez également lire les règles dans le channel `accueil`\n\n"
+                "En cas de problème, contactez l'un des administrateurs, visibles en haut à droite."
+                "\nTapez `/` dans un channel texte pour voir la liste des commandes."
+            )
