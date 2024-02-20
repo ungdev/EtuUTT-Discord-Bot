@@ -1,4 +1,5 @@
 import logging.handlers as handlers
+from os import getenv
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -24,7 +25,7 @@ def main():
     )
 
     # Run the client with the token
-    client.run(client.config["BOT_TOKEN"], reconnect=True, log_handler=handler, root_logger=True)
+    client.run(getenv("BOT_TOKEN"), reconnect=True, log_handler=handler, root_logger=True)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 import logging
-import os
+from os import getenv
 
 import discord
 
@@ -10,12 +10,9 @@ from commands_list import commands
 class EtuUTTBot(discord.Client):
     # Initialization when class is called
     def __init__(self):
-        # Associate the env variables to the bot
-        self.config = os.environ
-
         # Define the bot debug log level, defaults to INFO if undefined or invalid
         self.logger = logging.getLogger("bot")
-        log_level = logging.getLevelName(self.config.get("LOG_LEVEL", logging.INFO))
+        log_level = logging.getLevelName(getenv("LOG_LEVEL", logging.INFO))
         self.log_level = log_level if isinstance(log_level, int) else logging.INFO
         self.logger.setLevel(self.log_level)
 
@@ -32,13 +29,13 @@ class EtuUTTBot(discord.Client):
             "competing": 5,
         }
         activity = discord.Activity(
-            type=activity_type.get(self.config["BOT_ACTIVITY_TYPE"]),
-            name=self.config["BOT_ACTIVITY_NAME"],
-            state=self.config["BOT_ACTIVITY_STATE"],
+            type=activity_type.get(getenv("BOT_ACTIVITY_TYPE")),
+            name=getenv("BOT_ACTIVITY_NAME"),
+            state=getenv("BOT_ACTIVITY_STATE"),
         )
 
         # Apply intents, activity and status to the bot
-        super().__init__(intents=intents, activity=activity, status=self.config["BOT_STATUS"])
+        super().__init__(intents=intents, activity=activity, status=getenv("BOT_STATUS"))
 
         # Declare command tree
         self.tree = discord.app_commands.CommandTree(self)
@@ -46,9 +43,6 @@ class EtuUTTBot(discord.Client):
         # Variable for storing owners id
         # If set manually, it will not fetch from the bot's application info
         self.owners = []
-
-        # Used to check the first time the bot does the on_ready event
-        self.first = True
 
     async def setup_hook(self):
         # Populate the command tree
@@ -59,17 +53,13 @@ class EtuUTTBot(discord.Client):
         # Waits until internal cache is ready
         await self.wait_until_ready()
 
-        # Executed once when bot is ready
-        if self.first:
-            self.first = False
+        # Log in the console that the bot is ready
+        self.logger.info(f"{self.user} is now online and ready!")
 
-            # Log in the console that the bot is ready
-            self.logger.info(f"{self.user} is now online and ready!")
-
-            await self.get_channel(int(self.config["CHANNEL_ADMIN_ID"])).send(
-                "Je suis en ligne. Je viens d'être (re)démarré. Cela signifie qu'il y a soit eu "
-                "un bug, soit que j'ai été mis à jour, soit qu'on m'a redémarré manuellement."
-            )
+        await self.get_channel(int(getenv("CHANNEL_ADMIN_ID"))).send(
+            "Je suis en ligne. Je viens d'être (re)démarré. Cela signifie qu'il y a soit eu "
+            "un bug, soit que j'ai été mis à jour, soit qu'on m'a redémarré manuellement."
+        )
 
     # To react to messages sent in channels bot has access to
     async def on_message(self, message: discord.Message):
