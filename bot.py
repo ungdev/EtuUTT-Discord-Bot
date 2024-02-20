@@ -90,7 +90,7 @@ class EtuUTTBot(discord.Client):
                 except discord.app_commands.CommandSyncFailure as e:
                     self.logger.error(e)
                     await message.channel.send(
-                        f"Il y a eu une erreur lors de la synchronisation "
+                        "Il y a eu une erreur lors de la synchronisation "
                         f"des commandes slash \n{e}",
                         reference=message,
                     )

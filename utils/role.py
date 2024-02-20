@@ -15,7 +15,7 @@ async def parse_roles(file: PurePath | str) -> dict[str, list[str]]:
 
     ues = {}
     for category in raw_ues.split(";"):
-        if category != "" and category in parse_categories().keys():
+        if category != "" and category.split(":")[0] in parse_categories().keys():
             ues[category.split(":")[0]] = category.split(":")[1].split(",")
 
     return ues

@@ -19,8 +19,10 @@ async def ping(interaction: discord.Interaction[EtuUTTBot]):
 
 # Make a simple context menu application to pin/unpin
 @app_commands.guild_only
+@app_commands.default_permissions(send_messages=True)
+@app_commands.checks.has_permissions(send_messages=True)
 @app_commands.checks.bot_has_permissions(manage_messages=True)
-@app_commands.context_menu(name="Pin/Unpin")
+@app_commands.context_menu(name="Épingler/Désépingler")
 async def pin(interaction: discord.Interaction[EtuUTTBot], message: discord.Message):
     if message.pinned:
         await message.unpin()
