@@ -4,6 +4,7 @@ from os import getenv
 import discord
 
 from commands_list import commands
+from web import start_server
 
 
 # Create a class of the bot
@@ -47,6 +48,9 @@ class EtuUTTBot(discord.Client):
     async def setup_hook(self):
         # Populate the command tree
         await commands(self.tree)
+
+        # Starts the web server
+        await start_server(self)
 
     # When the bot is ready
     async def on_ready(self):
