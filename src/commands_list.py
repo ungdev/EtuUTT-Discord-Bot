@@ -4,8 +4,9 @@ from typing import TYPE_CHECKING
 
 import discord
 
-from commands.misc import ping, pin, delete
-from commands.role import Role
+from src.commands.admin import Admin
+from src.commands.misc import ping, pin, delete
+from src.commands.role import Role
 
 if TYPE_CHECKING:
     from bot import EtuUTTBot
@@ -17,13 +18,14 @@ SPACES = " " * 38
 
 
 # List of commands to add to the command tree
-async def commands(tree: discord.app_commands.CommandTree):
+async def commands_list(bot: EtuUTTBot):
+    await bot.add_cog(Admin())
     # Add the commands to the Tree
     for command in COMMANDS_LIST:
-        tree.add_command(command)
+        bot.tree.add_command(command)
 
     # Create a global commands error handler
-    @tree.error
+    @bot.tree.error
     async def on_command_error(
         interaction: discord.Interaction[EtuUTTBot], error: discord.app_commands.AppCommandError
     ):

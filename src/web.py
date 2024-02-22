@@ -41,14 +41,16 @@ async def start_server(client: EtuUTTBot):
 # This is the general handler
 async def handler(req: web.Request):
     return web.Response(
-        body=Path("public_html", "connexion.html").read_text(), content_type="text/html"
+        body=Path("public_html", "connexion.html").read_text(),
+        content_type="text/html",
     )
 
 
 # This is the favicon handler
 async def favicon(req: web.Request):
     return web.Response(
-        body=Path("public_html", "favicon.ico").read_bytes(), content_type="image/x-icon"
+        body=Path("public_html", "favicon.ico").read_bytes(),
+        content_type="image/x-icon",
     )
 
 

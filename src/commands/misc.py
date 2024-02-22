@@ -6,7 +6,7 @@ import discord
 from discord import app_commands
 
 if TYPE_CHECKING:
-    from bot import EtuUTTBot
+    from src.bot import EtuUTTBot
 
 
 # Simple ping command

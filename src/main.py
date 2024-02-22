@@ -4,7 +4,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from bot import EtuUTTBot
+from src.bot import EtuUTTBot
 
 
 def main():
