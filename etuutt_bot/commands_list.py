@@ -4,12 +4,12 @@ from typing import TYPE_CHECKING
 
 import discord
 
-from src.commands.admin import Admin
-from src.commands.misc import ping, pin, delete
-from src.commands.role import Role
+from etuutt_bot.commands.admin import Admin
+from etuutt_bot.commands.misc import ping, pin, delete
+from etuutt_bot.commands.role import Role
 
 if TYPE_CHECKING:
-    from bot import EtuUTTBot
+    from etuutt_bot.bot import EtuUTTBot
 
 # List the commands and commands groups
 COMMANDS_LIST: tuple = (ping, pin, delete, Role())

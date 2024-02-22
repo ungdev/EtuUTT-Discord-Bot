@@ -4,8 +4,8 @@ from os import getenv
 import discord
 from discord.ext import commands
 
-from src.commands_list import commands_list
-from src.web import start_server
+from etuutt_bot.commands_list import commands_list
+from etuutt_bot.web import start_server
 
 
 # Create a class of the bot

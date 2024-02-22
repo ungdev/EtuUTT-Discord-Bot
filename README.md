@@ -29,7 +29,7 @@ You also have to enable all the Privileged Gateway Intents as I assume they're e
 After having done all this you can launch the bot:
 
 ```
-python -m src.main
+python -m etuutt_bot.main
 ```
 
 ## Contributing

@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 
 if TYPE_CHECKING:
-    from src.bot import EtuUTTBot
+    from etuutt_bot.bot import EtuUTTBot
 
 
 class Admin(commands.Cog):

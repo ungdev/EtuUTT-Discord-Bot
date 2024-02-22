@@ -5,10 +5,10 @@ from typing import TYPE_CHECKING
 import discord
 from discord import app_commands
 
-from src.utils.role import parse_roles, parse_categories
+from etuutt_bot.utils.role import parse_roles, parse_categories
 
 if TYPE_CHECKING:
-    from src.bot import EtuUTTBot
+    from etuutt_bot.bot import EtuUTTBot
 
 
 # define command group based on the Group class

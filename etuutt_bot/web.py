@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from aiohttp import web
 
 if TYPE_CHECKING:
-    from bot import EtuUTTBot
+    from etuutt_bot.bot import EtuUTTBot
 
 
 # Add a basic HTTP server to check if the bot is up
