@@ -1,4 +1,4 @@
-# EtuUTT-Bot
+# EtuUTT-Discord-Bot
 
 A project of redoing the Discord bot made in JavaScript used at my school.  
 Be sure to have Python 3.8 or higher installed as it is required by discord.py.
@@ -7,8 +7,8 @@ Clone the projet and install the requirements (in a
 [venv](https://docs.python.org/library/venv.html) preferably):
 
 ```
-git clone https://github.com/Zalk0/EtuUTT-Bot.git
-cd EtuUTT-Bot
+git clone https://github.com/ungdev/EtuUTT-Discord-Bot.git
+cd EtuUTT-Discord-Bot
 pip install -r requirements.txt
 ```
 
@@ -17,7 +17,7 @@ requirements to contribute to the bot.
 
 ---
 Before launching the bot, you need to fill in a **`.env`** file (using
-the [example](https://github.com/Zalk0/EtuUTT-Bot/blob/main/.env.example)
+the [example](https://github.com/ungdev/EtuUTT-Discord-Bot/blob/main/.env.example)
 I provide in the repo).  
 You need a Discord bot token, to have one go to
 the [Discord Developer Portal](https://discord.com/developers) and create a new
@@ -29,7 +29,7 @@ You also have to enable all the Privileged Gateway Intents as I assume they're e
 After having done all this you can launch the bot:
 
 ```
-python -m etuutt_bot.main
+python -m etuutt_bot
 ```
 
 ## Contributing
