@@ -26,6 +26,7 @@ class Role(app_commands.Group):
         name="getzeroone", description="Affiche les rôles ayant soit 0 ou 1 personne dedans."
     )
     async def get_zero_one(self, interaction: discord.Interaction[EtuUTTBot]):
+        # TODO refaire en afficher les rôles avec x personnes ou moins dedans
         await interaction.response.defer(thinking=True)
         counter = 0
         msg = ""
