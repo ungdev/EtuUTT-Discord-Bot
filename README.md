@@ -34,7 +34,8 @@ python -m etuutt_bot
 
 ## Contributing
 
-Use [ruff](https://github.com/astral-sh/ruff) to lint and format the code before making a pull request.  
+Use [ruff](https://github.com/astral-sh/ruff) to lint and format the code before making a pull
+request.  
 I also use [pre-commit](https://github.com/pre-commit/pre-commit) to run ruff before each commit.
 
 ## Acknowledgments
