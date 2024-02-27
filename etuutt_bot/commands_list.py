@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import discord
 
 from etuutt_bot.commands.admin import Admin
-from etuutt_bot.commands.misc import ping, pin, delete
+from etuutt_bot.commands.misc import delete, pin, ping
 from etuutt_bot.commands.role import Role
 
 if TYPE_CHECKING:
