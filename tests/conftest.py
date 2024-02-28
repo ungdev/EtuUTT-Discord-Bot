@@ -3,7 +3,7 @@ import os
 import pytest
 
 
-@pytest.fixture()
+@pytest.fixture
 def set_env():
     """Factory fixture that allows to add env variables.
 
