@@ -30,9 +30,9 @@ def parse_categories() -> dict[str, int]:
     for cat in categories.split(","):
         args = cat.split(":")
         if len(args) != 2:
-            msg = "UES should be key/value pairs separated by a `:`." f' "{cat}" found instead'
+            msg = f'UEs should be key/value pairs separated by a `:`. "{cat}" found instead'
             raise ValueError(msg)
         if not args[1].isdigit():
-            raise ValueError("Categories ids should be valid ids")
+            raise ValueError("Category IDs should be valid integers")
         result[args[0]] = int(args[1])
     return result

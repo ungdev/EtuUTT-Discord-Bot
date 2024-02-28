@@ -13,8 +13,8 @@ class TestParseCategories:
         "categories",
         [
             "CAT1:3451,CAT2:notadigit",
-            "NF04:46218976:0727875587",  # the second colon shouldn't be there
-            "NF04:4621AE32",  # id in hex format
+            "TC:46218976:0727875587",  # The second colon shouldn't be there
+            "TC:4621AE32",  # ID in hex format
         ],
     )
     def test_wrong_values(self, categories, set_env):
@@ -27,8 +27,8 @@ class TestParseCategories:
         ("categories", "expected"),
         [
             (
-                "NF04:462189760727875587,NF05:462189760427175581",
-                {"NF04": 462189760727875587, "NF05": 462189760427175581},
+                "TC:462189760727875587,ME:462189760427175581",
+                {"TC": 462189760727875587, "ME": 462189760427175581},
             )
         ],
     )
