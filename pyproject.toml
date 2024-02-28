@@ -3,6 +3,13 @@ name = "etuutt-bot"
 license = "MIT"
 requires-python = ">=3.8"
 
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "RET", "SIM", "PT"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
 [tool.ruff]
 line-length = 99
 

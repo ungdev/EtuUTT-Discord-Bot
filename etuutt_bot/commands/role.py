@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import discord
 from discord import app_commands
 
-from etuutt_bot.utils.role import parse_roles, parse_categories
+from etuutt_bot.utils.role import parse_categories, parse_roles
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -87,7 +87,7 @@ class Role(app_commands.Group):
     )
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: discord.Interaction[EtuUTTBot], category: str):
-        if category not in parse_categories().keys():
+        if category not in parse_categories():
             await interaction.response.send_message("Cet ID ne correspond à aucune catégorie.")
             return
         await interaction.response.defer(thinking=True)
@@ -102,17 +102,12 @@ class Role(app_commands.Group):
                 await interaction.channel.send(msg)
                 msg = ""
             role_d = discord.utils.find(
-                lambda r: r.name.upper() == role.upper(), interaction.guild.roles
+                lambda r, to_find=role: r.name.upper() == to_find.upper(), interaction.guild.roles
             )
             if role_d is None:
                 msg += f"\N{WHITE QUESTION MARK ORNAMENT} Pas de rôle pour {role}\n"
                 continue
-            if (
-                discord.utils.find(
-                    lambda c: c.name.upper() == role.upper(), interaction.guild.channels
-                )
-                is not None
-            ):
+            if any(c.name.upper() == role.upper() for c in interaction.guild.channels):
                 msg += f"\N{SLEEPING SYMBOL} Le salon textuel {role.lower()} existe déjà\n"
                 continue
             await (
@@ -138,6 +133,6 @@ class Role(app_commands.Group):
     ):
         return [
             app_commands.Choice(name=category, value=category)
-            for category in parse_categories().keys()
+            for category in parse_categories()
             if current.upper() in category
         ]

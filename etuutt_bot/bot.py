@@ -81,6 +81,7 @@ class EtuUTTBot(commands.Bot):
                 "Ceci n'étant pas une zone de non droit, vous **devez** vous identifier "
                 f"en cliquant ici (**que vous soyez étudiant ou prof**) : {getenv('BOT_URL')}"
                 "Vous devez également lire les règles dans le channel `accueil`\n\n"
-                "En cas de problème, contactez l'un des administrateurs, visibles en haut à droite."
-                "\nTapez `/` dans un channel texte pour voir la liste des commandes."
+                "En cas de problème, contactez l'un des administrateurs, "
+                "visibles en haut à droite.\n"
+                "Tapez `/` dans un channel texte pour voir la liste des commandes."
             )
