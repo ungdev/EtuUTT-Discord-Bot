@@ -102,8 +102,7 @@ class Role(app_commands.Group):
                 await interaction.channel.send(msg)
                 msg = ""
             role_d = discord.utils.find(
-                lambda r: r.name.upper() == role.upper(),
-                interaction.guild.roles,  # noqa B023
+                lambda r, to_find=role: r.name.upper() == to_find.upper(), interaction.guild.roles
             )
             if role_d is None:
                 msg += f"\N{WHITE QUESTION MARK ORNAMENT} Pas de rôle pour {role}\n"

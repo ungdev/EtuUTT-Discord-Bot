@@ -38,6 +38,11 @@ Use [ruff](https://github.com/astral-sh/ruff) to lint and format the code before
 request.  
 I also use [pre-commit](https://github.com/pre-commit/pre-commit) to run ruff before each commit.
 
+Pytest is also used to test the project :
+```bash
+pytest
+```
+
 ## Acknowledgments
 
 Thanks to Ivann who did the original Discord bot.  

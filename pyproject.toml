@@ -4,11 +4,10 @@ license = "MIT"
 requires-python = ">=3.8"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "U", "B", "RET", "SIM"]
+select = ["E", "F", "I", "UP", "B", "RET", "SIM", "PT"]
 
 [tool.ruff]
 line-length = 99
-
 
 [tool.ruff.format]
 indent-style = "space"
