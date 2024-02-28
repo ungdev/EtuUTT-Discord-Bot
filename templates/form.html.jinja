@@ -1,0 +1,19 @@
+{% extends "base.html.jinja" %}
+
+{% block content %}
+    <form action="/role" method="post">
+        <input type="hidden" name="etu_token" id="etu_token" value="{{ token }}">
+        <label for="discord_username">Nom d'utilisateur Discord :</label>
+        <input type="text" name="discord_username" id="discord_username"
+               placeholder="nom d'utilisateur" autocomplete="off" spellcheck="false">
+        <label for="check_GDPR" class="checkbox">En cochant cette case et en cliquant sur le bouton envoyer, vous
+            reconnaissez et acceptez de donner à Discord Inc. les informations suivantes : nom,
+            prénom, et votre statut (étudiant ou enseignant). Si vous êtes étudiant, les
+            informations suivantes sont également transmises : branche, niveau dans la branche,
+            listes des UEs suivies. La
+            <a href="https://discorapp.com/privacy" target="_blank">politique de confidentialité de
+                Discord</a> s'applique dès l'envoi du formulaire.</label>
+        <input type="checkbox" name="check_GDPR" id="check_GDPR"><br>
+        <button type="submit" class="button" id="submit_button">Envoyer</button>
+    </form>
+{% endblock %}
