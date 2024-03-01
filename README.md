@@ -6,7 +6,7 @@ Be sure to have Python 3.8 or higher installed as it is required by discord.py.
 Clone the projet and install the requirements (in a
 [venv](https://docs.python.org/library/venv.html) preferably):
 
-```
+```bash
 git clone https://github.com/ungdev/EtuUTT-Discord-Bot.git
 cd EtuUTT-Discord-Bot
 pip install -r requirements.txt
@@ -28,7 +28,7 @@ You also have to enable all the Privileged Gateway Intents as I assume they're e
 ---
 After having done all this you can launch the bot:
 
-```
+```bash
 python -m etuutt_bot
 ```
 

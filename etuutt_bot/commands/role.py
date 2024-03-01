@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import discord
-from discord import app_commands
+from discord import CategoryChannel, Interaction, app_commands
 
-from etuutt_bot.utils.role import parse_categories, parse_roles
+from etuutt_bot.utils.role import parse_roles
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -86,12 +86,9 @@ class Role(app_commands.Group):
         "La catégorie et le rôle doivent déjà exister.",
     )
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
-    async def add_ues(self, interaction: discord.Interaction[EtuUTTBot], category: str):
-        if category not in parse_categories():
-            await interaction.response.send_message("Cet ID ne correspond à aucune catégorie.")
-            return
+    async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
         await interaction.response.defer(thinking=True)
-        roles = (await parse_roles("roles.txt")).get(category)
+        roles = (await parse_roles("roles.txt")).get(category.name)
         if roles is None:
             await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
             return
@@ -113,7 +110,7 @@ class Role(app_commands.Group):
             await (
                 await interaction.guild.create_text_channel(
                     role.lower(),
-                    category=interaction.guild.get_channel(parse_categories().get(category)),
+                    category=category,
                     overwrites={
                         interaction.guild.default_role: discord.PermissionOverwrite(
                             read_messages=False
@@ -125,14 +122,3 @@ class Role(app_commands.Group):
             msg += f"\N{WHITE HEAVY CHECK MARK} Le salon {role.lower()} a été créé\n"
         await interaction.channel.send(msg)
         await interaction.followup.send("\N{WHITE HEAVY CHECK MARK} La commande est terminée :")
-
-    # Autocomplete the category
-    @add_ues.autocomplete("category")
-    async def autocomplete_category(
-        self, interaction: discord.Interaction[EtuUTTBot], current: str
-    ):
-        return [
-            app_commands.Choice(name=category, value=category)
-            for category in parse_categories()
-            if current.upper() in category
-        ]
