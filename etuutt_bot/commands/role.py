@@ -1,13 +1,17 @@
 from __future__ import annotations
 
+from itertools import groupby
 from typing import TYPE_CHECKING
 
 import discord
-from discord import CategoryChannel, Interaction, app_commands
+from discord import CategoryChannel, app_commands
 
+from etuutt_bot.utils.message import split_msg
 from etuutt_bot.utils.role import parse_roles
 
 if TYPE_CHECKING:
+    from discord import Interaction
+
     from etuutt_bot.bot import EtuUTTBot
 
 
@@ -21,40 +25,40 @@ class Role(app_commands.Group):
             default_permissions=discord.Permissions(administrator=True),
         )
 
-    # Check the roles with 0 or 1 user in it
     @app_commands.command(
-        name="getzeroone", description="Affiche les rôles ayant soit 0 ou 1 personne dedans."
+        name="lessthan",
+        description="Affiche les rôles ayant moins de N personnes dedans (par défaut, n=2).",
     )
-    async def get_zero_one(self, interaction: discord.Interaction[EtuUTTBot]):
-        # TODO refaire en afficher les rôles avec x personnes ou moins dedans
+    async def get_less_than(self, interaction: discord.Interaction[EtuUTTBot], n: int = 2):
         await interaction.response.defer(thinking=True)
-        counter = 0
-        msg = ""
-        for role in interaction.guild.roles:
-            if len(role.members) <= 1:
-                # Arbitrary value to always have messages below 2000 characters (Discord limit)
-                if len(msg) > 1600:
-                    await interaction.channel.send(msg)
-                    msg = ""
-                msg += f"- Le rôle {role.name} a {len(role.members)} membres.\n"
-                counter += 1
-        if counter == 0:
+        roles = [r for r in interaction.guild.roles if len(r.members) < n]
+        if len(roles) == 0:
             await interaction.followup.send(
                 "\N{WHITE HEAVY CHECK MARK} Commande terminée, aucun rôle n'a été identifié."
             )
             return
-        # If at least one role has zero or 1 user in it, there's a list of roles to send
-        await interaction.channel.send(msg)
-        # Check to send the response to the singular or plural
-        if counter == 1:
+        if len(roles) == 1:
             await interaction.followup.send(
-                "\N{WHITE HEAVY CHECK MARK} Commande terminée, 1 rôle a été identifié :"
+                "\N{WHITE HEAVY CHECK MARK} Commande terminée, un rôle trouvé : "
+                f"{roles[0].name} avec {len(roles[0].members)} membres"
             )
             return
-        await interaction.followup.send(
-            "\N{WHITE HEAVY CHECK MARK} Commande terminée, "
-            f"{counter} rôles ont été identifiés :"
+        msg = f"\N{WHITE HEAVY CHECK MARK} Commande terminée, {len(roles)} rôles trouvés : "
+        # group roles by ascending number of members
+        # start by sorting the roles in order to make the operation
+        # O(log(n) + n) instead of O(n²)
+        grouped_roles = groupby(
+            sorted(roles, key=lambda r: len(r.members)), key=lambda r: len(r.members)
         )
+        for nb_members, roles_group in grouped_roles:
+            msg += f"\n## Rôles avec {nb_members} membres :\n"
+            msg += "\n".join(f"- {r.name}" for r in roles_group)
+        chunks = list(split_msg(msg))
+        for chunk in chunks[:-1]:
+            await interaction.channel.send(chunk)
+        # send the last part of the message as a followup
+        # to remove the "thinking" message
+        await interaction.followup.send(chunks[-1])
 
     # Remove all users from a role
     @app_commands.checks.has_permissions(administrator=True)
@@ -63,7 +67,7 @@ class Role(app_commands.Group):
         name="removeall",
         description="Prend toutes les personnes ayant le rôle et leur retire.",
     )
-    async def remove_all(self, interaction: discord.Interaction[EtuUTTBot], role: discord.Role):
+    async def remove_all(self, interaction: Interaction[EtuUTTBot], role: discord.Role):
         await interaction.response.defer(thinking=True)
         for member in role.members:
             await member.remove_roles(role)
