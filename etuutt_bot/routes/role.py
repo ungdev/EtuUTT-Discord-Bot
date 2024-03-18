@@ -9,8 +9,8 @@ async def handler(req: web.Request) -> web.Response:
     if req.method != "POST":
         return web.HTTPMethodNotAllowed(req.method, ["POST"])  # HTTP 405
     post = await req.post()
-    if "etu_token" and "discord_username" in post:
-        if post.get("check_GDPR") != "on":
+    if "etu-token" and "discord-username" in post:
+        if post.get("check-GDPR") != "on":
             return await aiohttp_jinja2.render_template_async(
                 "error.html.jinja",
                 req,
@@ -21,7 +21,7 @@ async def handler(req: web.Request) -> web.Response:
                 },
             )
         async with aiohttp.ClientSession() as session:
-            params = {"access_token": post.get("etu_token")}
+            params = {"access_token": post.get("etu-token")}
             async with session.get(
                 f"{getenv('API_URL')}/public/user/account", params=params
             ) as response:
@@ -41,7 +41,7 @@ async def handler(req: web.Request) -> web.Response:
                     ]
                 ):
                     return web.Response(
-                        text=f"{post.get('discord_username')}\n{resp.get('firstName')}"
+                        text=f"{post.get('discord-username')}\n{resp.get('firstName')}"
                     )
                     # TODO: process information in another file
     return web.HTTPBadRequest()

@@ -24,5 +24,5 @@ async def handler(req: web.Request) -> web.Response:
     return await aiohttp_jinja2.render_template_async(
         "form.html.jinja",
         req,
-        {"token": token, "discord-link": getenv("INVITE_DISCORD"), "admin": getenv("ADMIN_ID")},
+        {"token": token, "discord_link": getenv("INVITE_DISCORD"), "admin": getenv("ADMIN_ID")},
     )
