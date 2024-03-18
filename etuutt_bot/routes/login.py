@@ -21,4 +21,8 @@ async def handler(req: web.Request) -> web.Response:
                 token = resp["access_token"]
             except KeyError:
                 return web.HTTPBadRequest()  # HTTP 400
-    return await aiohttp_jinja2.render_template_async("form.html.jinja", req, {"token": token})
+    return await aiohttp_jinja2.render_template_async(
+        "form.html.jinja",
+        req,
+        {"token": token, "lienDiscord": getenv("INVITE_DISCORD"), "admin": getenv("ADMIN_ID")},
+    )
