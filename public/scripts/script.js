@@ -1,7 +1,7 @@
-const checkbox = document.querySelector("#check_GDPR");
-const submit = document.querySelector("#submit_button");
+const checkbox = document.querySelector("#check-GDPR");
+const submit = document.querySelector("#submit-button");
 const admin = document.querySelector("#admin");
-const admin_mention = document.querySelector("#admin_mention");
+const adminMention = document.querySelector("#admin-mention");
 
 if (checkbox && submit) {
     if (!checkbox.checked) submit.setAttribute("disabled", "true");
@@ -17,5 +17,5 @@ if (checkbox && submit) {
 
 if (admin) {
     admin.addEventListener("click",
-        () => navigator.clipboard.writeText(admin_mention.textContent));
+        () => navigator.clipboard.writeText(adminMention.textContent));
 }

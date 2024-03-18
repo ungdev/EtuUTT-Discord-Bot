@@ -15,15 +15,15 @@
             </p>
 
             <form action="/role" method="post">
-                <input type="hidden" name="etu_token" id="etu_token" value="{{ token }}">
+                <input type="hidden" name="etu-token" id="etu-token" value="{{ token }}">
 
-                <input type="text" name="discord_username" id="discord_username"
+                <input type="text" name="discord-username" id="discord-username"
                        placeholder="trick" autocomplete="off" spellcheck="false">
-                <label for="discord_username" class="discord_label">Nom d'utilisateur
+                <label for="discord-username" class="discord-label">Nom d'utilisateur
                     Discord</label>
 
-                <label for="check_GDPR">
-                    <input type="checkbox" name="check_GDPR" id="check_GDPR">
+                <label for="check-GDPR">
+                    <input type="checkbox" name="check-GDPR" id="check-GDPR">
                     <span>
                         En cochant cette case et en cliquant sur le bouton envoyer, vous
                         reconnaissez et acceptez de donner à Discord Inc. les informations
@@ -35,7 +35,7 @@
                     </span>
                 </label>
 
-                <button type="submit" class="button" id="submit_button">Envoyer</button>
+                <button type="submit" class="button" id="submit-button">Envoyer</button>
             </form>
             <p>
                 Aucune de vos données personnelles n'a encore été traitée par le bot.<br>
@@ -59,7 +59,7 @@
 
                 <li>
                     <p>
-                        Rejoignez le serveur Discord <a href="{{ lienDiscord }}" target="_blank">en
+                        Rejoignez le serveur Discord <a href="{{ discord-link }}" target="_blank">en
                         cliquant sur ce lien</a>.<br>
                         Discord est une application tierce, que nous ne contrôlons pas.
                         <b>Ne mettez pas de données sensibles (recherche, ...) dessus.</b>
@@ -115,7 +115,7 @@
             </div>
 
             <footer>
-                <span hidden id="admin_mention"><@&{{ admin }}></span>
+                <span hidden id="admin-mention"><@&{{ admin }}></span>
                 <p>
                     Contactez un <b id="admin">@Administrateur</b> sur le serveur Discord en cas
                     de soucis.

@@ -64,7 +64,7 @@ form {
 }
 
 /* inspired from https://codepen.io/lucasyem/pen/ZEEYKdj */
-label[for=discord_username] {
+label[for=discord-username] {
     position: absolute;
     top: 0;
     display: block;
@@ -73,7 +73,7 @@ label[for=discord_username] {
     transition: 0.4s;
 }
 
-#discord_username {
+#discord-username {
     width: 100%;
     padding: 8px 0;
     border: none;
@@ -89,7 +89,7 @@ label[for=discord_username] {
         color: transparent;
     }
 
-    &:placeholder-shown ~ label[for=discord_username] {
+    &:placeholder-shown ~ label[for=discord-username] {
         font-size: 18px;
         cursor: text;
         top: 22px;
@@ -98,14 +98,14 @@ label[for=discord_username] {
     &:focus {
         border-bottom-color: var(--ung-blue);
 
-        & ~ label[for=discord_username] {
+        & ~ label[for=discord-username] {
             top: 0;
             font-size: 16px;
         }
     }
 }
 
-label[for=check_GDPR] {
+label[for=check-GDPR] {
     cursor: pointer;
     display: flex;
     flex-direction: row;
@@ -159,7 +159,7 @@ input[type='checkbox'] {
     cursor: pointer;
 }
 
-#submit_button {
+#submit-button {
     width: 100%;
     font-size: 18px;
     margin-top: 24px;
