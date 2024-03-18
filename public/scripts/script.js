@@ -1,44 +1,21 @@
-const input = document.querySelector("#discord-username");
+const checkbox = document.querySelector("#check_GDPR");
+const submit = document.querySelector("#submit_button");
+const admin = document.querySelector("#admin");
+const admin_mention = document.querySelector("#admin_mention");
 
-if (input) {
-  const maskedInputController = vanillaTextMask.maskInput({
-    inputElement: input,
-    guide: false,
-    mask: function (value, params) {
-      const index = value.indexOf("#");
+if (checkbox && submit) {
+    if (!checkbox.checked) submit.setAttribute("disabled", "true");
 
-      let result = new Array(index !== -1 ? index : value.length).fill(/[^#]/);
-
-      if (index !== -1) {
-        result.push("#");
-
-        if (value.length - index - 1 > 0) {
-          result = result.concat(
-            new Array(value.length - index - 1).fill(/\d/)
-          );
+    checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+            submit.removeAttribute("disabled");
+        } else {
+            submit.setAttribute("disabled", "true");
         }
-      }
-
-      return result;
-    },
-  });
+    });
 }
 
-const rgpdCheckbox = document.querySelector("#checkRGPD");
-const submitButton = document.querySelector("#submit-button");
-
-if (rgpdCheckbox && submitButton) {
-  const handleUpdate = () => {
-    if (rgpdCheckbox && submitButton) {
-      if (rgpdCheckbox.checked) {
-        submitButton.removeAttribute("disabled");
-      } else {
-        submitButton.setAttribute("disabled", "true");
-      }
-    }
-  };
-
-  rgpdCheckbox.addEventListener("change", handleUpdate, false);
-
-  handleUpdate();
+if (admin) {
+    admin.addEventListener("click",
+        () => navigator.clipboard.writeText(admin_mention.textContent));
 }

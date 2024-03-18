@@ -24,11 +24,12 @@ async def start_server(client: EtuUTTBot):
 
     app = web.Application(middlewares=[error_middleware])
     aiohttp_jinja2.setup(app, enable_async=True, loader=jinja2.FileSystemLoader("templates"))
-    app.router.add_route("*", "/role", role.handler)
-    app.router.add_routes(
+    app.add_routes(
         [
             web.get("/", home.handler),
             web.get("/login", login.handler),
+            web.get("/role", role.handler),
+            web.post("/role", role.handler),
             web.static("/", "public"),
         ]
     )
