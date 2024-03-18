@@ -16,7 +16,7 @@ async def handler(req: web.Request) -> web.Response:
                 req,
                 {
                     "error": "Vous n'avez pas coché la case de consentement RGPD. "
-                    "Vos données n'ont pas été traitées. "
+                    "Vos données n'ont pas été traitées.<br>"
                     "<a href='/'>Revenir au départ et recommencer !</a>"
                 },
             )

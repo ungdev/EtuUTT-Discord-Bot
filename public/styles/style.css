@@ -16,6 +16,10 @@ body {
     text-align: left;
 }
 
+p {
+    line-height: 1.2;
+}
+
 #wrap {
     position: absolute;
     display: flex;
@@ -39,12 +43,12 @@ body {
     padding-right: max(10%, calc(45vw - 560px));
 }
 
-#form a, #form a:visited {
+a, a:visited {
     color: var(--link);
     text-decoration: unset;
 }
 
-#form a:hover {
+a:hover {
     color: var(--link-hover);
     text-decoration: underline;
 }
@@ -202,7 +206,11 @@ h2.title {
     line-height: 1.2;
 }
 
-.list a:hover, .details a, footer a {
+#presentation a {
+    text-decoration: underline;
+}
+
+.list a:hover, .details a, footer a, footer a:visited {
     color: var(--blue-link);
 }
 
@@ -211,7 +219,7 @@ h2.title {
 }
 
 footer {
-    line-height: 0.8;
+    line-height: 0;
     color: var(--blue-link-hover);
 }
 
