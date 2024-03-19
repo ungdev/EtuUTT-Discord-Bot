@@ -1,7 +1,11 @@
 {% extends "base.html.jinja" %}
 
 {% block content %}
-    <p style="padding: 10px">
-        {{ error|safe }}
-    </p>
+    <div class="container">
+        <div class="error-box">
+            <p>{{ error }}</p>
+            <a href="/">Revenir au départ et recommencer !</a>
+        </div>
+        <img src="/images/ung.png" alt="UNG Logo">
+    </div>
 {% endblock %}
