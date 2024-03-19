@@ -8,6 +8,10 @@
     --link-hover: #10366e;
     --blue-link: #0c304d;
     --blue-link-hover: #061125;
+    --light-link: #298cf8;
+    --light-link-hover: #3222c5;
+    --light-text: #c5c5c5;
+    --lighter-text: #e5e5e5;
     --bg-left: #2d8fcecc;
     --bg-rigth: #f5f5f5;
 }
@@ -30,7 +34,7 @@ h1 {
     color: var(--dark-grey);
 }
 
-#wrap, .container{
+#wrap, .container {
     position: absolute;
     display: flex;
     min-height: 100%;
@@ -264,6 +268,50 @@ footer {
 
 #admin:hover {
     background-color: #ff26116b;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    #form {
+        background-color: var(--ung-dark-grey);
+        color: var(--lighter-text);
+    }
+
+    #discord-username {
+        border-bottom-color: #959595;
+    }
+
+    label[for=check-GDPR] > span, form + p {
+        color: var(--light-text);
+    }
+
+    #presentation {
+        background-color: #325e7e;
+        color: var(--lighter-text);
+    }
+
+    .list {
+        color: #d5d5d5;
+    }
+
+    .details {
+        color: var(--light-text);
+    }
+
+    footer {
+        color: var(--lighter-text);
+    }
+
+    span a, .list a, .details a, footer a {
+        color: var(--light-link);
+
+        &:visited {
+            color: var(--light-link);
+        }
+
+        &:hover {
+            color: var(--light-link-hover);
+        }
+    }
 }
 
 /* Phone format : change  */
