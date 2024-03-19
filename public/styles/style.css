@@ -277,10 +277,11 @@ footer {
     }
 
     #discord-username {
+        color: var(--lighter-text);
         border-bottom-color: #959595;
     }
 
-    label[for=check-GDPR] > span, form + p {
+    label[for=check-GDPR] > span, form + p, .details {
         color: var(--light-text);
     }
 
@@ -291,10 +292,6 @@ footer {
 
     .list {
         color: #d5d5d5;
-    }
-
-    .details {
-        color: var(--light-text);
     }
 
     footer {
