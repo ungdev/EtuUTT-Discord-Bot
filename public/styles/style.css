@@ -24,7 +24,10 @@ p {
 h1 {
     font-size: 48px;
     margin: 0;
-    color: #333333;
+}
+
+.big-title {
+    color: var(--dark-grey);
 }
 
 #wrap, .container{
