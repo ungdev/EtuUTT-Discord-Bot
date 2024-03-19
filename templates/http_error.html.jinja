@@ -1,0 +1,16 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}Erreur {{ status }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="error-box">
+            <h1>Erreur {{ status }}</h1>
+            <p>Raison : {{ reason }}</p>
+            <a href="/">Revenir au départ et recommencer !</a>
+        </div>
+    </div>
+    <footer class="logo">
+        <img src="https://uttnetgroup.fr/static/media/logo.33ba46a0.png" width="100" alt="UNG Logo">
+    </footer>
+{% endblock %}

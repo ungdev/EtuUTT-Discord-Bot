@@ -1,8 +1,8 @@
 :root {
     --ung-blue: #2d8fce;
     --ung-light-blue: #2d8fce66;
-    --ung-light-grey: #444c5f; /* to remove? */
-    --ung-dark-grey: #2e3442; /* to remove? */
+    --ung-light-grey: #444c5f;
+    --ung-dark-grey: #2e3442;
     --link: #1d5da2;
     --link-hover: #10366e;
     --blue-link: #0c304d;
@@ -20,13 +20,39 @@ p {
     line-height: 1.2;
 }
 
-#wrap {
+h1 {
+    font-size: 48px;
+    margin: 0;
+    color: #333333;
+}
+
+#wrap, .container{
     position: absolute;
     display: flex;
     flex-direction: row-reverse;
     min-height: 100%;
     width: 100%;
     justify-content: center;
+}
+
+.container {
+    background-color: var(--ung-dark-grey);
+}
+
+.error-box {
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--ung-blue);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.logo {
+    text-align: center;
 }
 
 .column {
@@ -210,11 +236,11 @@ h2.title {
     text-decoration: underline;
 }
 
-.list a:hover, .details a, footer a, footer a:visited {
+.list a:hover, .details a, footer a, footer a:visited, .error-box a {
     color: var(--blue-link);
 }
 
-.list a, .details a:hover, footer a:hover {
+.list a, .details a:hover, footer a:hover, .error-box a:hover {
     color: var(--blue-link-hover);
 }
 
