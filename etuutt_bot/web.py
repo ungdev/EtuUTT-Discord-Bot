@@ -14,16 +14,18 @@ if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 
-# Web server to authenticate users through the student website to give them roles
 async def start_server(client: EtuUTTBot):
+    """Start the web server to authenticate users through the student website"""
     # Set a logger for the webserver
     web_logger = logging.getLogger("web")
     # Don't want to spam logs with site access
     if logging.ERROR > client.log_level >= logging.INFO:
         logging.getLogger("aiohttp.access").setLevel(logging.ERROR)
 
+    # Declare app, add error middleware and setup Jinja templates
     app = web.Application(middlewares=[error_middleware])
     aiohttp_jinja2.setup(app, enable_async=True, loader=jinja2.FileSystemLoader("templates"))
+    # Declare routes and their associated handler
     app.add_routes(
         [
             web.get("/", home.handler),
@@ -44,20 +46,36 @@ async def start_server(client: EtuUTTBot):
         web_logger.info("The webserver has successfully started")
 
 
-# Manage errors
+async def error_handler(req: web.Request, orig_resp: web.Response) -> web.Response:
+    """Returns a response according to the HTTP status code"""
+    # Render error template
+    template = await aiohttp_jinja2.render_template_async(
+        "http_error.html.jinja",
+        req,
+        {"status": orig_resp.status, "reason": orig_resp.reason},
+        status=orig_resp.status,
+    )
+
+    # Add header for 405 Method Not Allowed
+    if template.status == 405:
+        template.headers.add("Allow", orig_resp.headers.get("Allow", "GET"))
+
+    return template
+
+
 @web.middleware
 async def error_middleware(req: web.Request, handler) -> web.Response:
-    try:  # TODO: add nice error page
+    """Middleware that handles HTTP Errors (400s and 500s)"""
+    try:
         response: web.Response = await handler(req)
-        response_to_error = web.Response(
-            text=f"Error {response.status}: {response.reason}", status=response.status
-        )
-        if response.status == 405:
-            response_to_error.headers.add("Allow", response.headers.get("Allow", "GET"))
-        if 500 > response.status >= 400:
-            return response_to_error
-        return response
-    except web.HTTPException as e:
-        if 500 > e.status >= 400:
-            return web.Response(text=f"Error {e.status}: {e.reason}", status=e.status)
-        raise
+        # Check if status code is not in the 400s or 500s
+        if not 599 >= response.status >= 400:
+            return response
+
+        response_to_error = error_handler(req, response)
+
+    # In case we got an exception while processing a request
+    except web.HTTPError as exception:
+        response_to_error = error_handler(req, exception)
+
+    return await response_to_error

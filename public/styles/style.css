@@ -1,12 +1,17 @@
 :root {
     --ung-blue: #2d8fce;
     --ung-light-blue: #2d8fce66;
-    --ung-light-grey: #444c5f; /* to remove? */
-    --ung-dark-grey: #2e3442; /* to remove? */
+    --ung-light-grey: #444c5f;
+    --ung-dark-grey: #363e49;
+    --dark-grey: #2e3442;
     --link: #1d5da2;
     --link-hover: #10366e;
     --blue-link: #0c304d;
     --blue-link-hover: #061125;
+    --light-link: #298cf8;
+    --light-link-hover: #3222c5;
+    --light-text: #c5c5c5;
+    --lighter-text: #e5e5e5;
     --bg-left: #2d8fcecc;
     --bg-rigth: #f5f5f5;
 }
@@ -20,13 +25,44 @@ p {
     line-height: 1.2;
 }
 
-#wrap {
+h1 {
+    font-size: 48px;
+    margin: 0;
+}
+
+.big-title {
+    color: var(--dark-grey);
+}
+
+#wrap, .container {
     position: absolute;
     display: flex;
-    flex-direction: row-reverse;
     min-height: 100%;
+    min-width: fit-content;
     width: 100%;
     justify-content: center;
+}
+
+#wrap {
+    flex-direction: row-reverse;
+}
+
+.container {
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--ung-dark-grey);
+}
+
+.error-box {
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--ung-blue);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    height: fit-content;
 }
 
 .column {
@@ -113,7 +149,7 @@ label[for=check-GDPR] {
     & > span {
         margin-left: 12px;
         width: 90%;
-        color: var(--ung-dark-grey);
+        color: var(--dark-grey);
     }
 }
 
@@ -167,7 +203,7 @@ input[type='checkbox'] {
 
 form + p {
     text-align: center;
-    color: var(--ung-dark-grey);
+    color: var(--dark-grey);
 }
 
 ul {
@@ -210,11 +246,11 @@ h2.title {
     text-decoration: underline;
 }
 
-.list a:hover, .details a, footer a, footer a:visited {
+.list a:hover, .details a, footer a, footer a:visited, .error-box a {
     color: var(--blue-link);
 }
 
-.list a, .details a:hover, footer a:hover {
+.list a, .details a:hover, footer a:hover, .error-box a:hover {
     color: var(--blue-link-hover);
 }
 
@@ -232,6 +268,47 @@ footer {
 
 #admin:hover {
     background-color: #ff26116b;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    #form {
+        background-color: var(--ung-dark-grey);
+        color: var(--lighter-text);
+    }
+
+    #discord-username {
+        color: var(--lighter-text);
+        border-bottom-color: #959595;
+    }
+
+    label[for=check-GDPR] > span, form + p, .details {
+        color: var(--light-text);
+    }
+
+    #presentation {
+        background-color: #325e7e;
+        color: var(--lighter-text);
+    }
+
+    .list {
+        color: #d5d5d5;
+    }
+
+    footer {
+        color: var(--lighter-text);
+    }
+
+    span a, .list a, .details a, footer a {
+        color: var(--light-link);
+
+        &:visited {
+            color: var(--light-link);
+        }
+
+        &:hover {
+            color: var(--light-link-hover);
+        }
+    }
 }
 
 /* Phone format : change  */
