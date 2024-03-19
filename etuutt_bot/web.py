@@ -22,8 +22,10 @@ async def start_server(client: EtuUTTBot):
     if logging.ERROR > client.log_level >= logging.INFO:
         logging.getLogger("aiohttp.access").setLevel(logging.ERROR)
 
+    # Declare app, add error middleware and setup Jinja templates
     app = web.Application(middlewares=[error_middleware])
     aiohttp_jinja2.setup(app, enable_async=True, loader=jinja2.FileSystemLoader("templates"))
+    # Declare routes and their associated handler
     app.add_routes(
         [
             web.get("/", home.handler),
@@ -47,17 +49,36 @@ async def start_server(client: EtuUTTBot):
 # Manage errors
 @web.middleware
 async def error_middleware(req: web.Request, handler) -> web.Response:
-    try:  # TODO: add nice error page
+    try:
         response: web.Response = await handler(req)
-        response_to_error = web.Response(
-            text=f"Error {response.status}: {response.reason}", status=response.status
+        # Check if status code is not in the 400s or 500s
+        if not 599 >= response.status >= 400:
+            return response
+
+        # Render error template
+        response_to_error = await aiohttp_jinja2.render_template_async(
+            "http_error.html.jinja",
+            req,
+            {"status": response.status, "reason": response.reason},
+            status=response.status,
         )
-        if response.status == 405:
+
+        # Add header for 405 Method Not Allowed
+        if response_to_error.status == 405:
             response_to_error.headers.add("Allow", response.headers.get("Allow", "GET"))
-        if 500 > response.status >= 400:
-            return response_to_error
-        return response
-    except web.HTTPException as e:
-        if 500 > e.status >= 400:
-            return web.Response(text=f"Error {e.status}: {e.reason}", status=e.status)
-        raise
+
+    # Manage exception
+    except web.HTTPError as exception:
+        # Render error template
+        response_to_error = await aiohttp_jinja2.render_template_async(
+            "http_error.html.jinja",
+            req,
+            {"status": exception.status, "reason": exception.reason},
+            status=exception.status,
+        )
+
+        # Add header for 405 Method Not Allowed
+        if response_to_error.status == 405:
+            response_to_error.headers.add("Allow", exception.headers.get("Allow", "GET"))
+
+    return response_to_error
