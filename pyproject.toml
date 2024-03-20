@@ -1,5 +1,5 @@
 [project]
-name = "etuutt-bot"
+name = "EtuUTT-Bot"
 license = "MIT"
 requires-python = ">=3.8"
 

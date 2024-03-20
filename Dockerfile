@@ -9,7 +9,7 @@ COPY . .
 RUN pip install -U pip \
     && pip install -r requirements.txt
 
-# Port of the web server
+# Default port of the web server
 EXPOSE 3000
 # Default command
 CMD ["python", "-m", "etuutt_bot"]
