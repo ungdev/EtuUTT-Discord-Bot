@@ -85,3 +85,14 @@ class EtuUTTBot(commands.Bot):
                 "visibles en haut à droite.\n"
                 "Tapez `/` dans un channel texte pour voir la liste des commandes."
             )
+
+    # React to messages sent in channels bot has access to
+    async def on_message(self, message: discord.Message):
+        # Ignore messages from bots including self
+        if message.author.bot:
+            return
+
+        # Do something on message from a user
+
+        # Process declared commands
+        await self.process_commands(message)
