@@ -58,9 +58,11 @@ class EtuUTTBot(commands.Bot):
         # Waits until internal cache is ready
         await self.wait_until_ready()
 
-        # Log in the console that the bot is ready
-        self.logger.info(f"{self.user} is now online and ready!")
+        # Get watched guild
+        self.watched_guild = self.get_guild(int(getenv("GUILD_ID")))
 
+        # Log in the console and the admin channel that the bot is ready
+        self.logger.info(f"{self.user} is now online and ready!")
         await self.get_channel(int(getenv("CHANNEL_ADMIN_ID"))).send(
             "Je suis en ligne. Je viens d'être (re)démarré. Cela signifie qu'il y a soit eu "
             "un bug, soit que j'ai été mis à jour, soit qu'on m'a redémarré manuellement."
@@ -73,7 +75,7 @@ class EtuUTTBot(commands.Bot):
             return
 
         # If member joined the guild the bot is watching
-        if member.guild.id == getenv("GUILD_ID"):
+        if member.guild.id == self.watched_guild.id:
             await member.send(
                 "Bienvenue sur le serveur Discord des étudiants de l'UTT.\n"
                 "Ceci n'étant pas une zone de non droit, vous **devez** vous identifier "

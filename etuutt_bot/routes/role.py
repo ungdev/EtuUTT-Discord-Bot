@@ -3,6 +3,8 @@ from os import getenv
 import aiohttp_jinja2
 from aiohttp import web
 
+from etuutt_bot.utils.assign_roles import assign_roles
+
 
 async def handler(req: web.Request) -> web.Response:
     if req.method != "POST":
@@ -36,9 +38,13 @@ async def handler(req: web.Request) -> web.Response:
                     "branch_level_list",
                     "uvs",
                 ]
-            ):
-                return web.Response(
-                    text=f"{post.get('discord-username')}\n{resp.get('firstName')}"
+            ) and (
+                member := req.app["bot"].watched_guild.get_member_named(
+                    post.get("discord-username")
                 )
-                # TODO: process information in another file
+            ):
+                await assign_roles(req.app["bot"].watched_guild, member, resp)
+                return web.Response(text="Roles assigned!")
+            # TODO: make better response
+            # TODO: handle case where fields not present and discord username is invalid
     return web.HTTPBadRequest()
