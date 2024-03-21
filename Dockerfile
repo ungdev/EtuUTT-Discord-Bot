@@ -5,10 +5,8 @@ FROM python:${PYTHON_VERSION}-alpine
 WORKDIR /usr/src/etuutt
 COPY . .
 
-# Update pip and install requirements
-RUN pip install -U pip && \
-    pip install -r requirements.txt && \
-    pip cache purge
+# Install requirements
+RUN pip --no-cache-dir install -r requirements.txt
 
 # Default port of the web server
 EXPOSE 3000
