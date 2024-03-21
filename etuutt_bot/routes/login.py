@@ -11,16 +11,17 @@ async def handler(req: web.Request) -> web.Response:
         return web.HTTPUnauthorized()  # HTTP 401
     # Request to obtain the access token
     auth = aiohttp.BasicAuth(getenv("API_CLIENT_ID"), getenv("API_CLIENT_SECRET"))
-    async with aiohttp.ClientSession(auth=auth) as session:
-        data = {"grant_type": "authorization_code", "code": req.query.get("code")}
-        async with session.post(f"{getenv('API_URL')}/oauth/token", data=data) as response:
-            if response.status != 200:
-                return web.Response(status=response.status)
-            resp = await response.json()
-            try:
-                token = resp["access_token"]
-            except KeyError:
-                return web.HTTPBadRequest()  # HTTP 400
+    data = {"grant_type": "authorization_code", "code": req.query.get("code")}
+    async with req.app["bot"].session.post(
+        f"{getenv('API_URL')}/oauth/token", auth=auth, data=data
+    ) as response:
+        if response.status != 200:
+            return web.Response(status=response.status)
+        resp = await response.json()
+        try:
+            token = resp["access_token"]
+        except KeyError:
+            return web.HTTPBadRequest()  # HTTP 400
     return await aiohttp_jinja2.render_template_async(
         "form.html.jinja",
         req,

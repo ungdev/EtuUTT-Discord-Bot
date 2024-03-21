@@ -1,4 +1,4 @@
-import logging.handlers as handlers
+from logging import handlers
 from os import getenv
 from pathlib import Path
 

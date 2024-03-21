@@ -1,6 +1,7 @@
 import logging
 from os import getenv
 
+import aiohttp
 import discord
 from discord.ext import commands
 
@@ -11,7 +12,7 @@ from etuutt_bot.web import start_server
 # Create a class of the bot
 class EtuUTTBot(commands.Bot):
     # Initialization when class is called
-    def __init__(self):
+    def __init__(self) -> None:
         # Define the bot debug log level, defaults to INFO if undefined or invalid
         self.logger = logging.getLogger("bot")
         log_level = logging.getLevelName(getenv("LOG_LEVEL", logging.INFO))
@@ -44,19 +45,16 @@ class EtuUTTBot(commands.Bot):
             status=getenv("BOT_STATUS"),
         )
 
-        # Variable for storing owners id
-        # If set manually, it will not fetch from the bot's application info
-        self.owners = []
-
-    async def setup_hook(self):
-        # Populate the command tree
+    async def setup_hook(self) -> None:
+        # Start aiohttp client session
+        self.session = aiohttp.ClientSession()
+        # Load commands
         await commands_list(self)
-
-        # Starts the web server
-        await start_server(self)
+        # Start the web server
+        self.runner = await start_server(self)
 
     # When the bot is ready
-    async def on_ready(self):
+    async def on_ready(self) -> None:
         # Waits until internal cache is ready
         await self.wait_until_ready()
 
@@ -69,7 +67,7 @@ class EtuUTTBot(commands.Bot):
         )
 
     # Event when someone joins a guild the bot is in
-    async def on_member_join(self, member: discord.Member):
+    async def on_member_join(self, member: discord.Member) -> None:
         # Ignore join of bots
         if member.bot:
             return
@@ -87,7 +85,7 @@ class EtuUTTBot(commands.Bot):
             )
 
     # React to messages sent in channels bot has access to
-    async def on_message(self, message: discord.Message):
+    async def on_message(self, message: discord.Message) -> None:
         # Ignore messages from bots including self
         if message.author.bot:
             return
@@ -96,3 +94,11 @@ class EtuUTTBot(commands.Bot):
 
         # Process declared commands
         await self.process_commands(message)
+
+    async def close(self) -> None:
+        # Do normal action when stopped
+        await super().close()
+
+        # Close web server and http session cleanly
+        await self.runner.cleanup()
+        await self.session.close()

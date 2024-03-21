@@ -1,6 +1,5 @@
 from os import getenv
 
-import aiohttp
 import aiohttp_jinja2
 from aiohttp import web
 
@@ -19,28 +18,27 @@ async def handler(req: web.Request) -> web.Response:
                     "Vos données n'ont pas été traitées."
                 },
             )
-        async with aiohttp.ClientSession() as session:
-            params = {"access_token": post.get("etu-token")}
-            async with session.get(
-                f"{getenv('API_URL')}/public/user/account", params=params
-            ) as response:
-                if response.status != 200:
-                    return web.Response(status=response.status)
-                resp: dict = (await response.json()).get("data")
-                if all(  # Check if the fields we need are present
-                    field in resp
-                    for field in [
-                        "isStudent",
-                        "firstName",
-                        "lastName",
-                        "formation",
-                        "branch_list",
-                        "branch_level_list",
-                        "uvs",
-                    ]
-                ):
-                    return web.Response(
-                        text=f"{post.get('discord-username')}\n{resp.get('firstName')}"
-                    )
-                    # TODO: process information in another file
+        params = {"access_token": post.get("etu-token")}
+        async with req.app["bot"].session.get(
+            f"{getenv('API_URL')}/public/user/account", params=params
+        ) as response:
+            if response.status != 200:
+                return web.Response(status=response.status)
+            resp: dict = (await response.json()).get("data")
+            if all(  # Check if the fields we need are present
+                field in resp
+                for field in [
+                    "isStudent",
+                    "firstName",
+                    "lastName",
+                    "formation",
+                    "branch_list",
+                    "branch_level_list",
+                    "uvs",
+                ]
+            ):
+                return web.Response(
+                    text=f"{post.get('discord-username')}\n{resp.get('firstName')}"
+                )
+                # TODO: process information in another file
     return web.HTTPBadRequest()
