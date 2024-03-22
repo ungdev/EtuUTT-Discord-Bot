@@ -14,17 +14,19 @@ if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 
-async def start_server(client: EtuUTTBot):
+async def start_server(bot: EtuUTTBot) -> web.AppRunner:
     """Start the web server to authenticate users through the student website"""
     # Set a logger for the webserver
     web_logger = logging.getLogger("web")
     # Don't want to spam logs with site access
-    if logging.ERROR > client.log_level >= logging.INFO:
+    if logging.ERROR > bot.log_level >= logging.INFO:
         logging.getLogger("aiohttp.access").setLevel(logging.ERROR)
 
     # Declare app, add error middleware and setup Jinja templates
     app = web.Application(middlewares=[error_middleware])
     aiohttp_jinja2.setup(app, enable_async=True, loader=jinja2.FileSystemLoader("templates"))
+    # Add bot to app
+    app["bot"] = bot
     # Declare routes and their associated handler
     app.add_routes(
         [
@@ -44,6 +46,7 @@ async def start_server(client: EtuUTTBot):
         web_logger.warning(f"Error while starting the webserver: \n{e}")
     else:
         web_logger.info("The webserver has successfully started")
+    return runner
 
 
 async def error_handler(req: web.Request, orig_resp: web.Response) -> web.Response:

@@ -4,7 +4,7 @@ from itertools import groupby
 from typing import TYPE_CHECKING
 
 import discord
-from discord import CategoryChannel, app_commands
+from discord import CategoryChannel, Interaction, app_commands
 
 from etuutt_bot.utils.message import split_msg
 from etuutt_bot.utils.role import parse_roles
@@ -92,7 +92,11 @@ class Role(app_commands.Group):
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
         await interaction.response.defer(thinking=True)
-        roles = (await parse_roles("roles.txt")).get(category.name)
+        if category.name.startswith("Master"):
+            cat = category.name.split(" ")[1]
+        else:
+            cat = category.name.split(" ")[0]
+        roles = (await parse_roles("roles.txt")).get(cat)
         if roles is None:
             await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
             return
