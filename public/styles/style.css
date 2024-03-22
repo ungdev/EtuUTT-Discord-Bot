@@ -54,7 +54,7 @@ h1 {
 }
 
 .error-box {
-    margin: auto 0;
+    margin: auto 10px;
     display: flex;
     flex-direction: column;
     text-align: center;
