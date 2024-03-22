@@ -10,8 +10,6 @@ from etuutt_bot.utils.message import split_msg
 from etuutt_bot.utils.role import parse_roles
 
 if TYPE_CHECKING:
-    from discord import Interaction
-
     from etuutt_bot.bot import EtuUTTBot
 
 
@@ -27,9 +25,9 @@ class Role(app_commands.Group):
 
     @app_commands.command(
         name="lessthan",
-        description="Affiche les rôles ayant moins de N personnes dedans (par défaut, n=2).",
+        description="Affiche les rôles ayant moins de n personnes dedans (par défaut, n=2).",
     )
-    async def get_less_than(self, interaction: discord.Interaction[EtuUTTBot], n: int = 2):
+    async def get_less_than(self, interaction: Interaction[EtuUTTBot], n: int = 2):
         await interaction.response.defer(thinking=True)
         roles = [r for r in interaction.guild.roles if len(r.members) < n]
         if len(roles) == 0:
@@ -54,11 +52,11 @@ class Role(app_commands.Group):
             msg += f"\n## Rôles avec {nb_members} membres :\n"
             msg += "\n".join(f"- {r.name}" for r in roles_group)
         chunks = list(split_msg(msg))
-        for chunk in chunks[:-1]:
+        for chunk in chunks[1:]:
             await interaction.channel.send(chunk)
         # send the last part of the message as a followup
         # to remove the "thinking" message
-        await interaction.followup.send(chunks[-1])
+        await interaction.followup.send(chunks[0])
 
     # Remove all users from a role
     @app_commands.checks.has_permissions(administrator=True)
