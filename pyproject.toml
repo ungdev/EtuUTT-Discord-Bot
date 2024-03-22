@@ -5,6 +5,7 @@ requires-python = ">=3.8"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "RET", "SIM", "PT", "RUF"]
+ignore = ["E501"]
 
 [tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = false
