@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import secrets
 from os import getenv
 from typing import TYPE_CHECKING
 
@@ -27,6 +28,8 @@ async def start_server(bot: EtuUTTBot) -> web.AppRunner:
     aiohttp_jinja2.setup(app, enable_async=True, loader=jinja2.FileSystemLoader("templates"))
     # Add bot to app
     app["bot"] = bot
+    # Generate API state on start
+    app["api_state"] = secrets.token_hex()
     # Declare routes and their associated handler
     app.add_routes(
         [

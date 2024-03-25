@@ -7,7 +7,7 @@ from aiohttp import web
 
 async def handler(req: web.Request) -> web.Response:
     # Unauthorized if not code in query string
-    if not req.query.get("code"):
+    if not req.query.get("code") or req.query.get("state") != req.app["api_state"]:
         return web.HTTPUnauthorized()  # HTTP 401
     # Request to obtain the access token
     auth = aiohttp.BasicAuth(getenv("API_CLIENT_ID"), getenv("API_CLIENT_SECRET"))
