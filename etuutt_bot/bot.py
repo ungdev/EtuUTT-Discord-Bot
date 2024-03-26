@@ -1,9 +1,12 @@
 import logging
 from os import getenv
+from pathlib import Path
 
 import aiohttp
 import discord
 from discord.ext import commands
+from tomlkit import parse
+from tomlkit.exceptions import TOMLKitError
 
 from etuutt_bot.commands_list import commands_list
 from etuutt_bot.web import start_server
@@ -45,9 +48,19 @@ class EtuUTTBot(commands.Bot):
             status=getenv("BOT_STATUS"),
         )
 
+        # Initialize watched guild
+        self.watched_guild = discord.Object(id=int(getenv("GUILD_ID")))
+
     async def setup_hook(self) -> None:
         # Start aiohttp client session
         self.session = aiohttp.ClientSession()
+        # Load data in the bot
+        try:
+            self.data = parse(Path("data", "discord.toml").read_bytes())
+        except FileNotFoundError:
+            self.logger.warning("Discord Data file not found")
+        except TOMLKitError as e:
+            self.logger.warning(f"Unable to parse Discord Data: {e}")
         # Load commands
         await commands_list(self)
         # Start the web server
