@@ -1,0 +1,9 @@
+# Elected roles IDs needing access to all channels for a particular category
+[Elected]
+EC = 1234567891234567890
+TC = 1234567891234567891
+
+# Courses (named UEs at my school) by category
+[UEs]
+EC = ["IT", "LE", "LG", "LS", "LC", "KO", "LF", "SI10"]
+TC = ["MT01", "MT02", "PHYS11", "GL01", "TNEV"]

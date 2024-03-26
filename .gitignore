@@ -16,3 +16,6 @@ logs/
 
 # Roles
 roles.txt
+
+# Data files
+data/*.toml

@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 # List the commands and commands groups
-COMMANDS_LIST: tuple = (ping, pin, delete, Role())
+COMMANDS_LIST: tuple = (ping, pin, delete)
 
 SPACES = " " * 38
 
@@ -23,6 +23,8 @@ async def commands_list(bot: EtuUTTBot):
     # Add the commands to the Tree
     for command in COMMANDS_LIST:
         bot.tree.add_command(command)
+
+    bot.tree.add_command(Role(), guild=bot.watched_guild)
 
     # Create a global commands error handler
     @bot.tree.error
