@@ -48,7 +48,7 @@ class EtuUTTBot(commands.Bot):
             status=getenv("BOT_STATUS"),
         )
 
-        # Initialize watched guild
+        # Initialize watched guild with only ID
         self.watched_guild = discord.Object(id=int(getenv("GUILD_ID")))
 
     async def setup_hook(self) -> None:
@@ -71,7 +71,7 @@ class EtuUTTBot(commands.Bot):
         # Waits until internal cache is ready
         await self.wait_until_ready()
 
-        # Get watched guild
+        # Get watched guild with additional information
         self.watched_guild = self.get_guild(int(getenv("GUILD_ID")))
 
         # Log in the console and the admin channel that the bot is ready
