@@ -4,8 +4,8 @@ from pathlib import Path
 
 import aiohttp
 import discord
+import tomlkit as toml
 from discord.ext import commands
-from tomlkit import parse
 from tomlkit.exceptions import TOMLKitError
 
 from etuutt_bot.commands_list import commands_list
@@ -56,7 +56,7 @@ class EtuUTTBot(commands.Bot):
         self.session = aiohttp.ClientSession()
         # Load data in the bot
         try:
-            self.data = parse(Path("data", "discord.toml").read_bytes())
+            self.data = toml.parse(Path("data", "discord.toml").read_text())
         except FileNotFoundError:
             self.logger.warning("Discord Data file not found")
         except TOMLKitError as e:
@@ -111,9 +111,14 @@ class EtuUTTBot(commands.Bot):
         await self.process_commands(message)
 
     async def close(self) -> None:
-        # Do normal action when stopped
-        await super().close()
+        # Write Discord Data back to file (save the modifs)
+        Path("data", "discord.toml").write_text(toml.dumps(self.data))
 
         # Close web server and http session cleanly
         await self.runner.cleanup()
         await self.session.close()
+
+        # Do normal action when stopped (do last because it might throw an error)
+        # Error fix: https://github.com/Rapptz/discord.py/pull/9769
+        await super().close()
+        self.logger.info("Bot stopped gracefully")
