@@ -1,15 +1,29 @@
+import asyncio
+import signal
 from logging import handlers
 from os import getenv
 from pathlib import Path
 
 import sentry_sdk
+from discord.utils import setup_logging
 from dotenv import load_dotenv
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
 from etuutt_bot.bot import EtuUTTBot
 
 
-def main():
+class StopSignalHandler:
+    def __init__(self, bot):
+        self.bot = bot
+        self._task = None
+
+    def __call__(self):
+        if self._task:
+            raise KeyboardInterrupt
+        self._task = asyncio.create_task(self.bot.close())
+
+
+async def main():
     # Load the environment variables from the .env file if it exists
     if Path(".env").is_file():
         load_dotenv()
@@ -24,7 +38,7 @@ def main():
     )
 
     # Create an instance of the Discord Bot
-    client = EtuUTTBot()
+    bot = EtuUTTBot()
 
     # Setup the logging
     Path("logs").mkdir(exist_ok=True)
@@ -34,10 +48,14 @@ def main():
         backupCount=5,
         encoding="utf-8",
     )
+    setup_logging(handler=handler)
 
-    # Run the client with the token
-    client.run(getenv("BOT_TOKEN"), reconnect=True, log_handler=handler, root_logger=True)
+    # Run the bot with token and handle stop signals to stop gracefully
+    async with bot:
+        for s in (signal.SIGHUP, signal.SIGTERM, signal.SIGINT):
+            bot.loop.add_signal_handler(s, StopSignalHandler(bot))
+        await bot.start(getenv("BOT_TOKEN"), reconnect=True)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
