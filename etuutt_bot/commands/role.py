@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 import discord
 from discord import CategoryChannel, Interaction, app_commands
 
+from etuutt_bot.utils.channels import create_ue_channel
 from etuutt_bot.utils.message import split_msg
 from etuutt_bot.utils.role import parse_roles
 
@@ -90,41 +91,37 @@ class Role(app_commands.Group):
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
         await interaction.response.defer(thinking=True)
-        if category.name.startswith("Master"):
-            cat = category.name.split(" ")[1]
-        else:
-            cat = category.name.split(" ")[0]
-        roles = (await parse_roles("roles.txt")).get(cat)
+        cat = category.name.upper().removeprefix("MASTER").strip().split(" ")[0]
+        roles = parse_roles("roles.txt").get(cat)
         if roles is None:
             await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
             return
+        role_names = {r.lower() for r in roles}
         msg = ""
-        for role in roles:
-            # Arbitrary value to always have messages below 2000 characters (Discord limit)
-            if len(msg) > 1600:
-                await interaction.channel.send(msg)
-                msg = ""
-            role_d = discord.utils.find(
-                lambda r, to_find=role: r.name.upper() == to_find.upper(), interaction.guild.roles
+
+        # Ensure that channels don't exist yet in order not to overwrite them
+        existing_channels = [c for c in category.text_channels if c.name in role_names]
+        if len(existing_channels) > 0:
+            msg += "\n## \N{SLEEPING SYMBOL} Les salons suivants existent déjà :\n"
+            msg += "\n".join(f"- {c.name}" for c in existing_channels)
+            role_names -= {c.name.lower() for c in existing_channels}
+
+        # Keep only roles that actually exist
+        existing_roles = [r for r in interaction.guild.roles if r.name in role_names]
+        if len(existing_roles) != len(role_names):
+            missing = role_names - {r.name for r in existing_roles}
+            msg += (
+                "\n## \N{WHITE QUESTION MARK ORNAMENT} "
+                "Les rôles suivants manquent sur le serveur :\n"
             )
-            if role_d is None:
-                msg += f"\N{WHITE QUESTION MARK ORNAMENT} Pas de rôle pour {role}\n"
-                continue
-            if any(c.name.upper() == role.upper() for c in interaction.guild.channels):
-                msg += f"\N{SLEEPING SYMBOL} Le salon textuel {role.lower()} existe déjà\n"
-                continue
-            await (
-                await interaction.guild.create_text_channel(
-                    role.lower(),
-                    category=category,
-                    overwrites={
-                        interaction.guild.default_role: discord.PermissionOverwrite(
-                            read_messages=False
-                        ),
-                        role_d: discord.PermissionOverwrite(read_messages=True),
-                    },
-                )
-            ).send(f"Bonjour {role_d.mention}, votre salon textuel vient d'être créé !")
-            msg += f"\N{WHITE HEAVY CHECK MARK} Le salon {role.lower()} a été créé\n"
-        await interaction.channel.send(msg)
+            msg += "\n".join(f"- {r}" for r in missing)
+
+        if len(existing_roles) > 0:
+            msg += "\n## Salons textuels créés :\n"
+            for role in existing_roles:
+                channel = await create_ue_channel(category, role)
+                msg += f"- {channel.name}"
+
+        for chunk in split_msg(msg):
+            await interaction.channel.send(chunk)
         await interaction.followup.send("\N{WHITE HEAVY CHECK MARK} La commande est terminée :")
