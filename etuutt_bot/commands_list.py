@@ -17,9 +17,9 @@ SPACES = " " * 38
 # List of commands to add to the command tree
 async def commands_list(bot: EtuUTTBot):
     # List the commands and commands groups
-    cogs_list: tuple = (Admin(bot), Misc(bot))
+    cogs: tuple = (Admin(bot), Misc(bot))
     # Add the cogs to the bot
-    for cog in cogs_list:
+    for cog in cogs:
         await bot.add_cog(cog)
 
     await bot.add_cog(Role(bot), guild=bot.watched_guild)
