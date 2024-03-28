@@ -118,9 +118,10 @@ class Role(
             msg += "\n".join(f"- {r}" for r in missing)
 
         if len(existing_roles) > 0:
+            elected = category.guild.get_role(self.bot.data.get("Elected").get(cat))
             msg += "\n## Salons textuels créés :\n"
             for role in existing_roles:
-                channel = await create_ue_channel(self.bot, category, role, cat)
+                channel = await create_ue_channel(category, role, elected)
                 msg += f"\n- {channel.name}"
 
         for chunk in split_msg(msg):
