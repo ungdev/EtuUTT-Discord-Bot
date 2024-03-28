@@ -5,24 +5,25 @@ from typing import TYPE_CHECKING
 
 import discord
 from discord import CategoryChannel, Interaction, app_commands
+from discord.ext import commands
 
 from etuutt_bot.utils.channels import create_ue_channel
 from etuutt_bot.utils.message import split_msg
-from etuutt_bot.utils.role import parse_roles
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 
 # define command group based on the Group class
-class Role(app_commands.Group):
+@app_commands.default_permissions(administrator=True)
+class Role(
+    commands.GroupCog,
+    name="role",
+    description="Commandes liées à la gestion des rôles (et des salons associés)",
+):
     # Set command group name and description
-    def __init__(self):
-        super().__init__(
-            name="role",
-            description="Commandes liées à la gestion des rôles (et des salons associés)",
-            default_permissions=discord.Permissions(administrator=True),
-        )
+    def __init__(self, bot: EtuUTTBot) -> None:
+        self.bot = bot
 
     @app_commands.command(
         name="lessthan",
@@ -92,7 +93,7 @@ class Role(app_commands.Group):
     async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
         await interaction.response.defer(thinking=True)
         cat = category.name.upper().removeprefix("MASTER").strip().split(" ")[0]
-        roles = parse_roles("roles.txt").get(cat)
+        roles = self.bot.data.get("UEs").get(cat)
         if roles is None:
             await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
             return
@@ -107,7 +108,7 @@ class Role(app_commands.Group):
             role_names -= {c.name.lower() for c in existing_channels}
 
         # Keep only roles that actually exist
-        existing_roles = [r for r in interaction.guild.roles if r.name in role_names]
+        existing_roles = [r for r in interaction.guild.roles if r.name.lower() in role_names]
         if len(existing_roles) != len(role_names):
             missing = role_names - {r.name for r in existing_roles}
             msg += (
@@ -119,8 +120,8 @@ class Role(app_commands.Group):
         if len(existing_roles) > 0:
             msg += "\n## Salons textuels créés :\n"
             for role in existing_roles:
-                channel = await create_ue_channel(category, role)
-                msg += f"- {channel.name}"
+                channel = await create_ue_channel(self.bot, category, role, cat)
+                msg += f"\n- {channel.name}"
 
         for chunk in split_msg(msg):
             await interaction.channel.send(chunk)

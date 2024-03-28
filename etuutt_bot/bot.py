@@ -1,9 +1,12 @@
 import logging
 from os import getenv
+from pathlib import Path
 
 import aiohttp
 import discord
+import tomlkit as toml
 from discord.ext import commands
+from tomlkit.exceptions import TOMLKitError
 
 from etuutt_bot.commands_list import commands_list
 from etuutt_bot.web import start_server
@@ -45,9 +48,19 @@ class EtuUTTBot(commands.Bot):
             status=getenv("BOT_STATUS"),
         )
 
+        # Initialize watched guild with only ID
+        self.watched_guild = discord.Object(id=int(getenv("GUILD_ID")))
+
     async def setup_hook(self) -> None:
         # Start aiohttp client session
         self.session = aiohttp.ClientSession()
+        # Load data in the bot
+        try:
+            self.data = toml.parse(Path("data", "discord.toml").read_text())
+        except FileNotFoundError:
+            self.logger.warning("Discord Data file not found")
+        except TOMLKitError as e:
+            self.logger.warning(f"Unable to parse Discord Data: {e}")
         # Load commands
         await commands_list(self)
         # Start the web server
@@ -58,7 +71,7 @@ class EtuUTTBot(commands.Bot):
         # Waits until internal cache is ready
         await self.wait_until_ready()
 
-        # Get watched guild
+        # Get watched guild with additional information
         self.watched_guild = self.get_guild(int(getenv("GUILD_ID")))
 
         # Log in the console and the admin channel that the bot is ready
@@ -98,9 +111,15 @@ class EtuUTTBot(commands.Bot):
         await self.process_commands(message)
 
     async def close(self) -> None:
-        # Do normal action when stopped
-        await super().close()
+        # Write Discord Data back to file (save the modifs)
+        Path("data", "discord.toml").write_text(toml.dumps(self.data))
 
         # Close web server and http session cleanly
         await self.runner.cleanup()
         await self.session.close()
+
+        # Do normal action when stopped (do last because it might throw an error)
+        # Error fix: https://github.com/Rapptz/discord.py/pull/9769
+        # We can't perform async operation after the super call as it may be stopped midway
+        await super().close()
+        self.logger.info("Bot stopped gracefully")
