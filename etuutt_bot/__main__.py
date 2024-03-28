@@ -13,6 +13,8 @@ from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from etuutt_bot.bot import EtuUTTBot
 
 
+# Class taken from the d.py server
+# It's to run the bot.close() method which is async as the (sync) signal handler
 class StopSignalHandler:
     def __init__(self, bot):
         self.bot = bot
@@ -53,14 +55,13 @@ async def main():
 
     # Run the bot with token and handle stop signals to stop gracefully
     async with bot:
-        # All OS should be able to handle SIGINT and SIGTERM
-        # There is no availability note in the Python doc
-        # So I assume it's supported
-        for s in (signal.SIGINT, signal.SIGTERM):
-            bot.loop.add_signal_handler(s, StopSignalHandler(bot))
+        # Check for Windows because Windows isn't able to handle signals like UNIX systems
+        # There's no implementation of add_signal_handlers() on Windows
+        # Consequence: the bot won't be able to stop gracefully on Windows
+        # Doesn't really matter as the prod runs on Linux/in Docker
         if os.name != "nt":
-            # UNIX only signal to handle
-            bot.loop.add_signal_handler(signal.SIGHUP, StopSignalHandler(bot))
+            for s in (signal.SIGHUP, signal.SIGINT, signal.SIGTERM):
+                bot.loop.add_signal_handler(s, StopSignalHandler(bot))
         await bot.start(getenv("BOT_TOKEN"), reconnect=True)
 
 
