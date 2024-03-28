@@ -108,7 +108,7 @@ class Role(
             role_names -= {c.name.lower() for c in existing_channels}
 
         # Keep only roles that actually exist
-        existing_roles = [r for r in self.bot.watched_guild.roles if r.name.lower() in role_names]
+        existing_roles = [r for r in interaction.guild.roles if r.name.lower() in role_names]
         if len(existing_roles) != len(role_names):
             missing = role_names - {r.name for r in existing_roles}
             msg += (
@@ -120,7 +120,7 @@ class Role(
         if len(existing_roles) > 0:
             msg += "\n## Salons textuels créés :\n"
             for role in existing_roles:
-                channel = await create_ue_channel(self.bot, category, role)
+                channel = await create_ue_channel(self.bot, category, role, cat)
                 msg += f"\n- {channel.name}"
 
         for chunk in split_msg(msg):
