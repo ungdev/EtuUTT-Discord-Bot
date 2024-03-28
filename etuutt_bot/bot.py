@@ -120,5 +120,6 @@ class EtuUTTBot(commands.Bot):
 
         # Do normal action when stopped (do last because it might throw an error)
         # Error fix: https://github.com/Rapptz/discord.py/pull/9769
+        # We can't perform async operation after the super call as it may be stopped midway
         await super().close()
         self.logger.info("Bot stopped gracefully")

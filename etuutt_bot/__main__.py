@@ -1,4 +1,5 @@
 import asyncio
+import os
 import signal
 from logging import handlers
 from os import getenv
@@ -52,8 +53,14 @@ async def main():
 
     # Run the bot with token and handle stop signals to stop gracefully
     async with bot:
-        for s in (signal.SIGHUP, signal.SIGTERM, signal.SIGINT):
+        # All OS should be able to handle SIGINT and SIGTERM
+        # There is no availability note in the Python doc
+        # So I assume it's supported
+        for s in (signal.SIGINT, signal.SIGTERM):
             bot.loop.add_signal_handler(s, StopSignalHandler(bot))
+        if os.name != "nt":
+            # UNIX only signal to handle
+            bot.loop.add_signal_handler(signal.SIGHUP, StopSignalHandler(bot))
         await bot.start(getenv("BOT_TOKEN"), reconnect=True)
 
 
