@@ -93,7 +93,7 @@ class Role(
     async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
         await interaction.response.defer(thinking=True)
         cat = category.name.upper().removeprefix("MASTER").strip().split(" ")[0]
-        roles = self.bot.data.get("UEs").get(cat)
+        roles = next((cat.ues for cat in self.bot.settings.categories if cat.name == cat), None)
         if roles is None:
             await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
             return

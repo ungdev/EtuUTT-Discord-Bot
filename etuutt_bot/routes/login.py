@@ -10,10 +10,11 @@ async def handler(req: web.Request) -> web.Response:
     if not req.query.get("code") or req.query.get("state") != req.app["api_state"]:
         return web.HTTPUnauthorized()  # HTTP 401
     # Request to obtain the access token
-    auth = aiohttp.BasicAuth(getenv("API_CLIENT_ID"), getenv("API_CLIENT_SECRET"))
+    api_settings = req.app["bot"].settings.etu_api
+    auth = aiohttp.BasicAuth(api_settings.client_id, api_settings.client_secret.get_secret_value())
     data = {"grant_type": "authorization_code", "code": req.query.get("code")}
     async with req.app["bot"].session.post(
-        f"{getenv('API_URL')}/oauth/token", auth=auth, data=data
+        f"{api_settings.url}/oauth/token", auth=auth, data=data
     ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
@@ -25,5 +26,9 @@ async def handler(req: web.Request) -> web.Response:
     return await aiohttp_jinja2.render_template_async(
         "form.html.jinja",
         req,
-        {"token": token, "discord_link": getenv("INVITE_DISCORD"), "admin": getenv("ADMIN_ID")},
+        {
+            "token": token,
+            "discord_link": "https://discord.gg/SH6dutcp",
+            "admin": getenv("ADMIN_ID"),
+        },
     )

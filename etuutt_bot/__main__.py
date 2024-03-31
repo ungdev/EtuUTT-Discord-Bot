@@ -2,7 +2,6 @@ import asyncio
 import os
 import signal
 from logging import handlers
-from os import getenv
 from pathlib import Path
 
 import sentry_sdk
@@ -30,7 +29,6 @@ async def main():
     # Load the environment variables from the .env file if it exists
     if Path(".env").is_file():
         load_dotenv()
-
     # Automatically reads SENTRY_DSN environment var
     sentry_sdk.init(
         # Enable performance monitoring
@@ -62,7 +60,8 @@ async def main():
         if os.name != "nt":
             for s in (signal.SIGHUP, signal.SIGINT, signal.SIGTERM):
                 bot.loop.add_signal_handler(s, StopSignalHandler(bot))
-        await bot.start(getenv("BOT_TOKEN"), reconnect=True)
+        token = bot.settings.bot.token.get_secret_value()
+        await bot.start(token, reconnect=True)
 
 
 if __name__ == "__main__":

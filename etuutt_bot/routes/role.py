@@ -1,5 +1,3 @@
-from os import getenv
-
 import aiohttp_jinja2
 from aiohttp import web
 
@@ -26,7 +24,7 @@ async def handler(req: web.Request) -> web.Response:
 
     params = {"access_token": post.get("etu-token")}
     async with req.app["bot"].session.get(
-        f"{getenv('API_URL')}/public/user/account", params=params
+        f"{req.app["bot"].settings.etu_api.url}/public/user/account", params=params
     ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
