@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 import discord
@@ -60,12 +61,11 @@ class Misc(commands.Cog):
     )
     async def delete(self, interaction: discord.Interaction[EtuUTTBot], message: discord.Message):
         await interaction.response.defer(ephemeral=True, thinking=True)
-        last_id = interaction.channel.last_message_id
-
-        def is_msg(msg: discord.Message) -> bool:
-            return (message.id >> 22) <= (msg.id >> 22) <= (last_id >> 22)
 
         del_msg = await message.channel.purge(
-            bulk=True, reason="Admin used bulk delete", check=is_msg
+            bulk=True,
+            reason="Admin used bulk delete",
+            # Timedelta to include the selected message in the bulk delete
+            after=(message.created_at - timedelta(milliseconds=1)),
         )
         await interaction.followup.send(f"{len(del_msg)} messages supprimés !")
