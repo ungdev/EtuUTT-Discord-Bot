@@ -8,7 +8,7 @@ from etuutt_bot.config import ApiConfig, GuildConfig
 async def handler(req: web.Request) -> web.Response:
     # Unauthorized if not code in query string
     api_settings: ApiConfig = req.app["bot"].settings.etu_api
-    if not req.query.get("code") or req.query.get("state") != api_settings.state:
+    if not req.query.get("code") or req.query.get("state") != req.app["api_state"]:
         return web.HTTPUnauthorized()  # HTTP 401
     # Request to obtain the access token
     auth = aiohttp.BasicAuth(

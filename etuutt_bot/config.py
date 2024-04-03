@@ -70,7 +70,6 @@ class ApiConfig(BaseModel):
     url: HttpUrl
     client_id: int
     client_secret: SecretStr
-    state: str = "xyz"
 
 
 class Settings(BaseSettings):
