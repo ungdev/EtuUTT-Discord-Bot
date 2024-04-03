@@ -92,12 +92,14 @@ class Role(
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
         await interaction.response.defer(thinking=True)
-        cat = category.name.upper().removeprefix("MASTER").strip().split(" ")[0]
-        roles = next((cat.ues for cat in self.bot.settings.categories if cat.name == cat), None)
-        if roles is None:
+        cat_name = category.name.upper().removeprefix("MASTER").strip().split(" ")[0]
+        settings_cat = next(
+            (cat for cat in self.bot.settings.categories if cat.name == cat_name), None
+        )
+        if settings_cat is None:
             await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
             return
-        role_names = {r.lower() for r in roles}
+        role_names = {ue.lower() for ue in settings_cat.ues}
         msg = ""
 
         # Ensure that channels don't exist yet in order not to overwrite them
@@ -118,7 +120,7 @@ class Role(
             msg += "\n".join(f"- {r}" for r in missing)
 
         if len(existing_roles) > 0:
-            elected = category.guild.get_role(self.bot.data.get("Elected").get(cat))
+            elected = category.guild.get_role(settings_cat.elected_role)
             msg += "\n## Salons textuels créés :\n"
             for role in existing_roles:
                 channel = await create_ue_channel(category, role, elected)

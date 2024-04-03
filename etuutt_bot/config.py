@@ -9,6 +9,8 @@ from pydantic_settings import (
     TomlConfigSettingsSource,
 )
 
+from etuutt_bot.types import ChannelId, RoleId
+
 
 class ActivityType(Enum):
     playing = 0
@@ -43,23 +45,24 @@ class BotSettings(BaseModel):
 
 
 class SpecialRolesConfig(BaseModel):
-    admin: int
-    moderator: int
-    student: int
-    teacher: int
-    former_student: int
+    admin: RoleId
+    moderator: RoleId
+    student: RoleId
+    teacher: RoleId
+    former_student: RoleId
 
 
 class GuildConfig(BaseModel):
     id: int
-    channel_admin_id: int
+    channel_admin_id: ChannelId
     special_roles: SpecialRolesConfig
+    invite_link: HttpUrl
 
 
 class CategoryConfig(BaseModel):
     name: str
-    id: int
-    elected_role: int
+    id: ChannelId
+    elected_role: RoleId
     ues: list[str]
 
 
@@ -67,15 +70,21 @@ class ApiConfig(BaseModel):
     url: HttpUrl
     client_id: int
     client_secret: SecretStr
+    state: str = "xyz"
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(toml_file="data/discord.toml", extra=None)
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        toml_file="data/discord.toml",
+        env_nested_delimiter="__",
+    )
 
     bot: BotSettings
     guild: GuildConfig
     categories: list[CategoryConfig]
     etu_api: ApiConfig
+    server_url: HttpUrl = "http://127.0.0.1:3000"
 
     @classmethod
     def settings_customise_sources(
@@ -86,4 +95,20 @@ class Settings(BaseSettings):
         dotenv_settings: PydanticBaseSettingsSource,
         file_secret_settings: PydanticBaseSettingsSource,
     ) -> tuple[PydanticBaseSettingsSource, ...]:
-        return (TomlConfigSettingsSource(settings_cls),)
+        """Define the priority for different sources of configuration.
+
+        The configuration is loaded from the following sources
+        (in descending order of priority) :
+
+            1. Arguments passed to the Settings class initialiser.
+            2. Environment variables
+            3. Variables loaded from the `.env` file.
+            4. Variables loaded from the `data/discord.toml` file
+            5. The default field values for the Settings model.
+        """
+        return (
+            init_settings,
+            env_settings,
+            dotenv_settings,
+            TomlConfigSettingsSource(settings_cls),
+        )

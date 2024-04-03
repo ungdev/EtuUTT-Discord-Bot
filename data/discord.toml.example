@@ -1,7 +1,4 @@
 [bot]
-token = "fill me"
-# Log level (see logging library, defaults to INFO if undefined or invalid)
-log_level = "DEBUG"
 # Check doc to see status and activity type allowed
 status = "online"
 
@@ -11,18 +8,12 @@ name = "a"
 # Text displayed if activity type is custom (need name to not be empty)
 state = "I'm awesome"
 
-
-[etu_api]
-# Student website application credentials (OAuth 2)
-url = "https://etu.utt.fr/api"
-client_id = 12345678912345
-client_secret = "fill me"
-
 [guild]
 # general configuration of the main guild
 id = 1234567891234567890
 # Channel where the bot sends info about his status and admins will use commands to manage the server
 channel_admin_id = 1234567891234567890
+invite_link = https://discord.gg/<replace me>
 
 [guild.special_roles]
 # id of the main roles that doesn't change
@@ -34,7 +25,7 @@ former_student = 1234567891234567890
 
 
 [[categories]]
-name = "ME"
+name = "EC"
 id = 1234567891234567890
 elected_role = 1234567891234567890
 ues = ["IT", "LE", "LG", "LS", "LC", "KO", "LF", "SI10"]

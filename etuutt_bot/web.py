@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 import secrets
-from os import getenv
 from typing import TYPE_CHECKING
 
 import aiohttp_jinja2
@@ -42,7 +41,7 @@ async def start_server(bot: EtuUTTBot) -> web.AppRunner:
     )
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, getenv("SERVER_HOST", "0.0.0.0"), int(getenv("SERVER_PORT", 3000)))
+    site = web.TCPSite(runner, bot.settings.server_url.host, bot.settings.server_url.port)
     try:
         await site.start()
     except Exception as e:
