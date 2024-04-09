@@ -18,5 +18,5 @@ logs/
 roles.txt
 
 # Data files
-data/
-!data/*.example
+/data/*
+!/data/*.example.*

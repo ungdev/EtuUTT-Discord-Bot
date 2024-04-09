@@ -1,7 +1,7 @@
 from enum import Enum
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, HttpUrl, SecretStr, field_validator
+from pydantic import BaseModel, HttpUrl, SecretStr, UrlConstraints, field_validator
 from pydantic_settings import (
     BaseSettings,
     PydanticBaseSettingsSource,
@@ -56,7 +56,7 @@ class GuildConfig(BaseModel):
     id: int
     channel_admin_id: ChannelId
     special_roles: SpecialRolesConfig
-    invite_link: HttpUrl
+    invite_link: Annotated[HttpUrl, UrlConstraints(default_host="discord.gg")]
 
 
 class CategoryConfig(BaseModel):
@@ -67,7 +67,7 @@ class CategoryConfig(BaseModel):
 
 
 class ApiConfig(BaseModel):
-    url: HttpUrl
+    url: HttpUrl = "https://etu.utt.fr/api"
     client_id: int
     client_secret: SecretStr
 

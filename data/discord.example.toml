@@ -13,7 +13,7 @@ state = "I'm awesome"
 id = 1234567891234567890
 # Channel where the bot sends info about his status and admins will use commands to manage the server
 channel_admin_id = 1234567891234567890
-invite_link = https://discord.gg/<replace me>
+invite_link = "https://discord.gg/<replace me>"
 
 [guild.special_roles]
 # id of the main roles that doesn't change

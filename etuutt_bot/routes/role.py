@@ -2,11 +2,31 @@ from typing import TYPE_CHECKING
 
 import aiohttp_jinja2
 from aiohttp import web
+from pydantic import BaseModel, Field, ValidationError
 
-from etuutt_bot.utils.assign_roles import assign_roles
+from etuutt_bot.services.user import UserService
+from etuutt_bot.types import MemberType
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
+
+
+class ApiStudent(BaseModel):
+    is_student: bool = Field(alias="isStudent")
+    first_name: str = Field(alias="firstName")
+    last_name: str = Field(alias="lastName")
+    formation: str | None
+    branches: list[str] = Field(alias="branch_list")
+    branch_levels: list[str] = Field(alias="branch_level_list")
+    uvs: list[str]
+
+    @property
+    def member_type(self):
+        if not self.is_student:
+            return MemberType.Teacher
+        if not self.formation:
+            return MemberType.FormerStudent
+        return MemberType.Student
 
 
 async def handler(req: web.Request) -> web.Response:
@@ -34,24 +54,15 @@ async def handler(req: web.Request) -> web.Response:
     ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
-        resp: dict = (await response.json()).get("data")
-
-    if not all(  # Check if the fields we need are present
-        field in resp
-        for field in [
-            "isStudent",
-            "firstName",
-            "lastName",
-            "formation",
-            "branch_list",
-            "branch_level_list",
-            "uvs",
-        ]
-    ):
-        return web.HTTPBadRequest()
+        try:
+            resp = (await response.json()).get("data")
+            api_student = ApiStudent.model_validate(resp)
+        except ValidationError:
+            return web.HTTPBadRequest()
 
     if member := bot.watched_guild.get_member_named(post.get("discord-username")):
-        await assign_roles(bot, bot.watched_guild, member, resp)
+        user_service = UserService(bot)
+        await user_service.sync(member, api_student)
         return web.Response(text="Roles assigned!")
         # TODO: make better response
     return await aiohttp_jinja2.render_template_async(

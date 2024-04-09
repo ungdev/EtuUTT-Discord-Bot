@@ -7,7 +7,7 @@ import discord
 from discord import CategoryChannel, Interaction, app_commands
 from discord.ext import commands
 
-from etuutt_bot.utils.channels import create_ue_channel
+from etuutt_bot.services.channel import ChannelService
 from etuutt_bot.utils.message import split_msg
 
 if TYPE_CHECKING:
@@ -24,6 +24,7 @@ class Role(
     # Set command group name and description
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
+        self.channel_service = ChannelService(bot)
 
     @app_commands.command(
         name="lessthan",
@@ -61,7 +62,6 @@ class Role(
         await interaction.followup.send(chunks[0])
 
     # Remove all users from a role
-    @app_commands.checks.has_permissions(administrator=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.command(
         name="removeall",
@@ -82,7 +82,6 @@ class Role(
     )
 
     # Create the channels for all courses in a specified category
-    @app_commands.checks.has_permissions(administrator=True)
     @app_commands.checks.bot_has_permissions(manage_channels=True)
     @channel.command(
         name="addall",
@@ -122,7 +121,7 @@ class Role(
             elected = category.guild.get_role(settings_cat.elected_role)
             msg += "\n## Salons textuels créés :\n"
             for role in existing_roles:
-                channel = await create_ue_channel(category, role, elected)
+                channel = await self.channel_service.create_ue_channel(category, role, elected)
                 msg += f"\n- {channel.name}"
 
         for chunk in split_msg(msg):
