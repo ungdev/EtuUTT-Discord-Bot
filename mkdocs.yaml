@@ -1,0 +1,96 @@
+site_name: EtuUTT bot Discord
+site_description: Le bot du serveur Discord des étudiants de l'UTT
+
+repo_name: EtuUTT-Discord-Bot
+
+theme:
+  features:
+    - navigation.footer
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deeppurple
+      accent: deeppurple
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+  language: fr
+  icon:
+    repo: fontawesome/brands/git-alt
+
+
+plugins:
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            members: true
+            members_order: source
+            show_source: true
+            show_inherited_members: true
+            merge_init_into_class: true
+            show_root_toc_entry: false
+  - search
+nav:
+  - Explications:
+      - Accueil: explanation/index.md
+      - Technologies utilisées: explanation/technos.md
+      - Authentification par le site etu: explanation/etu-auth.md
+  - Tutoriels:
+      - Installer le projet: tutorials/install.md
+      - Utiliser la documentation: tutorials/doc.md
+  - Utilisation: howto/index.md
+  - Reference:
+      - Services:
+        - reference/services/channel.md
+        - reference/services/user.md
+      - Commandes:
+        - reference/commands/admin.md
+        - reference/commands/misc.md
+        - reference/commands/role.md
+      - Serveur web: reference/web/routes.md
+
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      clickable_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+extra_css:
+  - stylesheets/extra.css
