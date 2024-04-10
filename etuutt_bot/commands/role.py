@@ -92,9 +92,8 @@ class Role(
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
         await interaction.response.defer(thinking=True)
-        cat_name = category.name.upper().removeprefix("MASTER").strip().split(" ")[0]
         settings_cat = next(
-            (cat for cat in self.bot.settings.categories if cat.name == cat_name), None
+            (cat for cat in self.bot.settings.categories if cat.id == category.id), None
         )
         if settings_cat is None:
             await interaction.followup.send("Cette catégorie ne comporte aucune UE.")

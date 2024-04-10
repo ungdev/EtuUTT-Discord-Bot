@@ -39,7 +39,7 @@ class BotSettings(BaseModel):
     """Config of the discord client"""
 
     token: SecretStr
-    log_level: Literal["INFO", "DEBUG", "WARNING", "ERROR"] = "INFO"
+    log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "CRITICAL"] = "INFO"
     status: str = "online"
     activity: BotActivitySettings
 
