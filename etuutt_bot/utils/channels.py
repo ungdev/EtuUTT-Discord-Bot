@@ -1,6 +1,6 @@
-from os import getenv
-
 from discord import CategoryChannel, PermissionOverwrite, Role, TextChannel
+
+from etuutt_bot.config import Settings
 
 
 async def create_ue_channel(
@@ -10,7 +10,9 @@ async def create_ue_channel(
     overwrites = {
         guild.default_role: PermissionOverwrite(read_messages=False),
         role: PermissionOverwrite(read_messages=True),
-        guild.get_role(int(getenv("MODERATOR_ID"))): PermissionOverwrite(read_messages=True),
+        guild.get_role(Settings().guild.special_roles.moderator): PermissionOverwrite(
+            read_messages=True
+        ),
     }
     if elected:
         overwrites.update({elected: PermissionOverwrite(read_messages=True)})

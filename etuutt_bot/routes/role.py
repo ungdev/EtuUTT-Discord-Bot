@@ -1,15 +1,19 @@
-from os import getenv
+from typing import TYPE_CHECKING
 
 import aiohttp_jinja2
 from aiohttp import web
 
 from etuutt_bot.utils.assign_roles import assign_roles
 
+if TYPE_CHECKING:
+    from etuutt_bot.bot import EtuUTTBot
+
 
 async def handler(req: web.Request) -> web.Response:
     if req.method != "POST":
         return web.HTTPMethodNotAllowed(req.method, ["POST"])  # HTTP 405
     post = await req.post()
+    bot: EtuUTTBot = req.app["bot"]
 
     if not "etu-token" and "discord-username" in post:
         return web.HTTPBadRequest()
@@ -25,8 +29,8 @@ async def handler(req: web.Request) -> web.Response:
         )
 
     params = {"access_token": post.get("etu-token")}
-    async with req.app["bot"].session.get(
-        f"{getenv('API_URL')}/public/user/account", params=params
+    async with bot.session.get(
+        f"{bot.settings.etu_api.url}/public/user/account", params=params
     ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
@@ -46,8 +50,8 @@ async def handler(req: web.Request) -> web.Response:
     ):
         return web.HTTPBadRequest()
 
-    if member := req.app["bot"].watched_guild.get_member_named(post.get("discord-username")):
-        await assign_roles(req.app["bot"].watched_guild, member, resp)
+    if member := bot.watched_guild.get_member_named(post.get("discord-username")):
+        await assign_roles(bot, bot.watched_guild, member, resp)
         return web.Response(text="Roles assigned!")
         # TODO: make better response
     return await aiohttp_jinja2.render_template_async(
