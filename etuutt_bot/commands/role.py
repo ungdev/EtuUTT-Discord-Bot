@@ -8,6 +8,7 @@ from discord import CategoryChannel, Interaction, app_commands
 from discord.ext import commands
 
 from etuutt_bot.services.channel import ChannelService
+from etuutt_bot.services.role import MergeStrategy, RoleService
 from etuutt_bot.utils.message import split_msg
 
 if TYPE_CHECKING:
@@ -25,14 +26,20 @@ class RoleCog(
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
         self.channel_service = ChannelService(bot)
+        self.role_service = RoleService(bot)
 
     @app_commands.command(
-        name="lessthan",
-        description="Affiche les rôles ayant moins de n personnes dedans (par défaut, n=2).",
+        name="between",
+        description="Affiche les rôles ayant plus de nb_min et moins de nb_max personnes dedans",
     )
-    async def get_less_than(self, interaction: Interaction[EtuUTTBot], n: int = 2):
+    async def get_less_than(
+        self, interaction: Interaction[EtuUTTBot], nb_min: int = 0, nb_max: int = 9999
+    ):
         await interaction.response.defer(thinking=True)
-        roles = [r for r in interaction.guild.roles if len(r.members) < n]
+        if nb_min > nb_max:
+            await interaction.followup.send("Erreur : nb_min doit être inférieur à nb_max")
+            return
+        roles = [r for r in interaction.guild.roles if nb_min <= len(r.members) <= nb_max]
         if len(roles) == 0:
             await interaction.followup.send(
                 "\N{WHITE HEAVY CHECK MARK} Commande terminée, aucun rôle n'a été identifié."
@@ -73,6 +80,46 @@ class RoleCog(
             await member.remove_roles(role)
         await interaction.followup.send(
             f"\N{WHITE HEAVY CHECK MARK} Plus personne n'a le rôle {role.name}"
+        )
+
+    @app_commands.command(
+        name="get_duplicates", description="Affiche tous les rôles qui sont dupliqués"
+    )
+    async def get_duplicates(
+        self, interaction: Interaction[EtuUTTBot], case_sensitive: bool = True
+    ):
+        await interaction.response.defer(thinking=True)
+        duplicates = self.role_service.get_duplicates(case_sensitive=case_sensitive)
+        if not duplicates:
+            await interaction.followup.send("Aucun rôle dupliqué :thumbs_up:")
+            return
+        message = f"{len(duplicates)} rôles dupliqués :\n"
+        for duplicate in duplicates:
+            message += f"- {duplicate[0].name}. Nombre de membres avec ce rôle : "
+            message += ", ".join(str(len(role.members)) for role in duplicate)
+        await interaction.followup.send(message)
+
+    @app_commands.command(
+        name="merge",
+        description="Fusionne en un seul tous les rôles ayant le même nom que le rôle donné",
+    )
+    async def merge_roles(
+        self,
+        interaction: Interaction[EtuUTTBot],
+        role: discord.Role,
+        case_sensitive: bool = True,
+        merge_strategy: MergeStrategy = MergeStrategy.Intersection,
+    ):
+        await interaction.response.defer(thinking=True)
+        duplicates = self.role_service.get_duplicate(role, case_sensitive=case_sensitive)
+        if len(duplicates) < 2:
+            await interaction.followup.send(
+                "Ce rôle n'est pas dupliqué :thinking:\n"
+                "Utilisez la commande `get_duplicates` pour voir quels rôles sont dupliqués"
+            )
+        await self.role_service.merge(duplicates, merge_perms_strategy=merge_strategy)
+        await interaction.response.send(
+            f"Commande finie. {len(duplicates)} rôles fusionnés. :thumbs_up:"
         )
 
     # define sub command group to manage channels
