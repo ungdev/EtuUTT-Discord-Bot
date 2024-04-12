@@ -7,6 +7,7 @@ import discord
 from etuutt_bot.commands.admin import AdminCog
 from etuutt_bot.commands.misc import MiscCog
 from etuutt_bot.commands.role import RoleCog
+from etuutt_bot.commands.ue import UeCog
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -16,13 +17,10 @@ SPACES = " " * 38
 
 # List of commands to add to the command tree
 async def commands_list(bot: EtuUTTBot):
-    # List the commands and commands groups
-    cogs: tuple = (AdminCog(bot), MiscCog(bot))
     # Add the cogs to the bot
-    for cog in cogs:
-        await bot.add_cog(cog)
-
-    await bot.add_cog(RoleCog(bot), guild=bot.watched_guild)
+    # All the cogs are available only on the server which id is given in the config
+    for cog in (AdminCog(bot), MiscCog(bot), RoleCog(bot), UeCog(bot)):
+        await bot.add_cog(cog, guild=bot.watched_guild)
 
     # Create a global commands error handler
     @bot.tree.error

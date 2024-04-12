@@ -4,7 +4,7 @@ from itertools import groupby
 from typing import TYPE_CHECKING
 
 import discord
-from discord import CategoryChannel, Interaction, app_commands
+from discord import Interaction, app_commands
 from discord.ext import commands
 
 from etuutt_bot.services.channel import ChannelService
@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 
 
 @app_commands.default_permissions(administrator=True)
-class RoleCog(commands.GroupCog, name="role"):
-    """Commandes liées à la gestion des rôles (et des salons associés)"""
+class RoleCog(commands.GroupCog, group_name="role"):
+    """Commandes liées à la gestion des rôles"""
 
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
@@ -103,10 +103,9 @@ class RoleCog(commands.GroupCog, name="role"):
             await interaction.followup.send("Aucun rôle dupliqué :thumbs_up:")
             return
         message = f"{len(duplicates)} rôles dupliqués :\n"
-        for duplicate in duplicates:
-            message += f"- **{duplicate[0].name}**. Nombre de membres avec ce rôle : "
-            message += ", ".join(str(len(role.members)) for role in duplicate)
-            message += "\n"
+        message += "\n".join(
+            f"- **{d[0].name}**. Nombre de duplications : {len(d)}" for d in duplicates
+        )
         await interaction.followup.send(message)
 
     @app_commands.command(name="merge")
@@ -142,57 +141,3 @@ class RoleCog(commands.GroupCog, name="role"):
         await interaction.followup.send(
             f"Commande finie. {nb_duplicates} rôles fusionnés. :thumbs_up:"
         )
-
-    # define sub command group to manage channels
-    channel = app_commands.Group(
-        name="channel",
-        description="Commandes liées à la gestion des salons associés aux rôles",
-    )
-
-    @app_commands.checks.bot_has_permissions(manage_channels=True)
-    @channel.command(name="addall")
-    @app_commands.describe(category="La catégorie dans laquelle créer les salons")
-    async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
-        """ "Crée les salons textuels pour toutes les UEs d'une catégorie dont le rôle existe.
-
-        Args:
-            interaction:
-            category: La catégorie dans laquelle on veut créer les salons d'UE
-        """
-        await interaction.response.defer(thinking=True)
-        settings_cat = next(
-            (cat for cat in self.bot.settings.categories if cat.id == category.id), None
-        )
-        if settings_cat is None:
-            await interaction.followup.send("Cette catégorie ne comporte aucune UE.")
-            return
-        role_names = {ue.lower() for ue in settings_cat.ues}
-        msg = ""
-
-        # Ensure that channels don't exist yet in order not to overwrite them
-        existing_channels = [c for c in category.text_channels if c.name in role_names]
-        if len(existing_channels) > 0:
-            msg += "\n## \N{SLEEPING SYMBOL} Les salons suivants existent déjà :\n"
-            msg += "\n".join(f"- {c.name}" for c in existing_channels)
-            role_names -= {c.name.lower() for c in existing_channels}
-
-        # Keep only roles that actually exist
-        existing_roles = [r for r in interaction.guild.roles if r.name.lower() in role_names]
-        if len(existing_roles) != len(role_names):
-            missing = role_names - {r.name for r in existing_roles}
-            msg += (
-                "\n## \N{WHITE QUESTION MARK ORNAMENT} "
-                "Les rôles suivants manquent sur le serveur :\n"
-            )
-            msg += "\n".join(f"- {r}" for r in missing)
-
-        if len(existing_roles) > 0:
-            elected = category.guild.get_role(settings_cat.elected_role)
-            msg += "\n## Salons textuels créés :\n"
-            for role in existing_roles:
-                channel = await self.channel_service.create_ue_channel(category, role, elected)
-                msg += f"\n- {channel.name}"
-
-        for chunk in split_msg(msg):
-            await interaction.channel.send(chunk)
-        await interaction.followup.send("\N{WHITE HEAVY CHECK MARK} La commande est terminée :")
