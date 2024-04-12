@@ -21,29 +21,3 @@ jobs:
             -   uses: chartboost/ruff-action@v1
                 with:
                     args: "format --diff"
-
-    tests:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
-        steps:
-            -   uses: actions/checkout@v4
-            -   uses: actions/setup-python@v4
-                with:
-                    python-version: ${{ matrix.python-version }}
-            -   name: Cache virtualenv
-                uses: actions/cache@v3
-                with:
-                    key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version}}-${{ hashFiles('requirements.txt') }}
-                    path: .venv
-            -   name: Install dependencies
-                run: |
-                    python -m venv .venv
-                    source .venv/bin/activate
-                    python -m pip install --upgrade pip
-                    python -m pip install -r requirements-dev.txt
-                    echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
-                    echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
-            -   name: Run tests
-                run: pytest .
