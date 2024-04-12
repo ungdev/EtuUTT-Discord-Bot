@@ -8,7 +8,9 @@ services:
         ports:
             - "3000:3000"
         volumes:
+            - data:/usr/src/etuutt/data
             - logs:/usr/src/etuutt/logs
 
 volumes:
+    data:
     logs:

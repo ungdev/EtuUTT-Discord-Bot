@@ -10,17 +10,20 @@ if TYPE_CHECKING:
 
 
 class Admin(commands.Cog):
+    def __init__(self, bot: EtuUTTBot) -> None:
+        self.bot = bot
+
     # Add command to sync slash commands for team members and owner of the bot
     @commands.is_owner()
     @commands.command(name="sync")
     async def sync_tree(self, ctx: commands.Context[EtuUTTBot]):
         try:
-            await ctx.bot.tree.sync()
-            for guild in ctx.bot.guilds:
-                await ctx.bot.tree.sync(guild=guild)
+            await self.bot.tree.sync()
+            for guild in self.bot.guilds:
+                await self.bot.tree.sync(guild=guild)
             await ctx.reply("Les commandes slash ont bien été synchronisées.")
         except discord.app_commands.CommandSyncFailure as e:
-            ctx.bot.logger.error(e)
+            self.bot.logger.error(e)
             await ctx.reply(
                 f"Il y a eu une erreur lors de la synchronisation des commandes slash\n{e}"
             )
@@ -31,6 +34,6 @@ class Admin(commands.Cog):
         self, ctx: commands.Context[EtuUTTBot], error: commands.CommandError
     ):
         if isinstance(error, commands.NotOwner):
-            ctx.bot.logger.info(f"{ctx.author}, who isn't authorized, tried to sync the commands")
+            self.bot.logger.info(f"{ctx.author}, who isn't authorized, tried to sync the commands")
             return
-        ctx.bot.logger.info(error)
+        self.bot.logger.info(error)

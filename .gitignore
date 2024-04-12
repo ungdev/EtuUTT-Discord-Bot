@@ -16,3 +16,7 @@ logs/
 
 # Roles
 roles.txt
+
+# Data files
+data/
+!data/*.example

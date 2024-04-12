@@ -1,0 +1,37 @@
+[bot]
+# Check doc to see status and activity type allowed
+status = "online"
+
+[bot.activity]
+type = "custom"
+name = "a"
+# Text displayed if activity type is custom (need name to not be empty)
+state = "I'm awesome"
+
+[guild]
+# general configuration of the main guild
+id = 1234567891234567890
+# Channel where the bot sends info about his status and admins will use commands to manage the server
+channel_admin_id = 1234567891234567890
+invite_link = https://discord.gg/<replace me>
+
+[guild.special_roles]
+# id of the main roles that doesn't change
+admin = 1234567891234567890
+moderator = 1234567891234567890
+student = 1234567891234567890
+teacher = 1234567891234567890
+former_student = 1234567891234567890
+
+
+[[categories]]
+name = "EC"
+id = 1234567891234567890
+elected_role = 1234567891234567890
+ues = ["IT", "LE", "LG", "LS", "LC", "KO", "LF", "SI10"]
+
+[[categories]]
+name = "TC"
+id = 1234567891234567890
+elected_role = 1234567891234567891
+ues = ["MT01", "MT02", "PHYS11", "GL01", "TNEV"]
