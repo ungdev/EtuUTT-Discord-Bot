@@ -11,14 +11,14 @@ if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 
-class ApiStudent(BaseModel):
+class ApiUser(BaseModel):
     is_student: bool = Field(alias="isStudent")
     first_name: str = Field(alias="firstName")
     last_name: str = Field(alias="lastName")
     formation: str | None
     branches: list[str] = Field(alias="branch_list")
     branch_levels: list[str] = Field(alias="branch_level_list")
-    uvs: list[str]
+    ues: list[str] = Field(alias="uvs")
 
     @property
     def member_type(self):
@@ -56,7 +56,7 @@ async def handler(req: web.Request) -> web.Response:
             return web.Response(status=response.status)
         try:
             resp = (await response.json()).get("data")
-            api_student = ApiStudent.model_validate(resp)
+            api_student = ApiUser.model_validate(resp)
         except ValidationError:
             return web.HTTPBadRequest()
 
