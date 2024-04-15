@@ -2,11 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from discord import CategoryChannel, PermissionOverwrite, TextChannel
+from discord import CategoryChannel, PermissionOverwrite, Role, TextChannel
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
-    from etuutt_bot.commands.role import Role
 
 
 class ChannelService:
