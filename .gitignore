@@ -15,5 +15,5 @@ __pycache__/
 logs/
 
 # Data files
-data/
-!data/*.example
+/data/*
+!/data/*.example.*

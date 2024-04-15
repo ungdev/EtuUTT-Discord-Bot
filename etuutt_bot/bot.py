@@ -3,6 +3,7 @@ from os import getenv
 
 import aiohttp
 import discord
+from discord import Guild
 from discord.ext import commands
 
 from etuutt_bot.commands_list import commands_list
@@ -10,9 +11,7 @@ from etuutt_bot.config import Settings
 from etuutt_bot.web import start_server
 
 
-# Create a class of the bot
 class EtuUTTBot(commands.Bot):
-    # Initialization when class is called
     def __init__(self) -> None:
         self.settings = Settings()
         # Define the bot debug log level, defaults to INFO if undefined or invalid
@@ -37,9 +36,11 @@ class EtuUTTBot(commands.Bot):
             activity=activity,
             status=self.settings.bot.status,
         )
-
         # Initialize watched guild with only ID
-        self.watched_guild = discord.Object(id=self.settings.guild.id)
+        # This must be done because the guild id is used to initialize
+        # the command list in the setup hook,
+        # where the bot itself hasn't been fully initialized yet.
+        self.watched_guild: Guild = discord.Object(id=self.settings.guild.id, type=Guild)  # type:ignore
 
     async def setup_hook(self) -> None:
         # Start aiohttp client session
