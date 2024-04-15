@@ -32,7 +32,7 @@ class EtuUTTBot(commands.Bot):
 
         # Apply intents, activity and status to the bot
         super().__init__(
-            command_prefix=commands.when_mentioned,
+            command_prefix=commands.when_mentioned,  # type: ignore
             intents=intents,
             activity=activity,
             status=self.settings.bot.status,
