@@ -1,7 +1,7 @@
 # EtuUTT-Discord-Bot
 
 A project of redoing the Discord bot made in JavaScript used at my school.  
-Be sure to have Python 3.8 or higher installed as it is required by discord.py.
+Be sure to have Python 3.10 or higher installed.
 
 Clone the projet and install the requirements (in a
 [venv](https://docs.python.org/library/venv.html) preferably):

@@ -1,7 +1,7 @@
 [project]
 name = "EtuUTT-Bot"
 license = "MIT"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "RET", "SIM", "RUF", "T20", "ERA", "INP", "ASYNC"]
