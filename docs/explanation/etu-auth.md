@@ -49,6 +49,8 @@ sequenceDiagram
     api-->>server: token d'accès
     server->>User: Formulaire de saisie <br>des infos sur le compte Discord
     User-->>server: POST /role
+    server->>api: GET /public/user/account
+    api-->>server: Informations sur l'utilisateur
     server->>bot: Transmission des informations
     bot->>bot: Attribution des rôles
 ```

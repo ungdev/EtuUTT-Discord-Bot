@@ -57,4 +57,3 @@ mais avec beaucoup moins de lignes.
 Le programme actuel contient 6599 lignes de Javascript ;
 concevoir le nouveau en 3000 lignes environ est un
 objectif à la fois souhaitable et réalisable.
-
