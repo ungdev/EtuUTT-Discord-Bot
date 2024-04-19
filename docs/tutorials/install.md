@@ -218,7 +218,7 @@ Pour la création du bot, rendez-vous sur
 Ça devrait ressembler à ça :
 
 <figure markdown="span">
-    ![image](./images/discord_developer_portal.jpg)
+    ![image](/img/tutorials/discord_developer_portal.jpg)
     <figcaption>Portail des applications de Discord</figcaption>
 </figure>
 
@@ -247,7 +247,7 @@ configurez les *Intents*.
 Le bot EtuUTT a besoin de tous les *Intents*.
 
 <figure markdown="span">
-    ![intents](images/intents.png)
+    ![intents](/img/tutorials/intents.png)
     <figcaption>*Intents* requis</figcaption>
 </figure>
 
@@ -260,7 +260,7 @@ Pour les permissions, vous pouvez lui donner la permission `admin`,
 qui inclue toutes les autres.
 
 <figure markdown="span">
-    ![scopes et permissions](images/scopes_and_perms.png)
+    ![scopes et permissions](/img/tutorials/scopes_and_perms.png)
     <figcaption>Scope et permissions</figcaption>
 </figure>
 

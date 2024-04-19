@@ -30,6 +30,7 @@ theme:
   language: fr
   icon:
     repo: fontawesome/brands/git-alt
+  favicon: img/favicon.png
 
 
 plugins:
@@ -49,6 +50,7 @@ nav:
   - Explications:
       - Accueil: explanation/index.md
       - Technologies utilisées: explanation/technos.md
+      - Conventions: explanation/conventions.md
       - Authentification par le site etu: explanation/etu-auth.md
   - Tutoriels:
       - Installer le projet: tutorials/install.md

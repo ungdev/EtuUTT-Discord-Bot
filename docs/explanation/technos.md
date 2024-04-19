@@ -117,10 +117,18 @@ Ruff est un linter et un formateur de code.
 Il est extrêmement complet et fiable.
 Et surtout, sa vitesse d'exécution est absurdement rapide.
 
-### Pytest
+### Tests
 
-Les tests utilisent pytest pour tourner.
-C'est le meilleur dans ce domaine, dans l'écosystème Python.
+Dans l'écosystème Python, il existe deux méthodes principales pour tester un code :
 
-Par contre, tester un bot Discord, c'est la croix et la bannière.
-Donc malheureusement, il n'y a pas tant de tests que ça.
+- `unittest`
+- `pytest`
+
+Les deux méthodes ont leurs avantages.
+Et ce projet utilise... ni l'une ni l'autre.
+
+En effet, la presque totalité des opérations effectuées
+consistent en des manipulations directes du serveur discord.
+Et tester ce genre de choses est pratiquement mission impossible.
+
+Le projet n'est donc malheureusement pas testé.
