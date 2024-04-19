@@ -1,6 +1,6 @@
 ## Compiler la documentation localement
 
-Si le projet est installé suivant les étapes décrite dans la section [Installation](install.md), 
+Si le projet est installé suivant les étapes décrite dans la section [Installation](install.md),
 vous pouvez compiler la documentation localement en exécutant la commande suivante :
 
 ```bash
@@ -13,7 +13,7 @@ Vous pouvez l'explorer dans votre navigateur en ouvrant le fichier `index.html`.
 ## Editer la documentation
 
 La documentation est écrite en Markdown et est générée à l'aide de [MkDocs](https://www.mkdocs.org/).
-Lorsque vous voulez travailler sur la documentation, vous pouvez lancer 
+Lorsque vous voulez travailler sur la documentation, vous pouvez lancer
 le serveur de développement de MkDocs :
 
 ```bash
@@ -37,9 +37,9 @@ Si vous n'êtes pas familiers avec ces technologies, veuillez consulter les docu
 Pour ajouter un fichier, créez un fichier Markdown dans le dossier `docs`.
 Pour retirer un fichier, supprimez le fichier Markdown correspondant.
 Après toute opération d'ajout ou de suppression, il est nécessaire
-d'éditer la table des matières du fichier `mkdocs.yml`.
+d'éditer la table des matières du fichier `mkdocs.yaml`.
 
-La partie à modifier dans le fichier `mkdocs.yml` est la section `nav`.
+La partie à modifier dans le fichier `mkdocs.yaml` est la section `nav`.
 Cette section contient une liste de liens vers les fichiers de documentation
 avec les titres à afficher dans la table des matières.
 
@@ -48,11 +48,11 @@ Votre section `nav` devra ressembler à ceci :
 
 ```yaml
 nav:
-  - Accueil: index.md
-  - Tutoriel:
-    - Installation: tutoriel/install.md
-    - foo: tutoriel/foo.md
-  - # ...
+    -   Accueil: index.md
+    -   Tutoriel:
+            -   Installation: tutoriel/install.md
+            -   foo: tutoriel/foo.md
+    - # ...
 ```
 
 ### Norme de documentation
@@ -66,4 +66,4 @@ Le déploiement de la documentation est automatique.
 
 Le site est déployé sur GitHub Pages à chaque push sur la branche `main`.
 
-Le workflow de déploiement est défini dans le fichier `.github/workflows/docs.yml`.
+Le workflow de déploiement est défini dans le fichier `.github/workflows/docs.yaml`.

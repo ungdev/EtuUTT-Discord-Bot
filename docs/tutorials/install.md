@@ -3,7 +3,7 @@
 Pour installer le projet, vous aurez besoin de :
 
 - git ([documentation officielle](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git))
-- Python >=3.8 ([documentation officielle](https://python.org))
+- Python >=3.10 ([documentation officielle](https://docs.python.org/3/))
 
 Si une ou plusieurs de ces dépendances ne sont pas présentes sur votre
 ordinateur, référez-vous aux instructions d'installation données ci-dessous.
@@ -12,7 +12,7 @@ directement à [la partie suivante](#mise-en-place-du-projet).
 
 ### Python
 
-Le projet est conçu pour fonctionner avec Python 3.11 ou au-dessus.
+Le projet est conçu pour fonctionner avec Python 3.10 ou au-dessus.
 
 Pour vérifier votre version de Python, exécutez la commande suivante dans votre terminal :
 
@@ -20,7 +20,7 @@ Pour vérifier votre version de Python, exécutez la commande suivante dans votr
 python --version
 ```
 
-Si la commande renvoie une version inférieure à 3.8
+Si la commande renvoie une version inférieure à 3.10
 ou si la commande n'est pas reconnue,
 vous devez installer Python.
 
@@ -43,6 +43,14 @@ vous devez installer Python.
         winget install Python.Python
         ```
 
+    === "Avec Scoop"
+
+        dans Powershell :
+
+        ```powershell
+        scoop install python
+        ```
+
 === "Linux"
 
     Sur Linux, vous pouvez installer Python à l'aide de votre gestionnaire de paquets.
@@ -59,12 +67,20 @@ vous devez installer Python.
         Ce n'est pas la plus récente, mais elle est compatible
         avec le projet.
 
-        !!!
+        !!!note
 
             Comme le gestionnaire APT est ~~souvent en retard~~ stable,
             il est conseillé d'utiliser `pyenv` si vous voulez utiliser
             la version la plus à jour de Python.
             Voir sa [documentation](https://github.com/pyenv/pyenv).
+
+            Alternativement, il est possible d'ajouter le PPA
+            [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa)
+            pour avoir un choix de versions de Python sur Ubuntu :
+            
+            ```bash
+            sudo add-apt-repository ppa:deadsnakes/ppa
+            ```
     
     === "Fedora"
     
@@ -77,9 +93,11 @@ vous devez installer Python.
         ```bash
         sudo pacman -Syu python
         ```
+
 === "macOS"
 
-    Sur macOS, vous pouvez installer Python à l'aide de [Homebrew](https://brew.sh/).
+    Sur macOS, vous pouvez installer Python à l'aide de
+    [Homebrew](https://brew.sh/).
     
     ```bash
     brew install python
@@ -108,6 +126,14 @@ Si Git n'est pas déjà installé, suivez les instructions suivantes :
         winget install Git.Git
         ```
 
+    === "Avec Scoop"
+
+        Dans Powershell :
+        
+        ```powershell
+        scoop install git
+        ```
+
 === "Linux"
 
     Sur Linux, vous pouvez installer Git à l'aide de votre gestionnaire de paquets.
@@ -129,14 +155,17 @@ Si Git n'est pas déjà installé, suivez les instructions suivantes :
         ```bash
         sudo pacman -Syu git
         ```
+
 === "macOS"
-    Sur macOS, vous pouvez installer Git à l'aide de [Homebrew](https://brew.sh/).
-    
+
+    Sur macOS, vous pouvez installer Git à l'aide de
+    [Homebrew](https://brew.sh/).
+
     ```bash
     brew install git
     ```
 
-Pour vérifier que l'installation a réussi, 
+Pour vérifier que l'installation a réussi,
 exécutez la commande suivante dans votre terminal :
 
 ```bash
@@ -163,7 +192,8 @@ Assurez-vous que vous êtes bien sur la branche `main`
 git checkout main
 ```
 
-Puis installez les dépendances :
+Puis installez les dépendances (de préférence dans un
+[venv](https://docs.python.org/3/library/venv.html)) :
 
 ```
 pip install -U -r requirements-dev.txt
@@ -183,12 +213,12 @@ cp data/discord.example.toml data/discord.toml
 
 ### Où est la configuration ?
 
-La configuration est répartie entre les deux fichiers ainsi créé,
+La configuration est répartie entre les deux fichiers ainsi créés,
 en suivant cet esprit :
 
 - Le `.env` contient spécifiquement les variables d'environnement.
   On y met les variables qui doivent être les plus aisément accessibles
-  et modifiables par le SIA.
+  et modifiables par le SIA (Service d'Information des Associations).
   Par exemple, les identifiants et mots de passe, le niveau de log et le token du bot.
 - le `discord.toml` contient les variables relatives au bot et au serveur
   qui n'ont pas un besoin impératif d'être modifiées par le SIA.
@@ -197,15 +227,15 @@ en suivant cet esprit :
 
 Pour savoir où une variable doit se trouver, imaginez-vous en tant qu'admin du serveur,
 puis imaginez-vous en tant que respo SIA.
-Ensuite, demandez-vous dans lequel de ces rôles, 
+Ensuite, demandez-vous dans lequel de ces rôles,
 vous auriez le plus besoin d'accéder à cette variable.
 
-Si c'est en tant qu'admin discord, la variable va dans le `discord.toml`.
+Si c'est en tant qu'admin Discord, la variable va dans le `discord.toml`.
 Si c'est en tant que respo SIA, la variable va dans le `.env`.
 
 ### Créer un bot
 
-Une grande partie de la configuration implique de conserver en dur 
+Une grande partie de la configuration implique de conserver en dur
 des variables relatives directement à Discord.
 
 Nous vous conseillons donc de créer un bot et un serveur rien qu'à vous,
@@ -218,7 +248,7 @@ Pour la création du bot, rendez-vous sur
 Ça devrait ressembler à ça :
 
 <figure markdown="span">
-    ![image](/img/tutorials/discord_developer_portal.jpg)
+    ![image](../img/tutorials/discord_developer_portal.jpg)
     <figcaption>Portail des applications de Discord</figcaption>
 </figure>
 
@@ -231,13 +261,13 @@ Générez un token et copiez-le dans la variable `BOT__TOKEN` du `.env`
 
 !!!danger
 
-    Le token de votre bot ne doit JAMAIS être visible par quelqu'un d'autre.
+    Le token de votre bot ne doit **JAMAIS** être visible par quelqu'un d'autre.
     Si votre bot est récupéré une personne mal intentionnée, ça peut être
     extrêmement dangereux.
     Faites bien attention à ça.
 
     Rassurez-vous cependant, si jamais vous faites une erreur
-    et que votre token se retrouve sur un repo Github ou dans un message
+    et que votre token se retrouve sur un repo GitHub ou dans un message
     Discord, Discord le détectera immédiatement et révoquera le token
     de votre bot sans attendre.
     Votre bot sera toujours utilisable, mais à condition de générer un nouveau token.
@@ -247,9 +277,15 @@ configurez les *Intents*.
 Le bot EtuUTT a besoin de tous les *Intents*.
 
 <figure markdown="span">
-    ![intents](/img/tutorials/intents.png)
+    ![intents](../img/tutorials/intents.png)
     <figcaption>*Intents* requis</figcaption>
 </figure>
+
+!!!note
+
+    Vous pouvez décocher la case `Public Bot` afin d'éviter que
+    d'autres personnes que vous puissent ajouter votre bot de test
+    dans des serveurs.
 
 Maintenant, rendez-vous dans l'onglet `Oauth2`,
 à la section `URL Generator`.
@@ -260,7 +296,7 @@ Pour les permissions, vous pouvez lui donner la permission `admin`,
 qui inclue toutes les autres.
 
 <figure markdown="span">
-    ![scopes et permissions](/img/tutorials/scopes_and_perms.png)
+    ![scopes et permissions](../img/tutorials/scopes_and_perms.png)
     <figcaption>Scope et permissions</figcaption>
 </figure>
 
@@ -301,7 +337,7 @@ ce n'est pas nécessaire pour le bon fonctionnement du bot.
 
 !!!question "Je ne trouve pas les ids"
 
-    L'id d'un salon, d'une catégorie, d'un utilisateur et de presque tout sur discord
+    L'id d'un salon, d'une catégorie, d'un utilisateur et de presque tout sur Discord
     se trouve en faisant un clic droit sur l'objet et en cliquant sur
     "Copier l'identifiant du [message/salon/utilisateur/...]" dans le menu contextuel.
     Cette option devrait être celle tout en bas.

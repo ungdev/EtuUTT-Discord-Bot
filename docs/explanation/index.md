@@ -1,12 +1,11 @@
-
 ## Motifs du projet
 
-Ce projet est une réécriture du 
+Ce projet est une réécriture du
 [Bot du serveur Discord UTT](https://github.com/ungdev/discord_bot_firewall).
 
 Ce dernier a été écrit par Ivann Laruelle en mars 2020, au tout début
 du confinement.
-La chose s'est faite plus ou moins dans l'urgence, 
+La chose s'est faite plus ou moins dans l'urgence,
 à cause de la nécessité soudaine de maintenir un contact entre
 les étudiants en ces temps covidés.
 
@@ -30,14 +29,13 @@ d'être mises à disposition et d'être dépréciées.
 
 Enfin, Ivann a été diplômé en 2022.
 
-Bref, le code commence à sévèrement dater,
-n'est pas incroyablement bien écrit
-et ses mainteneurs ne sont plus là.
+Bref, le code commence à dater et n'est pas incroyablement bien écrit.
+De plus son créateur et ses mainteneurs ne sont plus là.
 
 Donc quitte à reprendre le projet, autant le refaire intégralement,
 en le faisant plus sereinement, avec des technologies mieux
 maitrisées et en mettant mieux à profit les fonctionnalités
-offertes par discord et par les librairies utilisées.
+offertes par Discord et par les librairies utilisées.
 
 ## Philosophie du projet
 
@@ -47,7 +45,7 @@ doit être de prendre notre temps pour pleinement
 maitriser nos outils et concevoir un bot plus performant
 et plus ergonomique, en utilisant pour cela moins de code.
 
-Le nouveau bot utilisera autant que possible 
+Le nouveau bot utilisera autant que possible
 les commandes slash de Discord.
 
 À partir de ça, il est également recherché la réduction
