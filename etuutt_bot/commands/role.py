@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 # define command group based on the Group class
 @app_commands.default_permissions(administrator=True)
-class Role(
+class RoleCog(
     commands.GroupCog,
     name="role",
     description="Commandes liées à la gestion des rôles (et des salons associés)",

@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 
-class Admin(commands.Cog):
+class AdminCog(commands.Cog):
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
 
