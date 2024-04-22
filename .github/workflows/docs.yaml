@@ -3,6 +3,10 @@ on:
     push:
         branches:
             - main
+        paths:
+            - docs/**
+            - requirements-docs.txt
+    workflow_dispatch:
 
 permissions:
     contents: write
