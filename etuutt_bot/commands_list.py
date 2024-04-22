@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING
 
 import discord
 
-from etuutt_bot.commands.admin import Admin
-from etuutt_bot.commands.misc import Misc
-from etuutt_bot.commands.role import Role
+from etuutt_bot.commands.admin import AdminCog
+from etuutt_bot.commands.misc import MiscCog
+from etuutt_bot.commands.role import RoleCog
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -17,12 +17,12 @@ SPACES = " " * 38
 # List of commands to add to the command tree
 async def commands_list(bot: EtuUTTBot):
     # List the commands and commands groups
-    cogs: tuple = (Admin(bot), Misc(bot))
+    cogs: tuple = (AdminCog(bot), MiscCog(bot))
     # Add the cogs to the bot
     for cog in cogs:
         await bot.add_cog(cog)
 
-    await bot.add_cog(Role(bot), guild=bot.watched_guild)
+    await bot.add_cog(RoleCog(bot), guild=bot.watched_guild)
 
     # Create a global commands error handler
     @bot.tree.error

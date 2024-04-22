@@ -4,6 +4,10 @@ repos:
         rev: v4.6.0
         hooks:
             -   id: check-yaml
+                exclude: mkdocs.yaml
+            -   id: check-yaml
+                args: [ --unsafe ]
+                files: mkdocs.yaml
             -   id: end-of-file-fixer
             -   id: requirements-txt-fixer
                 files: requirements.*\.txt

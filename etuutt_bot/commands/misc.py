@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 
-class Misc(commands.Cog):
+class MiscCog(commands.Cog):
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
         # Circumvent impossibility to add context menu commands in cogs

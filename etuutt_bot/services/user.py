@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from discord import Role
 
     from etuutt_bot.bot import EtuUTTBot
-    from etuutt_bot.routes.role import ApiUser
+    from etuutt_bot.routes.role import ApiUserSchema
 
 
 class UserService:
@@ -20,7 +20,7 @@ class UserService:
     def __init__(self, bot: EtuUTTBot):
         self._bot = bot
 
-    def get_server_nickname(self, user: ApiUser) -> str:
+    def get_server_nickname(self, user: ApiUserSchema) -> str:
         pseudo = f"{user.first_name.title()} {user.last_name.upper()}"
         member_type = user.member_type
         if member_type == MemberType.Student:
@@ -40,7 +40,7 @@ class UserService:
             pseudo = pseudo[: self.NICKNAME_MAX_LEN]
         return pseudo
 
-    def get_member_roles(self, user: ApiUser) -> set[Role]:
+    def get_member_roles(self, user: ApiUserSchema) -> set[Role]:
         """Retourne les rôles qui devraient être attribués à l'utilisateur donné.
 
         Args:
@@ -69,7 +69,7 @@ class UserService:
             return {guild.get_role(special_ids.teacher)}
         assert_never(member_type)
 
-    async def sync(self, member: discord.Member, user: ApiUser):
+    async def sync(self, member: discord.Member, user: ApiUserSchema):
         """Synchronise le membre du serveur avec les données de l'api du site etu.
 
         Args:
