@@ -37,7 +37,7 @@ class RoleCog(commands.GroupCog, name="role"):
         """
         await interaction.response.defer(thinking=True)
         if nb_min > nb_max:
-            await interaction.followup.send("Erreur : nb_min doit être inférieur à nb_max")
+            await interaction.followup.send("Erreur : nb_min doit être inférieur ou égal à nb_max")
             return
         roles = [r for r in interaction.guild.roles if nb_min <= len(r.members) <= nb_max]
         if len(roles) == 0:
