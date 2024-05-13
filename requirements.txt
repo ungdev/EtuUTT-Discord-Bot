@@ -5,4 +5,4 @@ Jinja2 ~= 3.1.4
 pydantic ~= 2.7.1
 pydantic-settings ~= 2.2.1
 sentry-sdk[aiohttp] ~= 1.45.0
-tomlkit ~= 0.12.4
+tomlkit ~= 0.12.5
