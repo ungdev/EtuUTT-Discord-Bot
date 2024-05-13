@@ -26,7 +26,7 @@ class RoleCog(commands.GroupCog, name="role"):
 
     @app_commands.command(name="between")
     async def get_roles_with_framed_number_of_members(
-        self, interaction: Interaction[EtuUTTBot], nb_min: int = 0, nb_max: int = 9999
+        self, interaction: Interaction[EtuUTTBot], nb_min: int = 0, nb_max: int = 1
     ):
         """Affiche les rôles ayant plus de nb_min et moins de nb_max personnes dedans.
 
