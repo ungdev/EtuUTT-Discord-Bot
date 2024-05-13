@@ -3,9 +3,10 @@ on:
     push:
         branches:
             - main
-        paths:
-            - docs/**
-            - requirements-docs.txt
+        paths-ignore:
+            - .pre-commit-config.yaml
+            - requirements.txt
+            - requirements-dev.txt
     workflow_dispatch:
 
 permissions:
