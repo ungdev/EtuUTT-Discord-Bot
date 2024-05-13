@@ -39,7 +39,7 @@ class RoleService:
         """
 
         def sort_key(r):
-            return r.name if case_sensitive else r.name.lower()
+            return r.name if case_sensitive else r.name.upper()
 
         roles = sorted(self._bot.watched_guild.roles, key=sort_key)
 
