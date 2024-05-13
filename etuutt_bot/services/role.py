@@ -44,10 +44,10 @@ class RoleService:
         roles = sorted(self._bot.watched_guild.roles, key=sort_key)
 
         res = []
-        for _, group in itertools.groupby(roles):
-            group = list(group)
-            if len(group) > 1:
-                res.append(group)
+        for _, group in itertools.groupby(roles, key=sort_key):
+            values = list(group)
+            if len(values) > 1:
+                res.append(values)
         return res
 
     def get_duplicate(self, role: Role, *, case_sensitive: bool = True) -> list[Role]:
