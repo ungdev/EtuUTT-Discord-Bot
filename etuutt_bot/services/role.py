@@ -41,7 +41,7 @@ class RoleService:
         def sort_key(r):
             return r.name if case_sensitive else r.name.lower()
 
-        roles = iter(sorted(self._bot.watched_guild.roles, key=sort_key))
+        roles = sorted(self._bot.watched_guild.roles, key=sort_key)
 
         res = []
         for _, group in itertools.groupby(roles):
