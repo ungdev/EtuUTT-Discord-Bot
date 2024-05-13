@@ -80,9 +80,31 @@ class RoleService:
             return Permissions.none()
         assert_never(merge_strategy)
 
-    async def merge(self, roles: list[Role], *, merge_perms_strategy: MergeStrategy):
-        to_keep = roles[0]
-        # membres à qui il faut donner le rôle qu'on garde
+    async def merge(self, roles: list[Role], *, merge_perms_strategy: MergeStrategy) -> Role:
+        """Fusionne les rôles donnés, avec leurs permissions et leurs membres, en un seul.
+
+        Le rôle gardé est celui de la liste avec le plus de membres.
+        Tous les membres de tous les rôles de la liste reçoivent le rôle gardé.
+        Tous les autres rôles sont supprimés.
+
+        Warning:
+            Cette fonction peut nécessiter beaucoup d'appels à l'API Discord
+            (un pour chaque membre qui n'a pas déjà le rôle conservé,
+            plus un pour chaque rôle supprimé,
+            plus un pour éditer les permissions du rôle gardé).
+            Utilisez-la avec parcimonie
+
+        Args:
+            roles: la liste des rôles à fusionner
+            merge_perms_strategy: la stratégie de fusion des permissions à utiliser
+
+        Returns:
+            Le rôle résultant de la fusion.
+        """
+        # keep the role which has the most members,
+        # in order to minimize the number of api calls when merging members
+        to_keep = max(roles, key=lambda r: len(r.members))
+        # set of members which must be assigned to the kept role
         members = {
             member for role in roles for member in role.members if to_keep not in member.roles
         }
@@ -91,3 +113,7 @@ class RoleService:
         await to_keep.edit(
             permissions=self.combined_perms(roles, merge_strategy=merge_perms_strategy)
         )
+        to_delete = [r for r in roles if r != to_keep]
+        for role in to_delete:
+            await role.delete(reason="Fusion de rôles dupliqués")
+        return to_keep

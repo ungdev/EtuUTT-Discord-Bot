@@ -33,7 +33,7 @@ class RoleCog(commands.GroupCog, name="role"):
         Args:
             interaction
             nb_min: Le nombre de personnes minimum ayant le rôle (par défaut : 0)
-            nb_max: Le nombre de personnes maximum ayant le rôle (par défaut : 9999)
+            nb_max: Le nombre de personnes maximum ayant le rôle (par défaut : 1)
         """
         await interaction.response.defer(thinking=True)
         if nb_min > nb_max:
@@ -87,7 +87,7 @@ class RoleCog(commands.GroupCog, name="role"):
 
     @app_commands.command(name="get_duplicates")
     async def get_duplicates(
-        self, interaction: Interaction[EtuUTTBot], case_sensitive: bool = True
+        self, interaction: Interaction[EtuUTTBot], case_sensitive: bool = False
     ):
         """Affiche tous les rôles qui sont dupliqués.
 
@@ -130,14 +130,16 @@ class RoleCog(commands.GroupCog, name="role"):
         """
         await interaction.response.defer(thinking=True)
         duplicates = self.role_service.get_duplicate(role, case_sensitive=case_sensitive)
-        if len(duplicates) < 2:
+        nb_duplicates = len(duplicates)
+        if nb_duplicates < 2:
             await interaction.followup.send(
                 "Ce rôle n'est pas dupliqué :thinking:\n"
                 "Utilisez la commande `get_duplicates` pour voir quels rôles sont dupliqués"
             )
+            return
         await self.role_service.merge(duplicates, merge_perms_strategy=merge_strategy)
-        await interaction.response.send(
-            f"Commande finie. {len(duplicates)} rôles fusionnés. :thumbs_up:"
+        await interaction.followup.send(
+            f"Commande finie. {nb_duplicates} rôles fusionnés. :thumbs_up:"
         )
 
     # define sub command group to manage channels
