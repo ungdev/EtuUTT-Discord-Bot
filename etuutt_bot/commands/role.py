@@ -104,8 +104,9 @@ class RoleCog(commands.GroupCog, name="role"):
             return
         message = f"{len(duplicates)} rôles dupliqués :\n"
         for duplicate in duplicates:
-            message += f"- {duplicate[0].name}. Nombre de membres avec ce rôle : "
+            message += f"- **{duplicate[0].name}**. Nombre de membres avec ce rôle : "
             message += ", ".join(str(len(role.members)) for role in duplicate)
+            message += "\n"
         await interaction.followup.send(message)
 
     @app_commands.command(name="merge")
