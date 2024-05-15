@@ -31,7 +31,7 @@ class RoleCog(commands.GroupCog, group_name="role"):
         """Affiche les rôles ayant plus de nb_min et moins de nb_max personnes dedans.
 
         Args:
-            interaction
+            interaction:
             nb_min: Le nombre de personnes minimum ayant le rôle (par défaut : 0)
             nb_max: Le nombre de personnes maximum ayant le rôle (par défaut : 1)
         """
@@ -124,6 +124,7 @@ class RoleCog(commands.GroupCog, group_name="role"):
             role: Le rôle qu'on veut fusionner avec tous ceux qui ont le même nom.
             case_sensitive: La casse est-elle prise en compte dans la recherche des duplications ?
             merge_strategy: La manière de fusionner les permissions associées aux rôles fusionnées.
+
                 - Si `Union`, toutes les permissions sont gardées.
                 - Si `Intersection`, seules les permissions communes à tous les rôles sont gardées.
                 - Si `Clear`, aucune permission n'est gardée.
