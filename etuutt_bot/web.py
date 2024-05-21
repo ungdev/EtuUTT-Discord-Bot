@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 
 async def start_server(bot: EtuUTTBot) -> web.AppRunner:
-    """Start the web server to authenticate users through the student website"""
+    """Start the web server to authenticate users through the student website."""
     # Set a logger for the webserver
     web_logger = logging.getLogger("web")
     # Don't want to spam logs with site access
@@ -52,7 +52,7 @@ async def start_server(bot: EtuUTTBot) -> web.AppRunner:
 
 
 async def error_handler(req: web.Request, orig_resp: web.Response) -> web.Response:
-    """Returns a response according to the HTTP status code"""
+    """Return a response according to the HTTP status code."""
     # Render error template
     template = await aiohttp_jinja2.render_template_async(
         "http_error.html.jinja",
@@ -70,7 +70,7 @@ async def error_handler(req: web.Request, orig_resp: web.Response) -> web.Respon
 
 @web.middleware
 async def error_middleware(req: web.Request, handler) -> web.Response:
-    """Middleware that handles HTTP Errors (400s and 500s)"""
+    """Middleware that handles HTTP Errors (400s and 500s)."""
     try:
         response: web.Response = await handler(req)
         # Check if status code is not in the 400s or 500s

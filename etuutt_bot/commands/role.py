@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 @app_commands.default_permissions(administrator=True)
 class RoleCog(commands.GroupCog, name="role"):
-    """Commandes liées à la gestion des rôles (et des salons associés)"""
+    """Commandes liées à la gestion des rôles (et des salons associés)."""
 
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
@@ -31,7 +31,7 @@ class RoleCog(commands.GroupCog, name="role"):
         """Affiche les rôles ayant plus de nb_min et moins de nb_max personnes dedans.
 
         Args:
-            interaction
+            interaction:
             nb_min: Le nombre de personnes minimum ayant le rôle (par défaut : 0)
             nb_max: Le nombre de personnes maximum ayant le rôle (par défaut : 1)
         """
@@ -153,7 +153,7 @@ class RoleCog(commands.GroupCog, name="role"):
     @channel.command(name="addall")
     @app_commands.describe(category="La catégorie dans laquelle créer les salons")
     async def add_ues(self, interaction: Interaction[EtuUTTBot], category: CategoryChannel):
-        """ "Crée les salons textuels pour toutes les UEs d'une catégorie dont le rôle existe.
+        """Crée les salons textuels pour toutes les UEs d'une catégorie dont le rôle existe.
 
         Args:
             interaction:

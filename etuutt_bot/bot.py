@@ -12,6 +12,8 @@ from etuutt_bot.web import start_server
 
 
 class EtuUTTBot(commands.Bot):
+    """EtuUTT Discord Bot, subclass of discord.ext.commands.Bot."""
+
     def __init__(self) -> None:
         self.settings = Settings()
         # Define the bot debug log level, defaults to INFO if undefined or invalid
@@ -50,13 +52,12 @@ class EtuUTTBot(commands.Bot):
         # Start the web server
         self.runner = await start_server(self)
 
-    # When the bot is ready
     async def on_ready(self) -> None:
         # Waits until internal cache is ready
         await self.wait_until_ready()
 
         # Get watched guild with additional information
-        self.watched_guild = self.get_guild(self.settings.guild.id)
+        self.watched_guild: Guild = self.get_guild(self.settings.guild.id)
 
         # Log in the console and the admin channel that the bot is ready
         self.logger.info(f"{self.user} is now online and ready!")
