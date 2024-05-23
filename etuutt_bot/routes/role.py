@@ -56,13 +56,13 @@ async def handler(req: web.Request) -> web.Response:
             return web.Response(status=response.status)
         try:
             resp = (await response.json()).get("data")
-            api_student = ApiUserSchema.model_validate(resp)
+            api_user = ApiUserSchema.model_validate(resp)
         except ValidationError:
             return web.HTTPBadRequest()
 
     if member := bot.watched_guild.get_member_named(post.get("discord-username")):
         user_service = UserService(bot)
-        await user_service.sync(member, api_student)
+        await user_service.sync(member, api_user)
         return web.Response(text="Roles assigned!")
         # TODO: make better response
     return await aiohttp_jinja2.render_template_async(
