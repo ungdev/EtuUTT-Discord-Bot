@@ -5,17 +5,19 @@
 .idea/
 .vscode/
 
-# Python's venv
+# Python venv
+.venv/
 venv/
 
-# Python's cache
+# Python and Ruff cache
 __pycache__/
+.ruff_cache/
 
 # Logs folder
 logs/
 
 # Compiled documentation
-site/
+/site/
 
 # Data files
 /data/*
