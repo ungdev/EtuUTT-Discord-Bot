@@ -1,6 +1,6 @@
 # Ignore all files then exclude files we need in the Docker image
 *
-!etuutt_bot/
-!public/
-!templates/
-!requirements.txt
+!/etuutt_bot/**/*.py
+!/public/
+!/templates/
+!/requirements.txt
