@@ -7,6 +7,7 @@ import discord
 from etuutt_bot.commands.admin import AdminCog
 from etuutt_bot.commands.misc import MiscCog
 from etuutt_bot.commands.role import RoleCog
+from etuutt_bot.commands.sync import SyncCog
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -17,7 +18,7 @@ SPACES = " " * 38
 # List of commands to add to the command tree
 async def commands_list(bot: EtuUTTBot):
     # List the commands and commands groups
-    cogs: tuple = (AdminCog(bot), MiscCog(bot))
+    cogs: tuple = (AdminCog(bot), MiscCog(bot), SyncCog(bot))
     # Add the cogs to the bot
     for cog in cogs:
         await bot.add_cog(cog)

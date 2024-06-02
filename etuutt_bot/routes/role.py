@@ -16,8 +16,8 @@ class ApiUserSchema(BaseModel):
     first_name: str = Field(alias="firstName")
     last_name: str = Field(alias="lastName")
     formation: str | None
-    branches: list[str] = Field(alias="branch_list")
-    branch_levels: list[str] = Field(alias="branch_level_list")
+    branches: list[str] | None = Field(alias="branch_list")
+    branch_levels: list[str] | None = Field(alias="branch_level_list")
     ues: list[str] = Field(alias="uvs")
 
     @property
