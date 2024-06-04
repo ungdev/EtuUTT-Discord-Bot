@@ -70,7 +70,7 @@ class SyncService:
                 return
 
         user_service = UserService(self._bot)
-        api_url = str(api_settings.url).replace("/api", "")
+        api_url = str(api_settings.url).removesuffix("/api")
         next_page = "/api/public/users"
         params = {"access_token": token, "wantsJoinUTTDiscord": "true"}
         while next_page:
