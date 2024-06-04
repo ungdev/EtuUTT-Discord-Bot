@@ -5,6 +5,10 @@ def split_msg(msg: str):
     La séparation se fait au premier saut à la ligne situé avant le 2000ème caractère.
     Si aucun saut de ligne n'est trouvé, la séparation se fait au premier espace trouvé.
 
+    Yields:
+        Les bouts de texte ayant la taille nécessaire pour être envoyés
+        dans des messages Discord.
+
     Examples:
         ```python
         # le message contient trois lignes.
