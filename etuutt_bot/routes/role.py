@@ -2,31 +2,13 @@ from typing import TYPE_CHECKING
 
 import aiohttp_jinja2
 from aiohttp import web
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import ValidationError
 
 from etuutt_bot.services.user import UserService
-from etuutt_bot.types import MemberType
+from etuutt_bot.types import ApiUserSchema
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
-
-
-class ApiUserSchema(BaseModel):
-    is_student: bool = Field(alias="isStudent")
-    first_name: str = Field(alias="firstName")
-    last_name: str = Field(alias="lastName")
-    formation: str | None
-    branches: list[str] | None = Field(alias="branch_list")
-    branch_levels: list[str] | None = Field(alias="branch_level_list")
-    ues: list[str] = Field(alias="uvs")
-
-    @property
-    def member_type(self):
-        if not self.is_student:
-            return MemberType.Teacher
-        if not self.formation:
-            return MemberType.FormerStudent
-        return MemberType.Student
 
 
 async def handler(req: web.Request) -> web.Response:

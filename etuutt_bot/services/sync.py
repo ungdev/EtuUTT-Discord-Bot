@@ -6,17 +6,13 @@ from zoneinfo import ZoneInfoNotFoundError
 
 import aiohttp
 from discord.ext import tasks
-from pydantic import Field, ValidationError
+from pydantic import ValidationError
 
-from etuutt_bot.routes.role import ApiUserSchema
 from etuutt_bot.services.user import UserService
+from etuutt_bot.types import ApiUserSchema
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
-
-
-class ApiUserSchemaDiscord(ApiUserSchema):
-    discord_tag: str = Field(alias="discordTag")
 
 
 class SyncService:
@@ -82,7 +78,7 @@ class SyncService:
                 resp = await response.json()
             for user in resp.get("data"):
                 try:
-                    api_user = ApiUserSchemaDiscord.model_validate(user)
+                    api_user = ApiUserSchema.model_validate(user)
                     if member := self._bot.watched_guild.get_member_named(api_user.discord_tag):
                         await user_service.sync(member, api_user)
                 except ValidationError:
