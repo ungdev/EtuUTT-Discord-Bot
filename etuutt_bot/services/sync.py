@@ -54,14 +54,16 @@ class SyncService:
         ) as response:
             if response.status != 200:
                 self._bot.logger.error(
-                    "Failed to get access to API, could not perform automatic synchronisation"
+                    "Failed to get access to API, could not perform automatic synchronisation. "
+                    f"{response.status} ; {await response.read()}."
                 )
                 return
             try:
                 token = (await response.json()).get("access_token")
             except KeyError:
                 self._bot.logger.error(
-                    "Failed to get access to API, could not perform automatic synchronisation"
+                    "Failed to get access to API, could not perform automatic synchronisation. "
+                    "No token returned."
                 )
                 return
 
@@ -73,7 +75,8 @@ class SyncService:
             async with self._bot.session.get(f"{api_url}{next_page}", params=params) as response:
                 if response.status != 200:
                     self._bot.logger.error(
-                        "Incorrect data, automatic synchronisation stopped midway"
+                        "Incorrect data, automatic synchronisation stopped midway. "
+                        f"{response.status} ; {await response.read()}."
                     )
                 resp = await response.json()
             for user in resp.get("data"):
