@@ -2,31 +2,13 @@ from typing import TYPE_CHECKING
 
 import aiohttp_jinja2
 from aiohttp import web
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import ValidationError
 
 from etuutt_bot.services.user import UserService
-from etuutt_bot.types import MemberType
+from etuutt_bot.types import ApiUserSchema
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
-
-
-class ApiUserSchema(BaseModel):
-    is_student: bool = Field(alias="isStudent")
-    first_name: str = Field(alias="firstName")
-    last_name: str = Field(alias="lastName")
-    formation: str | None
-    branches: list[str] = Field(alias="branch_list")
-    branch_levels: list[str] = Field(alias="branch_level_list")
-    ues: list[str] = Field(alias="uvs")
-
-    @property
-    def member_type(self):
-        if not self.is_student:
-            return MemberType.Teacher
-        if not self.formation:
-            return MemberType.FormerStudent
-        return MemberType.Student
 
 
 async def handler(req: web.Request) -> web.Response:
@@ -56,13 +38,13 @@ async def handler(req: web.Request) -> web.Response:
             return web.Response(status=response.status)
         try:
             resp = (await response.json()).get("data")
-            api_student = ApiUserSchema.model_validate(resp)
+            api_user = ApiUserSchema.model_validate(resp)
         except ValidationError:
             return web.HTTPBadRequest()
 
     if member := bot.watched_guild.get_member_named(post.get("discord-username")):
         user_service = UserService(bot)
-        await user_service.sync(member, api_student)
+        await user_service.sync(member, api_user)
         return web.Response(text="Roles assigned!")
         # TODO: make better response
     return await aiohttp_jinja2.render_template_async(
