@@ -14,6 +14,8 @@ if TYPE_CHECKING:
 
 @app_commands.default_permissions(administrator=True)
 class UeCog(commands.GroupCog, group_name="ues"):
+    """Commandes liées à la gestion des UEs"""
+
     def __init__(self, bot: EtuUTTBot):
         self.bot = bot
         self.ue_service = UeService(bot)
@@ -33,7 +35,7 @@ class UeCog(commands.GroupCog, group_name="ues"):
         )
         if settings_cat is None:
             await interaction.followup.send(
-                f"La catégorie {category.name} n'est pas destiné à accueillir des salons d'UE"
+                f"La catégorie {category.name} n'est pas destinée à accueillir des salons d'UE"
             )
             return
         ues_names = {ue.lower() for ue in settings_cat.ues}
@@ -48,9 +50,9 @@ class UeCog(commands.GroupCog, group_name="ues"):
         if len(to_create) > 0:
             msg += "\n## Salons textuels créés :\n"
             for channel_name in to_create:
-                channel = await self.ue_service.create_channel(channel_name)
+                channel, role = await self.ue_service.create_channel(channel_name)
                 await channel.send(
-                    f"{channel.mention} votre salon vient d'être créé :waving_hand:"
+                    f"{role.mention} votre salon vient d'être créé \N{WAVING HAND SIGN}"
                 )
                 msg += f"\n- {channel.name}"
 
@@ -77,12 +79,11 @@ class UeCog(commands.GroupCog, group_name="ues"):
             await interaction.followup.send(
                 "Cette UE n'a pas été trouvée dans la configuration du bot.\n"
                 "Vous avez peut-être fait une faute de frappe, "
-                "ou bien la configuration du bot n'est pas à jour avec le catalogue des UEs, "
-                "ou bien le développeur de cette commande est juste con comme un balai."
+                "ou bien la configuration du bot n'est pas à jour avec le catalogue des UEs."
             )
             return
-        await channel.send(f"{channel.mention} votre salon vient d'être créé :waving_hand:")
-        await interaction.followup.send("Salon créé :thumbs_up:")
+        await channel.send(f"{channel.mention} votre salon vient d'être créé \N{WAVING HAND SIGN}")
+        await interaction.followup.send("Salon créé \N{THUMBS UP SIGN}")
 
     @app_commands.checks.bot_has_permissions(manage_channels=True, manage_roles=True)
     @app_commands.command(name="remove_all")

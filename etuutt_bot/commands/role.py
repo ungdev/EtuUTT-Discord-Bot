@@ -100,7 +100,7 @@ class RoleCog(commands.GroupCog, group_name="role"):
         await interaction.response.defer(thinking=True)
         duplicates = self.role_service.get_duplicates(case_sensitive=case_sensitive)
         if not duplicates:
-            await interaction.followup.send("Aucun rôle dupliqué :thumbs_up:")
+            await interaction.followup.send("Aucun rôle dupliqué \N{THUMBS UP SIGN}")
             return
         message = f"{len(duplicates)} rôles dupliqués :\n"
         message += "\n".join(
@@ -134,11 +134,11 @@ class RoleCog(commands.GroupCog, group_name="role"):
         nb_duplicates = len(duplicates)
         if nb_duplicates < 2:
             await interaction.followup.send(
-                "Ce rôle n'est pas dupliqué :thinking:\n"
+                "Ce rôle n'est pas dupliqué \N{THINKING FACE}\n"
                 "Utilisez la commande `get_duplicates` pour voir quels rôles sont dupliqués"
             )
             return
         await self.role_service.merge(duplicates, merge_perms_strategy=merge_strategy)
         await interaction.followup.send(
-            f"Commande finie. {nb_duplicates} rôles fusionnés. :thumbs_up:"
+            f"Commande finie. {nb_duplicates} rôles fusionnés. \N{THUMBS UP SIGN}"
         )

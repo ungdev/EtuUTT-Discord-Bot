@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from discord import CategoryChannel, PermissionOverwrite, TextChannel
+from discord import CategoryChannel, PermissionOverwrite, Role, TextChannel
 
 from etuutt_bot.types import LowerStr
 
@@ -67,7 +67,7 @@ class UeService:
             Le nombre de salons qui ont été supprimés
         """
         ues_names = next(
-            (cat.ues for cat in self._bot.settings.categories if cat.name == category.name),
+            (cat.ues for cat in self._bot.settings.categories if cat.id == category.id),
             None,
         )
         if not ues_names:
@@ -112,7 +112,7 @@ class UeService:
             name, overwrites=overwrites, reason="Création d'une catégorie pour salons d'UEs"
         )
 
-    async def create_channel(self, name: str) -> TextChannel:
+    async def create_channel(self, name: str) -> (TextChannel, Role):
         """Crée un salon d'UE.
 
         Si ceux-ci n'existent pas encore, crée également :
@@ -150,8 +150,19 @@ class UeService:
                 name=name, reason=f"Création d'un rôle pour l'UE {name}"
             )
 
-        overwrites = {role: PermissionOverwrite(read_messages=True)}
-        return await category.create_text_channel(name.lower(), overwrites=overwrites)
+        moderator_role = guild.get_role(self._bot.settings.guild.special_roles.moderator)
+        elected = guild.get_role(category_settings.elected_role)
+        overwrites = {
+            guild.default_role: PermissionOverwrite(read_messages=False),
+            role: PermissionOverwrite(read_messages=True),
+            moderator_role: PermissionOverwrite(read_messages=True),
+        }
+        if elected:
+            overwrites[elected] = PermissionOverwrite(read_messages=True)
+
+        return await category.create_text_channel(
+            name.lower(), overwrites=overwrites, reason=f"Création d'un salon pour l'UE {name}"
+        ), role
 
     def get_missing_channels(self) -> set[LowerStr]:
         """Renvoie le nom de tous les salons d'UEs manquant sur le serveur."""
@@ -161,7 +172,7 @@ class UeService:
             for ue in category.ues
         }
         existing = {
-            LowerStr(channel.name)  # les noms des salons discord sont en minuscule par défaut
+            LowerStr(channel.name)  # les noms des salons Discord sont en minuscule par défaut
             for channel in self._bot.watched_guild.text_channels
         }
         return ues - existing
