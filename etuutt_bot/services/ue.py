@@ -106,8 +106,9 @@ class UeService:
         overwrites = {
             guild.default_role: PermissionOverwrite(read_messages=False),
             moderator_role: PermissionOverwrite(read_messages=True),
-            elected_role: PermissionOverwrite(read_message=True),
         }
+        if elected_role:
+            overwrites[elected_role] = PermissionOverwrite(read_message=True)
         return await guild.create_category(
             name, overwrites=overwrites, reason="Création d'une catégorie pour salons d'UEs"
         )

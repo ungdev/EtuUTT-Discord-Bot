@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 @app_commands.default_permissions(administrator=True)
 class UeCog(commands.GroupCog, group_name="ues"):
-    """Commandes liées à la gestion des UEs"""
+    """Commandes liées à la gestion des UEs."""
 
     def __init__(self, bot: EtuUTTBot):
         self.bot = bot
