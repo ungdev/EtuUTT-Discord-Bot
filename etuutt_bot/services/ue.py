@@ -164,13 +164,21 @@ class UeService:
             name.lower(), overwrites=overwrites, reason=f"Création d'un salon pour l'UE {name}"
         ), role
 
-    def get_missing_channels(self) -> set[LowerStr]:
+    def get_missing_channels(self, category: CategoryChannel = None) -> set[LowerStr]:
         """Renvoie le nom de tous les salons d'UEs manquant sur le serveur."""
-        ues = {
-            LowerStr(ue.lower())
-            for category in self._bot.settings.categories
-            for ue in category.ues
-        }
+        if category:
+            ues = {
+                LowerStr(ue.lower())
+                for ue in next(
+                    (cat for cat in self._bot.settings.categories if cat.id == category.id), None
+                ).ues
+            }
+            existing = {
+                LowerStr(channel.name)  # les noms des salons Discord sont en minuscule par défaut
+                for channel in category.text_channels
+            }
+            return ues - existing
+        ues = {LowerStr(ue.lower()) for cat in self._bot.settings.categories for ue in cat.ues}
         existing = {
             LowerStr(channel.name)  # les noms des salons Discord sont en minuscule par défaut
             for channel in self._bot.watched_guild.text_channels

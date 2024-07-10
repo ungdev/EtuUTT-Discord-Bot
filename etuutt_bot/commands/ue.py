@@ -42,7 +42,7 @@ class UeCog(commands.GroupCog, group_name="ues"):
         msg = ""
 
         # Ensure that channels don't exist yet in order not to overwrite them
-        to_create = self.ue_service.get_missing_channels()
+        to_create = self.ue_service.get_missing_channels(category)
         if len(to_create) < len(settings_cat.ues):
             msg += "\n## \N{SLEEPING SYMBOL} Les salons suivants existent déjà :\n"
             msg += "\n".join(f"- {c}" for c in ues_names - to_create)

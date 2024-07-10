@@ -10,13 +10,15 @@ if TYPE_CHECKING:
 
 
 class AdminCog(commands.Cog):
+    """Commandes pour les administrateurs du bot."""
+
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
 
-    # Add command to sync slash commands for team members and owner of the bot
     @commands.is_owner()
     @commands.command(name="sync")
     async def sync_tree(self, ctx: commands.Context[EtuUTTBot]):
+        """Synchronise les commandes slash."""
         try:
             await self.bot.tree.sync()
             for guild in self.bot.guilds:
@@ -27,7 +29,6 @@ class AdminCog(commands.Cog):
             await ctx.reply(
                 f"Il y a eu une erreur lors de la synchronisation des commandes slash\n{e}"
             )
-        return
 
     @commands.Cog.listener()
     async def on_command_error(
