@@ -134,7 +134,7 @@ class UeService:
         guild = self._bot.watched_guild
         settings = self._bot.settings
         name = name.upper()
-        if any(c.name == name for c in guild.text_channels):
+        if any(c.name == name.lower() for c in guild.text_channels):
             raise AlreadyExistsError
 
         category_settings = next((c for c in settings.categories if name in c.ues), None)

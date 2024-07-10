@@ -71,7 +71,7 @@ class UeCog(commands.GroupCog, group_name="ues"):
         """
         await interaction.response.defer(thinking=True)
         try:
-            channel = await self.ue_service.create_channel(ue)
+            channel, role = await self.ue_service.create_channel(ue)
         except AlreadyExistsError:
             await interaction.followup.send("Ce salon existe déjà.")
             return
@@ -82,7 +82,7 @@ class UeCog(commands.GroupCog, group_name="ues"):
                 "ou bien la configuration du bot n'est pas à jour avec le catalogue des UEs."
             )
             return
-        await channel.send(f"{channel.mention} votre salon vient d'être créé \N{WAVING HAND SIGN}")
+        await channel.send(f"{role.mention} votre salon vient d'être créé \N{WAVING HAND SIGN}")
         await interaction.followup.send("Salon créé \N{THUMBS UP SIGN}")
 
     @app_commands.checks.bot_has_permissions(manage_channels=True, manage_roles=True)
