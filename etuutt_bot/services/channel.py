@@ -1,29 +1,31 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeAlias
 
-from discord import CategoryChannel, PermissionOverwrite, Role, TextChannel
+from discord import (
+    CategoryChannel,
+    ForumChannel,
+    StageChannel,
+    TextChannel,
+    VoiceChannel,
+)
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
+
+
+AnyChannel: TypeAlias = VoiceChannel | StageChannel | ForumChannel | TextChannel | CategoryChannel
 
 
 class ChannelService:
     def __init__(self, bot: EtuUTTBot):
         self._bot = bot
 
-    async def create_ue_channel(
-        self, category: CategoryChannel, role: Role, elected: Role | None = None
-    ) -> TextChannel:
-        guild = category.guild
-        moderator_role = guild.get_role(self._bot.settings.guild.special_roles.moderator)
-        overwrites = {
-            guild.default_role: PermissionOverwrite(read_messages=False),
-            role: PermissionOverwrite(read_messages=True),
-            moderator_role: PermissionOverwrite(read_messages=True),
-        }
-        if elected:
-            overwrites[elected] = PermissionOverwrite(read_messages=True)
-        new_channel = await category.create_text_channel(role.name.lower(), overwrites=overwrites)
-        await new_channel.send(f"Bonjour {role.mention}, votre salon textuel vient d'être créé !")
-        return new_channel
+    def find_by_name(
+        self, name: str, *, channel_type: type[AnyChannel] | None = None
+    ) -> AnyChannel:
+        name = name.lower()
+        channels = self._bot.watched_guild.channels
+        if channel_type:
+            channels = (c for c in channels if isinstance(c, channel_type))
+        return next((c for c in channels if c.name == name), None)

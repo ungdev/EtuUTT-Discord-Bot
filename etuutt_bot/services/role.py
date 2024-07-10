@@ -16,7 +16,7 @@ class MergeStrategy(Enum):
     """Stratégie pour la fusion de plusieurs objets."""
 
     Intersection = 1
-    """On garde l'intersection. ex: `[a, b, c] & [b, c, d] => [b, c,]`."""
+    """On garde l'intersection. ex: `[a, b, c] & [b, c, d] => [b, c]`."""
     Union = 2
     """On garde l'union. ex: `[a, b, c] | [b, c, d] => [a, b, c, d]`."""
     Clear = 3
