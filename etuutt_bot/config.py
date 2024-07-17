@@ -42,7 +42,6 @@ class BotSettings(BaseModel):
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "CRITICAL"] = "INFO"
     status: str = "online"
     activity: BotActivitySettings
-    tz: str = "localtime"
 
 
 class SpecialRolesConfig(BaseModel):
@@ -68,10 +67,9 @@ class CategoryConfig(BaseModel):
     ues: list[str]
 
 
-class ApiConfig(BaseModel):
-    url: HttpUrl = "https://etu.utt.fr/api"
-    client_id: int
-    client_secret: SecretStr
+class AuthConfig(BaseModel):
+    url: HttpUrl = "https://cas.utt.fr/cas"
+    redirect_url: str
 
 
 class Settings(BaseSettings):
@@ -84,8 +82,9 @@ class Settings(BaseSettings):
     bot: BotSettings
     guild: GuildConfig
     categories: list[CategoryConfig]
-    etu_api: ApiConfig
+    auth_api: AuthConfig
     server_url: HttpUrl = "http://127.0.0.1:3000"
+    tz: str = "localtime"
 
     @classmethod
     def settings_customise_sources(

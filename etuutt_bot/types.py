@@ -13,6 +13,12 @@ class MemberType(Enum):
     Teacher = 3
 
 
+class CasUserSchema(BaseModel):
+    username: str = Field(alias="uid")
+    first_name: str = Field(alias="givenName")
+    last_name: str = Field(alias="sn")
+
+
 class ApiUserSchema(BaseModel):
     is_student: bool = Field(alias="isStudent")
     first_name: str = Field(alias="firstName")

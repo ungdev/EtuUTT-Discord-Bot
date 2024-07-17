@@ -24,7 +24,7 @@ class SyncService:
         try:
             from zoneinfo import ZoneInfo
 
-            self._timezone = ZoneInfo(bot.settings.bot.tz)
+            self._timezone = ZoneInfo(bot.settings.tz)
         # On utilise la timezone UTC en cas de problème
         except ZoneInfoNotFoundError:
             from datetime import timezone
@@ -44,7 +44,7 @@ class SyncService:
         self.is_running = daily_etu_sync.is_running
 
     async def _full_sync(self):
-        api_settings = self._bot.settings.etu_api
+        api_settings = self._bot.settings.auth_api
         auth = aiohttp.BasicAuth(
             str(api_settings.client_id), api_settings.client_secret.get_secret_value()
         )

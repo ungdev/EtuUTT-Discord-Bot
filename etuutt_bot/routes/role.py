@@ -1,11 +1,11 @@
+import ast
 from typing import TYPE_CHECKING
 
 import aiohttp_jinja2
 from aiohttp import web
-from pydantic import ValidationError
 
 from etuutt_bot.services.user import UserService
-from etuutt_bot.types import ApiUserSchema
+from etuutt_bot.types import CasUserSchema
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -17,7 +17,7 @@ async def handler(req: web.Request) -> web.Response:
     post = await req.post()
     bot: EtuUTTBot = req.app["bot"]
 
-    if not "etu-token" and "discord-username" in post:
+    if not "etu-info" and "discord-username" in post:
         return web.HTTPBadRequest()
 
     if post.get("check-GDPR") != "on":
@@ -30,21 +30,11 @@ async def handler(req: web.Request) -> web.Response:
             },
         )
 
-    params = {"access_token": post.get("etu-token")}
-    async with bot.session.get(
-        f"{bot.settings.etu_api.url}/public/user/account", params=params
-    ) as response:
-        if response.status != 200:
-            return web.Response(status=response.status)
-        try:
-            resp = (await response.json()).get("data")
-            api_user = ApiUserSchema.model_validate(resp)
-        except ValidationError:
-            return web.HTTPBadRequest()
+    etu_info = CasUserSchema.model_validate(ast.literal_eval(post.get("etu-info")))
 
     if member := bot.watched_guild.get_member_named(post.get("discord-username")):
         user_service = UserService(bot)
-        await user_service.sync(member, api_user)
+        await user_service.sync(member, etu_info)
         return web.Response(text="Roles assigned!")
         # TODO: make better response
     return await aiohttp_jinja2.render_template_async(
