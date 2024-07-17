@@ -4,7 +4,6 @@ import aiohttp_jinja2
 from aiohttp import web
 
 from etuutt_bot.config import AuthConfig, GuildConfig
-from etuutt_bot.types import CasUserSchema
 
 
 async def handler(req: web.Request) -> web.Response:
@@ -27,7 +26,6 @@ async def handler(req: web.Request) -> web.Response:
                 info.update(
                     {attribute.tag.removeprefix("{http://www.yale.edu/tp/cas}"): attribute.text}
                 )
-            etu_info = CasUserSchema.model_validate(info).model_dump(by_alias=True)
         except IndexError:
             return web.HTTPUnauthorized()  # HTTP 401
         except ET.ParseError:
@@ -37,7 +35,7 @@ async def handler(req: web.Request) -> web.Response:
         "form.html.jinja",
         req,
         {
-            "info": etu_info,
+            "info": info,
             "discord_link": guild_settings.invite_link,
             "admin": guild_settings.special_roles.admin,
         },
