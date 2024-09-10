@@ -18,6 +18,10 @@ class AlreadyExistsError(Exception):
     """On a tenté de créer un élément qui existe déjà."""
 
 
+class CategoryMissingError(Exception):
+    """La catégorie entrée n'existe pas."""
+
+
 class UeService:
     """Service de gestion des UEs, avec leurs rôles, salons et catégories.
 
@@ -77,48 +81,10 @@ class UeService:
             await self.delete_channel(channel, delete_role=delete_roles)
         return len(channels)
 
-    async def create_category(self, name: str) -> CategoryChannel:
-        """Crée une catégorie destinée à contenir des salons d'UEs.
-
-        Args:
-            name: le nom de la catégorie à créer.
-
-        Returns:
-            La catégorie créée.
-
-        Raises:
-            AlreadyExistsError:
-                Une catégorie avec le nom donné existe déjà.
-
-            MissingConfigurationError:
-                Le nom donné ne correspond à rien dans la configuration.
-        """
-        guild = self._bot.watched_guild
-        settings = self._bot.settings
-        name = name.upper()
-        if any(c.name == name for c in guild.categories):
-            raise AlreadyExistsError
-        category_settings = next((c for c in settings.categories if c.name == name), None)
-        if category_settings is None:
-            raise MissingConfigurationError
-        elected_role = guild.get_role(category_settings.elected_role)
-        moderator_role = guild.get_role(settings.guild.special_roles.moderator)
-        overwrites = {
-            guild.default_role: PermissionOverwrite(read_messages=False),
-            moderator_role: PermissionOverwrite(read_messages=True),
-        }
-        if elected_role:
-            overwrites[elected_role] = PermissionOverwrite(read_message=True)
-        return await guild.create_category(
-            name, overwrites=overwrites, reason="Création d'une catégorie pour salons d'UEs"
-        )
-
     async def create_channel(self, name: str) -> (TextChannel, Role):
         """Crée un salon d'UE.
 
-        Si ceux-ci n'existent pas encore, crée également :
-        - la catégorie à laquelle appartient l'UE
-        - le rôle correspondant à l'UE
+        Si le rôle correspondant à l'UE n'existe pas encore, le crée également.
 
         Args:
             name: le nom du salon à créer.
@@ -143,7 +109,7 @@ class UeService:
             raise MissingConfigurationError
         category = next((c for c in guild.categories if c.id == category_settings.id), None)
         if category is None:
-            category = await self.create_category(category_settings.name)
+            raise CategoryMissingError
 
         role = next((r for r in guild.roles if r.name == name), None)
         if role is None:

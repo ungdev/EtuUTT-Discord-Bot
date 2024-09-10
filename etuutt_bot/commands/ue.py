@@ -5,7 +5,12 @@ from typing import TYPE_CHECKING
 from discord import CategoryChannel, Interaction, TextChannel, app_commands
 from discord.ext import commands
 
-from etuutt_bot.services.ue import AlreadyExistsError, MissingConfigurationError, UeService
+from etuutt_bot.services.ue import (
+    AlreadyExistsError,
+    CategoryMissingError,
+    MissingConfigurationError,
+    UeService,
+)
 from etuutt_bot.utils.message import split_msg
 
 if TYPE_CHECKING:
@@ -80,6 +85,12 @@ class UeCog(commands.GroupCog, group_name="ues"):
                 "Cette UE n'a pas été trouvée dans la configuration du bot.\n"
                 "Vous avez peut-être fait une faute de frappe, "
                 "ou bien la configuration du bot n'est pas à jour avec le catalogue des UEs."
+            )
+            return
+        except CategoryMissingError:
+            await interaction.followup.send(
+                "La catégorie pour cette UE n'existe pas "
+                "ou l'ID est incorrect dans la configuration."
             )
             return
         await channel.send(f"{role.mention} votre salon vient d'être créé \N{WAVING HAND SIGN}")
