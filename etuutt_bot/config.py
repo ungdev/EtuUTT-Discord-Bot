@@ -49,6 +49,7 @@ class BotSettings(BaseModel):
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "CRITICAL"] = "INFO"
     status: str = "online"
     activity: BotActivitySettings
+    tz: str = "localtime"
 
 
 class SpecialRolesConfig(BaseModel):
@@ -64,6 +65,7 @@ class GuildConfig(BaseModel):
     channel_admin_id: ChannelId
     special_roles: SpecialRolesConfig
     invite_link: Annotated[HttpUrl, UrlConstraints(default_host="discord.gg")]
+    etu_sync: bool
 
 
 class CategoryConfig(BaseModel):

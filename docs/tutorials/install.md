@@ -193,10 +193,14 @@ git checkout main
 ```
 
 Puis installez les dépendances (de préférence dans un
-[venv](https://docs.python.org/3/library/venv.html)) :
+[venv](https://docs.python.org/3/library/venv.html)).
+Vous pouvez choisir d'installer les dépendances
+pour compiler la documentation ou non.
 
 ```
 pip install -U -r requirements-dev.txt
+# ou
+pip install -U -r requirements-docs.txt
 ```
 
 ## Configuration du projet

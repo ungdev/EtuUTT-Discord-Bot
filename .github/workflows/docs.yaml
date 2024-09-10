@@ -3,9 +3,10 @@ on:
     push:
         branches:
             - main
-        paths:
-            - docs/**
-            - requirements-docs.txt
+        paths-ignore:
+            - .pre-commit-config.yaml
+            - requirements.txt
+            - requirements-dev.txt
     workflow_dispatch:
 
 permissions:
@@ -29,7 +30,7 @@ jobs:
                     python -m venv .venv
                     source .venv/bin/activate
                     python -m pip install --upgrade pip
-                    python -m pip install -r requirements-dev.txt
+                    python -m pip install -r requirements-docs.txt
                     echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
                     echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
             -   run: mkdocs gh-deploy --force
