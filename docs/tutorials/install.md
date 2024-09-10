@@ -362,4 +362,4 @@ Rendez-vous dans le salon que vous avez configuré comme étant celui
 dédié à l'administration du serveur.
 Le bot devrait y avoir posté un message pour signaler sa mise en ligne.
 
-Si ça ne marche pas, vous pouvez trouver les logs dans le fichier `logs/log`.
+Si ça ne marche pas, vous pouvez trouver les logs dans le fichier `data/logs/log`.

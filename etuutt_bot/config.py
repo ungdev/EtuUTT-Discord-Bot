@@ -1,7 +1,14 @@
 from enum import Enum
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, HttpUrl, SecretStr, UrlConstraints, field_validator
+from pydantic import (
+    BaseModel,
+    HttpUrl,
+    SecretStr,
+    StringConstraints,
+    UrlConstraints,
+    field_validator,
+)
 from pydantic_settings import (
     BaseSettings,
     PydanticBaseSettingsSource,
@@ -62,10 +69,10 @@ class GuildConfig(BaseModel):
 
 
 class CategoryConfig(BaseModel):
-    name: str
+    name: Annotated[str, StringConstraints(to_upper=True)]  # type: ignore
     id: ChannelId
     elected_role: RoleId
-    ues: list[str]
+    ues: list[Annotated[str, StringConstraints(to_upper=True)]]  # type: ignore
 
 
 class ApiConfig(BaseModel):
