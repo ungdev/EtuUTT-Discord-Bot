@@ -65,6 +65,7 @@ class GuildConfig(BaseModel):
     special_roles: SpecialRolesConfig
     invite_link: Annotated[HttpUrl, UrlConstraints(default_host="discord.gg")]
     etu_sync: bool
+    anonymous_channels: list[ChannelId]
 
 
 class CategoryConfig(BaseModel):

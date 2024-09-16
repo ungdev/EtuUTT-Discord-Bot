@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 import discord
 
 from etuutt_bot.commands.admin import AdminCog
+from etuutt_bot.commands.anon_msg import AnonMsgCog
 from etuutt_bot.commands.misc import MiscCog
 from etuutt_bot.commands.role import RoleCog
 from etuutt_bot.commands.sync import SyncCog
@@ -23,7 +24,7 @@ async def commands_list(bot: EtuUTTBot):
         await bot.add_cog(cog)
 
     # Les cogs contenant les commandes réservées à la guilde gérée
-    guild_cogs: tuple = (RoleCog(bot), SyncCog(bot))
+    guild_cogs: tuple = (AnonMsgCog(bot), RoleCog(bot), SyncCog(bot))
     for cog in guild_cogs:
         await bot.add_cog(cog, guild=bot.watched_guild)
 
