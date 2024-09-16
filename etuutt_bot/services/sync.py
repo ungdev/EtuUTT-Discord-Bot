@@ -24,7 +24,7 @@ class SyncService:
         try:
             from zoneinfo import ZoneInfo
 
-            self._timezone = ZoneInfo(bot.settings.bot.tz)
+            self._timezone = ZoneInfo(bot.settings.tz)
         # On utilise la timezone UTC en cas de problème
         except ZoneInfoNotFoundError:
             from datetime import timezone

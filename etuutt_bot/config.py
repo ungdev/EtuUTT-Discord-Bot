@@ -49,7 +49,6 @@ class BotSettings(BaseModel):
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "CRITICAL"] = "INFO"
     status: str = "online"
     activity: BotActivitySettings
-    tz: str = "localtime"
 
 
 class SpecialRolesConfig(BaseModel):
@@ -66,6 +65,7 @@ class GuildConfig(BaseModel):
     special_roles: SpecialRolesConfig
     invite_link: Annotated[HttpUrl, UrlConstraints(default_host="discord.gg")]
     etu_sync: bool
+    anonymous_channels: list[ChannelId]
 
 
 class CategoryConfig(BaseModel):
@@ -93,6 +93,7 @@ class Settings(BaseSettings):
     categories: list[CategoryConfig]
     etu_api: ApiConfig
     server_url: HttpUrl = "http://127.0.0.1:3000"
+    tz: str = "localtime"
 
     @classmethod
     def settings_customise_sources(
