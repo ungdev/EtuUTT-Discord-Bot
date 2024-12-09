@@ -4,5 +4,5 @@ discord.py[speed] ~= 2.4.0
 Jinja2 ~= 3.1.4
 pydantic ~= 2.9.2
 pydantic-settings ~= 2.5.2
-sentry-sdk[aiohttp] ~= 2.14.0
+sentry-sdk[aiohttp] ~= 2.19.2
 tomlkit ~= 0.13.2
