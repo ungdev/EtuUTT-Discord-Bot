@@ -1,4 +1,4 @@
-aiohttp ~= 3.10.8
+aiohttp ~= 3.11.10
 aiohttp-jinja2 ~= 1.6.0
 discord.py[speed] ~= 2.4.0
 Jinja2 ~= 3.1.4
