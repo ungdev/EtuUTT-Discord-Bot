@@ -5,8 +5,10 @@ from typing import TYPE_CHECKING
 import discord
 
 from etuutt_bot.commands.admin import AdminCog
+from etuutt_bot.commands.anon_msg import AnonMsgCog
 from etuutt_bot.commands.misc import MiscCog
 from etuutt_bot.commands.role import RoleCog
+from etuutt_bot.commands.sync import SyncCog
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -14,17 +16,19 @@ if TYPE_CHECKING:
 SPACES = " " * 38
 
 
-# List of commands to add to the command tree
 async def commands_list(bot: EtuUTTBot):
-    # List the commands and commands groups
-    cogs: tuple = (AdminCog(bot), MiscCog(bot))
-    # Add the cogs to the bot
-    for cog in cogs:
+    """Liste les cogs et les ajoute au bot."""
+    # Les cogs contenant les commandes globales
+    global_cogs: tuple = (AdminCog(bot), MiscCog(bot))
+    for cog in global_cogs:
         await bot.add_cog(cog)
 
-    await bot.add_cog(RoleCog(bot), guild=bot.watched_guild)
+    # Les cogs contenant les commandes réservées à la guilde gérée
+    guild_cogs: tuple = (AnonMsgCog(bot), RoleCog(bot), SyncCog(bot))
+    for cog in guild_cogs:
+        await bot.add_cog(cog, guild=bot.watched_guild)
 
-    # Create a global commands error handler
+    # Gestionnaire d'erreurs des commandes
     @bot.tree.error
     async def on_command_error(
         interaction: discord.Interaction[EtuUTTBot], error: discord.app_commands.AppCommandError

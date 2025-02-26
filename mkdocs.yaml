@@ -39,6 +39,7 @@ plugins:
             handlers:
                 python:
                     options:
+                      extra:
                         members: true
                         members_order: source
                         show_source: true
@@ -61,10 +62,13 @@ nav:
             -   Services:
                     - reference/services/channel.md
                     - reference/services/user.md
+                    - reference/services/role.md
+                    - reference/services/ue.md
             -   Commandes:
                     - reference/commands/admin.md
                     - reference/commands/misc.md
                     - reference/commands/role.md
+                    - reference/commands/ue.md
             -   Serveur web: reference/web/routes.md
 
 

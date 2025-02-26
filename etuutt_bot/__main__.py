@@ -39,9 +39,9 @@ async def main():
     bot = EtuUTTBot()
 
     # Setup the logging
-    Path("logs").mkdir(exist_ok=True)
+    Path("data", "logs").mkdir(exist_ok=True)
     handler = handlers.RotatingFileHandler(
-        filename=Path("logs", "log"),
+        filename=Path("data", "logs", "log"),
         maxBytes=10485760,  # 10Mo
         backupCount=5,
         encoding="utf-8",

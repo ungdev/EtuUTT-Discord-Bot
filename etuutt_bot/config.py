@@ -1,7 +1,14 @@
 from enum import Enum
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, HttpUrl, SecretStr, UrlConstraints, field_validator
+from pydantic import (
+    BaseModel,
+    HttpUrl,
+    SecretStr,
+    StringConstraints,
+    UrlConstraints,
+    field_validator,
+)
 from pydantic_settings import (
     BaseSettings,
     PydanticBaseSettingsSource,
@@ -57,13 +64,15 @@ class GuildConfig(BaseModel):
     channel_admin_id: ChannelId
     special_roles: SpecialRolesConfig
     invite_link: Annotated[HttpUrl, UrlConstraints(default_host="discord.gg")]
+    etu_sync: bool
+    anonymous_channels: list[ChannelId]
 
 
 class CategoryConfig(BaseModel):
-    name: str
+    name: Annotated[str, StringConstraints(to_upper=True)]  # type: ignore
     id: ChannelId
     elected_role: RoleId
-    ues: list[str]
+    ues: list[Annotated[str, StringConstraints(to_upper=True)]]  # type: ignore
 
 
 class ApiConfig(BaseModel):
@@ -84,6 +93,7 @@ class Settings(BaseSettings):
     categories: list[CategoryConfig]
     etu_api: ApiConfig
     server_url: HttpUrl = "http://127.0.0.1:3000"
+    tz: str = "localtime"
 
     @classmethod
     def settings_customise_sources(

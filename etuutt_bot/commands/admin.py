@@ -10,6 +10,8 @@ if TYPE_CHECKING:
 
 
 class AdminCog(commands.Cog):
+    """Commandes pour les administrateurs du bot."""
+
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
 
@@ -30,7 +32,6 @@ class AdminCog(commands.Cog):
             await ctx.reply(
                 f"Il y a eu une erreur lors de la synchronisation des commandes slash\n{e}"
             )
-        return
 
     @commands.Cog.listener()
     async def on_command_error(
