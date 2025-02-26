@@ -64,6 +64,7 @@ class RoleService:
     @staticmethod
     def combined_perms(roles: list[Role], *, merge_strategy: MergeStrategy) -> Permissions:
         """Calcule et renvoie le jeu de permissions correspondant à la stratégie donnée.
+
         Args:
             roles: les rôles dont on veut combiner les permissions
             merge_strategy: la stratégie de combinaison des permissions

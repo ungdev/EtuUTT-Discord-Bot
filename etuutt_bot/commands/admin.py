@@ -18,7 +18,10 @@ class AdminCog(commands.Cog):
     @commands.is_owner()
     @commands.command(name="sync")
     async def sync_tree(self, ctx: commands.Context[EtuUTTBot]):
-        """Synchronise les commandes slash."""
+        """Commande pour synchroniser les commandes slash du bot.
+
+        Reservée au propriétaire et aux membres de l'équipe du bot.
+        """
         try:
             await self.bot.tree.sync()
             for guild in self.bot.guilds:
@@ -34,6 +37,7 @@ class AdminCog(commands.Cog):
     async def on_command_error(
         self, ctx: commands.Context[EtuUTTBot], error: commands.CommandError
     ):
+        """Gestionnaire d'erreurs des commandes de la classe."""
         if isinstance(error, commands.NotOwner):
             self.bot.logger.info(f"{ctx.author}, who isn't authorized, tried to sync the commands")
             return

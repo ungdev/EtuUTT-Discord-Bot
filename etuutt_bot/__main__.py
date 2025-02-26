@@ -25,6 +25,7 @@ class StopSignalHandler:
 
 
 async def main():
+    """Fonction principale appelée au démarrage du bot."""
     # Automatically reads SENTRY_DSN environment var
     sentry_sdk.init(
         # Enable performance monitoring

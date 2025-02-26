@@ -21,7 +21,18 @@ class UserService:
         self._bot = bot
 
     def get_server_nickname(self, user: ApiUserSchema) -> str:
-        """Génère et retourne le pseudo de l'utilisateur affiché sur le serveur Discord."""
+        """Retourne le nom d'utilisateur qui va être attribué à l'utilisateur donné.
+
+        Le nom d'utilisateur retourné est composé de 32 caractères au maximum,
+        limitation imposée par Discord.
+
+        Args:
+            user: Les données utilisateur, telles que retournées par l'API du site étu
+
+        Returns:
+            Le nom d'utilisateur composé du prénom, du nom et du statut de l'utilisateur,
+            soit sa branche, soit "Ancien étu", soit "Enseignant".
+        """
         pseudo = f"{user.first_name.title()} {user.last_name.upper()}"
         member_type = user.member_type
         if member_type == MemberType.Student:
@@ -45,7 +56,7 @@ class UserService:
         """Retourne les rôles qui devraient être attribués à l'utilisateur donné.
 
         Args:
-            user: Les données utilisateur, telles que retournées par l'API du site etu
+            user: Les données utilisateur, telles que retournées par l'API du site étu
 
         Returns:
             L'ensemble des rôles par défaut à donner à l'utilisateur donné.
@@ -71,7 +82,7 @@ class UserService:
         assert_never(member_type)
 
     async def sync(self, member: discord.Member, user: ApiUserSchema):
-        """Synchronise le membre du serveur avec les données de l'api du site etu.
+        """Synchronise le membre du serveur avec les données de l'api du site étu.
 
         Args:
             member: Le membre du serveur Discord à synchroniser
@@ -84,7 +95,7 @@ class UserService:
             return
 
         upmost_role: Role = max(self._bot.watched_guild.get_member(self._bot.user.id).roles)
-        reason_msg = f"Authentification etu de : {member.global_name}"
+        reason_msg = f"Authentification étu de : {member.global_name}"
         if any(r >= upmost_role for r in member.roles):
             # if the bot try to deal with a role higher
             # than its own highest role, discord returns a 403.

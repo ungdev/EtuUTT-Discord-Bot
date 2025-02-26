@@ -1,5 +1,5 @@
 def split_msg(msg: str):
-    """Si le message est trop long, divise le message en bouts plus petits.
+    r"""Si le message est trop long, divise le message en bouts plus petits.
 
     Les bouts des messages renvoyés sont d'une longueur inférieure à 2000 caractères.
     La séparation se fait au premier saut à la ligne situé avant le 2000ème caractère.
