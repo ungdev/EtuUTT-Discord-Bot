@@ -21,6 +21,7 @@ class UserService:
         self._bot = bot
 
     def get_server_nickname(self, user: ApiUserSchema) -> str:
+        """Génère et retourne le pseudo de l'utilisateur affiché sur le serveur Discord."""
         pseudo = f"{user.first_name.title()} {user.last_name.upper()}"
         member_type = user.member_type
         if member_type == MemberType.Student:

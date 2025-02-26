@@ -39,6 +39,7 @@ plugins:
             handlers:
                 python:
                     options:
+                      extra:
                         members: true
                         members_order: source
                         show_source: true
