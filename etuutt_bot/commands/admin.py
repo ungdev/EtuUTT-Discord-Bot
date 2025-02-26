@@ -37,7 +37,7 @@ class AdminCog(commands.Cog):
     async def on_command_error(
         self, ctx: commands.Context[EtuUTTBot], error: commands.CommandError
     ):
-        """Gestionnaire d'erreur des commandes de la classe."""
+        """Gestionnaire d'erreurs des commandes de la classe."""
         if isinstance(error, commands.NotOwner):
             self.bot.logger.info(f"{ctx.author}, who isn't authorized, tried to sync the commands")
             return
