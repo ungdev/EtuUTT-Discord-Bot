@@ -16,7 +16,7 @@ async def handler(req: web.Request) -> web.Response:
     )
     data = {"grant_type": "authorization_code", "code": req.query.get("code")}
     async with req.app["bot"].session.post(
-        f"{api_settings.url}/oauth/token", auth=auth, data=data
+        f"{api_settings.url}/auth/token", auth=auth, data=data
     ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
