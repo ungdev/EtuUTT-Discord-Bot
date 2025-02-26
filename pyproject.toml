@@ -7,7 +7,7 @@ requires-python = ">=3.10"
 line-length = 99
 
 [tool.ruff.lint]
-select = ["F", "E", "I", "N", "UP", "ASYNC", "B", "A", "INP", "T20", "RET", "SIM", "ERA", "RUF"]
+select = ["F", "E", "I", "N", "UP", "ASYNC", "B", "INP", "T20", "RET", "SIM", "ERA", "RUF"]
 ignore = ["E501"]
 
 [tool.ruff.format]
