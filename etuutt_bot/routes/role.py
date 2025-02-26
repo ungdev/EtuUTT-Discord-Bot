@@ -30,10 +30,8 @@ async def handler(req: web.Request) -> web.Response:
             },
         )
 
-    params = {"access_token": post.get("etu-token")}
-    async with bot.session.get(
-        f"{bot.settings.etu_api.url}/public/user/account", params=params
-    ) as response:
+    # peut être pas utile : params = {"access_token": post.get("etu-token")}
+    async with bot.session.get(f"{bot.settings.etu_api.url}/users/current") as response:
         if response.status != 200:
             return web.Response(status=response.status)
         try:
@@ -45,8 +43,10 @@ async def handler(req: web.Request) -> web.Response:
     if member := bot.watched_guild.get_member_named(post.get("discord-username")):
         user_service = UserService(bot)
         await user_service.sync(member, api_user)
-        return web.Response(text="Roles assigned!")
-        # TODO: make better response
+        return await aiohttp_jinja2.render_template_async(
+            "role.html.jinja",
+            req,
+        )
     return await aiohttp_jinja2.render_template_async(
         "error.html.jinja",
         req,
