@@ -3,6 +3,6 @@ aiohttp-jinja2 ~= 1.6.0
 discord.py[speed] ~= 2.5.0
 Jinja2 ~= 3.1.5
 pydantic ~= 2.10.6
-pydantic-settings ~= 2.8.0
+pydantic-settings ~= 2.8.1
 sentry-sdk[aiohttp] ~= 2.22.0
 tomlkit ~= 0.13.2
