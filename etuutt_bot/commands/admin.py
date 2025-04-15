@@ -9,13 +9,25 @@ if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
 
+def is_watched_guild_admin():
+    def predicate(ctx: commands.Context[EtuUTTBot]) -> bool:
+        return any(
+            ctx.author.id == m.id
+            for m in ctx.bot.watched_guild.get_role(
+                ctx.bot.settings.guild.special_roles.admin
+            ).members
+        )
+
+    return commands.check(predicate)
+
+
 class AdminCog(commands.Cog):
     """Commandes pour les administrateurs du bot."""
 
     def __init__(self, bot: EtuUTTBot) -> None:
         self.bot = bot
 
-    @commands.is_owner()
+    @commands.check_any(commands.is_owner(), is_watched_guild_admin())
     @commands.command(name="sync")
     async def sync_tree(self, ctx: commands.Context[EtuUTTBot]):
         """Commande pour synchroniser les commandes slash du bot.
