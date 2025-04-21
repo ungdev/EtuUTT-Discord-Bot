@@ -8,16 +8,19 @@
             "matchManagers": [ "pip_requirements" ],
             "matchPaths": [ "requirements.txt" ],
             "groupName": "Python (prod)",
+            "branchTopic": "python-prod",
             "commitMessagePrefix": "chore(deps): "
         }, {
             "matchManagers": [ "pip_requirements" ],
             "matchPaths": [ "requirements-dev.txt" ],
             "groupName": "Python (dev)",
+            "branchTopic": "python-dev",
             "commitMessagePrefix": "chore(deps-dev): "
         }, {
             "matchManagers": [ "pip_requirements" ],
             "matchPaths": [ "requirements-docs.txt" ],
             "groupName": "Python (docs)",
+            "branchTopic": "python-docs",
             "commitMessagePrefix": "chore(deps-docs): "
         }, {
             "matchManagers": [ "github-actions" ],
