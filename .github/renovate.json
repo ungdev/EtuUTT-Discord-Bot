@@ -6,19 +6,19 @@
     "packageRules": [
         {
             "matchManagers": [ "pip_requirements" ],
-            "matchPaths": [ "requirements.txt" ],
+            "matchFileNames": [ "requirements.txt" ],
             "groupName": "Python (prod)",
             "groupSlug": "python-prod",
             "commitMessagePrefix": "chore(deps): "
         }, {
             "matchManagers": [ "pip_requirements" ],
-            "matchPaths": [ "requirements-dev.txt" ],
+            "matchFileNames": [ "requirements-dev.txt" ],
             "groupName": "Python (dev)",
             "groupSlug": "python-dev",
             "commitMessagePrefix": "chore(deps-dev): "
         }, {
             "matchManagers": [ "pip_requirements" ],
-            "matchPaths": [ "requirements-docs.txt" ],
+            "matchFileNames": [ "requirements-docs.txt" ],
             "groupName": "Python (docs)",
             "groupSlug": "python-docs",
             "commitMessagePrefix": "chore(deps-docs): "
