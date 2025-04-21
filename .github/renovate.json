@@ -1,0 +1,50 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [ "config:recommended" ],
+    "timezone": "Europe/Paris",
+    "schedule": [ "* 22-23 * * 0", "* 0-5 * * 1" ],
+    "packageRules": [
+        {
+            "matchManagers": [ "pip_requirements" ],
+            "matchFileNames": [ "requirements.txt" ],
+            "groupName": "Python (prod)",
+            "groupSlug": "python-prod",
+            "commitMessagePrefix": "chore(deps): "
+        }, {
+            "matchManagers": [ "pip_requirements" ],
+            "matchFileNames": [ "requirements-dev.txt" ],
+            "groupName": "Python (dev)",
+            "groupSlug": "python-dev",
+            "commitMessagePrefix": "chore(deps-dev): "
+        }, {
+            "matchManagers": [ "pip_requirements" ],
+            "matchFileNames": [ "requirements-docs.txt" ],
+            "groupName": "Python (docs)",
+            "groupSlug": "python-docs",
+            "commitMessagePrefix": "chore(deps-docs): "
+        }, {
+            "matchManagers": [ "github-actions" ],
+            "groupName": "GitHub Actions",
+            "commitMessagePrefix": "chore(deps-ga): "
+        }, {
+            "matchManagers": [ "dockerfile" ],
+            "groupName": "Docker images",
+            "commitMessagePrefix": "chore(deps-docker): "
+        }, {
+            "matchManagers": [ "pre-commit" ],
+            "groupName": "pre-commit hooks",
+            "commitMessagePrefix": "chore(deps-dev): "
+        }
+    ],
+    "commitMessageAction": "update",
+    "commitMessageTopic": "{{depName}}",
+    "enabledManagers": [
+        "pip_requirements",
+        "github-actions",
+        "dockerfile",
+        "pre-commit"
+    ],
+    "pre-commit": {
+        "enabled": true
+    }
+}
