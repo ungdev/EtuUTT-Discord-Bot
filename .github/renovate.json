@@ -25,12 +25,12 @@
             "commitMessagePrefix": "chore(deps-ga): "
         }, {
             "matchManagers": [ "dockerfile" ],
-            "groupName": "Docker dependencies",
+            "groupName": "Docker images",
             "commitMessagePrefix": "chore(deps-docker): "
         }, {
             "matchManagers": [ "pre-commit" ],
             "groupName": "pre-commit hooks",
-            "commitMessagePrefix": "chore(deps-pre-commit): "
+            "commitMessagePrefix": "chore(deps-dev): "
         }
     ],
     "enabledManagers": [
