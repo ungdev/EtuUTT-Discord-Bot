@@ -33,6 +33,8 @@
             "commitMessagePrefix": "chore(deps-dev): "
         }
     ],
+    "commitMessageAction": "update",
+    "commitMessageTopic": "{{depName}}",
     "enabledManagers": [
         "pip_requirements",
         "github-actions",
