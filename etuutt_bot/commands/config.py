@@ -25,6 +25,7 @@ class ConfigCog(commands.GroupCog, name="config"):
         )
 
     @app_commands.command(name="upload")
+    @app_commands.describe(file="Le fichier doit être nommé discord.toml")
     async def config_upload(
         self, interaction: Interaction[EtuUTTBot], file: discord.Attachment
     ) -> None:
