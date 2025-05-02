@@ -1,21 +1,40 @@
 import logging
 from os import getenv
+from pathlib import Path
 
 import aiohttp
 import discord
-from discord import Guild
+from discord import Guild, TextChannel
 from discord.ext import commands
+from pydantic import ValidationError
 
 from etuutt_bot.commands_list import commands_list
 from etuutt_bot.config import Settings
 from etuutt_bot.web import start_server
 
 
+class InvalidConfigurationError(Exception):
+    """La configuration du bot n'est pas valide ou incomplète."""
+
+
 class EtuUTTBot(commands.Bot):
     """EtuUTT Discord Bot, subclass of discord.ext.commands.Bot."""
 
     def __init__(self) -> None:
-        self.settings = Settings()
+        # Essaye de charger la config, si elle est invalide essaye de charger la backup
+        self.backup_used: bool = False
+        self.config_file = Path("data/discord.toml")
+        self.backup_config_file = Path("data/discord.toml.bak")
+        try:
+            self.settings = Settings()
+        except ValidationError as error:
+            if self.backup_config_file.is_file():
+                self.config_file.write_text(self.backup_config_file.read_text())
+                self.settings = Settings()
+                self.backup_used = True
+            else:
+                raise InvalidConfigurationError from error
+
         # Define the bot debug log level, defaults to INFO if undefined or invalid
         self.logger = logging.getLogger("bot")
         log_level = logging.getLevelName(self.settings.bot.log_level)
@@ -61,10 +80,23 @@ class EtuUTTBot(commands.Bot):
 
         # Log in the console and the admin channel that the bot is ready
         self.logger.info(f"{self.user} is now online and ready!")
-        await self.get_channel(self.settings.guild.channel_admin_id).send(
-            "Je suis en ligne. Je viens d'être (re)démarré. Cela signifie qu'il y a soit eu "
-            "un bug, soit que j'ai été mis à jour, soit qu'on m'a redémarré manuellement."
-        )
+        admin_channel: TextChannel = self.get_channel(self.settings.guild.channel_admin_id)
+        if self.backup_used:
+            self.logger.info("The configuration has been restored from the backup")
+            await admin_channel.send(
+                "Je suis en ligne. Je viens d'être (re)démarré. Cela signifie qu'il y a soit eu "
+                "un bug, une mise à jour du code ou de la configuration, ou bien qu'on m'a "
+                "redémarré manuellement.\n"
+                "La configuration a été restaurée à partir de la backup, cela veut dire que "
+                "quelqu'un a essayé de la modifier mais que la nouvelle configuration n'était "
+                "pas valide."
+            )
+        else:
+            await admin_channel.send(
+                "Je suis en ligne. Je viens d'être (re)démarré. Cela signifie qu'il y a soit eu "
+                "un bug, une mise à jour du code ou de la configuration, ou bien qu'on m'a "
+                "redémarré manuellement."
+            )
 
     # Event when someone joins a guild the bot is in
     async def on_member_join(self, member: discord.Member) -> None:
