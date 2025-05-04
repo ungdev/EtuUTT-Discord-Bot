@@ -30,12 +30,14 @@ async def handler(req: web.Request) -> web.Response:
             },
         )
 
-    # peut être pas utile : params = {"access_token": post.get("etu-token")}
-    async with bot.session.get(f"{bot.settings.etu_api.url}/users/current") as response:
+    headers = {"Authorization": f"Bearer {post.get('etu-token')}"}
+    async with bot.session.get(
+        f"{bot.settings.etu_api.url}/users/current", headers=headers
+    ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
         try:
-            resp = (await response.json()).get("data")
+            resp = await response.json()
             api_user = ApiUserSchema.model_validate(resp)
         except ValidationError:
             return web.HTTPBadRequest()

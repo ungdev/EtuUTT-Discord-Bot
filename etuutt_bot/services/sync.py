@@ -46,7 +46,7 @@ class SyncService:
     async def _full_sync(self):
         api_settings = self._bot.settings.etu_api
         auth = aiohttp.BasicAuth(
-            str(api_settings.client_id), api_settings.client_secret.get_secret_value()
+            str(api_settings.application_id), api_settings.application_secret.get_secret_value()
         )
         data = {"grant_type": "client_credentials"}
         async with self._bot.session.post(
