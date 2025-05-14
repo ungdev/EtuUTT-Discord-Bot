@@ -1,6 +1,8 @@
 ARG PYTHON_VERSION=3.13
 FROM python:${PYTHON_VERSION}-alpine
 
+# Set server url
+ENV SERVER_URL=http://0.0.0.0:3000
 # Set workdir and copy needed files
 WORKDIR /usr/src/etuutt
 COPY . .
