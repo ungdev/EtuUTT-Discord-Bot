@@ -3,6 +3,7 @@
     "extends": [ "config:recommended" ],
     "timezone": "Europe/Paris",
     "schedule": [ "* 22-23 * * 0", "* 0-5 * * 1" ],
+    "prHourlyLimit": 0,
     "packageRules": [
         {
             "matchManagers": [ "pip_requirements" ],
