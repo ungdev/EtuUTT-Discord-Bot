@@ -31,13 +31,14 @@ async def handler(req: web.Request) -> web.Response:
         )
 
     headers = {"Authorization": f"Bearer {post.get('etu-token')}"}
-    async with bot.session.get(
+    async with bot.session.get(  # TODO: modifier la route selon l'évolution de l'API
         f"{bot.settings.etu_api.url}/users/current", headers=headers
     ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
         try:
             resp = await response.json()
+            # TODO: modifier le modèle utilisé pour valider les données
             api_user = ApiUserSchema.model_validate(resp)
         except ValidationError:
             return web.HTTPBadRequest()

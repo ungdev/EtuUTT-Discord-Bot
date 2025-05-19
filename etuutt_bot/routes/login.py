@@ -10,18 +10,16 @@ async def handler(req: web.Request) -> web.Response:
     if not (token := req.query.get("token")):
         return web.HTTPUnauthorized()  # HTTP 401
 
-    # Check if token is valid
-    headers = {"Authorization": f"Bearer {token}"}
-    async with req.app["bot"].session.get(
-        f"{api_settings.url}/auth/signin", headers=headers
+    # Get bearer token from validation token
+    data = {"token": token, "clientSecret": api_settings.application_secret.get_secret_value()}
+    async with req.app["bot"].session.post(
+        f"{api_settings.url}/auth/login/validate", data=data
     ) as response:
         if response.status != 200:
             return web.Response(status=response.status)
         resp = await response.json()
         try:
-            is_valid = resp["valid"]
-            if not is_valid:
-                return web.HTTPBadRequest()
+            token = resp["token"]
         except KeyError:
             return web.HTTPBadRequest()  # HTTP 400
 
