@@ -30,7 +30,10 @@ class EtuUTTBot(commands.Bot):
         except ValidationError as error:
             if self.backup_config_file.is_file():
                 self.config_file.write_text(self.backup_config_file.read_text())
-                self.settings = Settings()
+                try:
+                    self.settings = Settings()
+                except ValidationError as error:
+                    raise InvalidConfigurationError from error
                 self.backup_used = True
             else:
                 raise InvalidConfigurationError from error
