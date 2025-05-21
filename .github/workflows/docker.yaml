@@ -25,6 +25,7 @@ jobs:
             -   name: Build and push
                 uses: docker/build-push-action@v6
                 with:
+                    context: .
                     push: true
                     tags: |
                         ${{ secrets.HARBOR_URL }}/ung/etuutt-bot:latest,${{ secrets.HARBOR_URL }}/ung/etuutt-bot:${{ github.sha }},${{ secrets.HARBOR_URL }}/ung/etuutt-bot:${{ github.run_number }}
