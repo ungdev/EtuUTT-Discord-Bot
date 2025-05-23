@@ -12,8 +12,8 @@
             "groupSlug": "python-prod",
             "commitMessagePrefix": "chore(deps): "
         }, {
-            "matchManagers": [ "pip_requirements" ],
-            "matchFileNames": [ "requirements-dev.txt" ],
+            "matchManagers": [ "pip_requirements", "pre-commit" ],
+            "matchFileNames": [ "requirements-dev.txt", ".pre-commit-config.yaml" ],
             "groupName": "Python (dev)",
             "groupSlug": "python-dev",
             "commitMessagePrefix": "chore(deps-dev): "
@@ -31,10 +31,6 @@
             "matchManagers": [ "dockerfile" ],
             "groupName": "Docker images",
             "commitMessagePrefix": "chore(deps-docker): "
-        }, {
-            "matchManagers": [ "pre-commit" ],
-            "groupName": "pre-commit hooks",
-            "commitMessagePrefix": "chore(deps-dev): "
         }
     ],
     "commitMessageAction": "update",
