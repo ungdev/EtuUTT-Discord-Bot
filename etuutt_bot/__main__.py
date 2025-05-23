@@ -38,7 +38,8 @@ async def main():
     # Create an instance of the Discord Bot
     bot = EtuUTTBot()
 
-    # Setup the logging
+    # Setup the logging (stream handler and file handler)
+    setup_logging()
     Path("data", "logs").mkdir(exist_ok=True)
     handler = handlers.RotatingFileHandler(
         filename=Path("data", "logs", "log"),
