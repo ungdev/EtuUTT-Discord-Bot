@@ -10,6 +10,7 @@ from etuutt_bot.commands.config import ConfigCog
 from etuutt_bot.commands.misc import MiscCog
 from etuutt_bot.commands.role import RoleCog
 from etuutt_bot.commands.sync import SyncCog
+from etuutt_bot.commands.ue import UeCog
 
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
@@ -25,7 +26,7 @@ async def commands_list(bot: EtuUTTBot):
         await bot.add_cog(cog)
 
     # Les cogs contenant les commandes réservées à la guilde gérée
-    guild_cogs: tuple = (AnonMsgCog(bot), ConfigCog(bot), RoleCog(bot), SyncCog(bot))
+    guild_cogs: tuple = (AnonMsgCog(bot), ConfigCog(bot), RoleCog(bot), SyncCog(bot), UeCog(bot))
     for cog in guild_cogs:
         await bot.add_cog(cog, guild=bot.watched_guild)
 
@@ -34,7 +35,7 @@ async def commands_list(bot: EtuUTTBot):
     async def on_command_error(
         interaction: discord.Interaction[EtuUTTBot], error: discord.app_commands.AppCommandError
     ):
-        # The bot is missing permissions
+        # Il manque des permissions au bot
         if isinstance(error, discord.app_commands.BotMissingPermissions):
             bot_perms = ", ".join(error.missing_permissions)
             interaction.client.logger.error(
@@ -52,7 +53,7 @@ async def commands_list(bot: EtuUTTBot):
                     ephemeral=True,
                 )
             return
-        # The user is missing permissions
+        # Il manque des permissions à l'utilisateur
         if isinstance(error, discord.app_commands.MissingPermissions):
             user_perms = ", ".join(error.missing_permissions)
             interaction.client.logger.error(
@@ -70,7 +71,7 @@ async def commands_list(bot: EtuUTTBot):
                     ephemeral=True,
                 )
             return
-        # Other errors with a check decorator
+        # Autres erreurs avec un décorateur check
         if isinstance(error, discord.app_commands.CheckFailure):
             interaction.client.logger.error(
                 f"{interaction.user} tried to do {interaction.command.name} "
@@ -81,7 +82,7 @@ async def commands_list(bot: EtuUTTBot):
                 ephemeral=True,
             )
             return
-        # Other errors
+        # Autres erreurs
         interaction.client.logger.error(error)
         await interaction.response.send_message(
             f"{error}\nCette erreur n'est pas gérée, signalez-la !"

@@ -42,7 +42,7 @@ async def main():
     setup_logging()
     Path("data", "logs").mkdir(exist_ok=True)
     handler = handlers.RotatingFileHandler(
-        filename=Path("data", "logs", "log"),
+        filename=Path("data", "logs", "app.log"),
         maxBytes=10485760,  # 10Mo
         backupCount=5,
         encoding="utf-8",

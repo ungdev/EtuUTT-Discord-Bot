@@ -77,8 +77,8 @@ class CategoryConfig(BaseModel):
 
 class ApiConfig(BaseModel):
     url: HttpUrl = "https://etu.utt.fr/api"
-    client_id: int
-    client_secret: SecretStr
+    application_id: int
+    application_secret: SecretStr
 
 
 class Settings(BaseSettings):

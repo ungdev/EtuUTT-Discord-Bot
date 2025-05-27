@@ -67,8 +67,10 @@ class EtuUTTBot(commands.Bot):
         self.watched_guild: Guild = discord.Object(id=self.settings.guild.id, type=Guild)  # type:ignore
 
     async def setup_hook(self) -> None:
-        # Start aiohttp client session
-        self.session = aiohttp.ClientSession()
+        # Start aiohttp client session with X-Application header required by the site étu
+        self.session = aiohttp.ClientSession(
+            headers={"X-Application": str(self.settings.etu_api.application_id)}
+        )
         # Load commands
         await commands_list(self)
         # Start the web server
