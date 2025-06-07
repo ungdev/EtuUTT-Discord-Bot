@@ -9,8 +9,6 @@ repos:
                 args: [ --unsafe ]
                 files: mkdocs.yaml
             -   id: end-of-file-fixer
-            -   id: requirements-txt-fixer
-                files: requirements.*\.txt
             -   id: trailing-whitespace
                 exclude_types:
                     - markdown
@@ -20,7 +18,7 @@ repos:
         rev: v0.11.10
         hooks:
             # Run the linter.
-            -   id: ruff
+            -   id: ruff-check
                 args: [ --fix ]
             # Run the formatter.
             -   id: ruff-format
