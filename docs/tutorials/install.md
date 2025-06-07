@@ -2,8 +2,9 @@
 
 Pour installer le projet, vous aurez besoin de :
 
-- git ([documentation officielle](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git))
-- Python >=3.10 ([documentation officielle](https://docs.python.org/3/))
+- git ([documentation officielle](https://git-scm.com/book/fr/v2))
+- Python >=3.10 ([documentation officielle](https://docs.python.org/fr/3/))
+- uv ([documentation officielle](https://docs.astral.sh/uv/))
 
 Si une ou plusieurs de ces dépendances ne sont pas présentes sur votre
 ordinateur, référez-vous aux instructions d'installation données ci-dessous.
@@ -12,7 +13,8 @@ directement à [la partie suivante](#mise-en-place-du-projet).
 
 ### Python
 
-Le projet est conçu pour fonctionner avec Python 3.10 ou au-dessus.
+Le projet est conçu pour fonctionner avec Python 3.10 ou au-dessus.  
+Notez qu'il est optionnel d'installer Python séparément, car uv est capable de l'installer.
 
 Pour vérifier votre version de Python, exécutez la commande suivante dans votre terminal :
 
@@ -103,6 +105,62 @@ vous devez installer Python.
     brew install python
     ```
 
+### uv
+
+uv est un utilitaire permettant de gérer des environnements Python facilement et rapidement.
+Il est utilisé pour gérer l'installation des dépendances.
+
+Si uv n'est pas déjà installé, suivez les instructions suivantes :
+
+=== "Windows"
+
+    === "Avec l'exécutable"
+
+        Utilisez la commande suivante pour télécharger le script d'installation et l'exécuter :
+
+        ```powershell
+        powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+        ```
+
+    === "Avec Winget"
+
+        Dans Powershell avec accès admins :
+
+        ```powershell
+        winget install --id=astral-sh.uv  -e
+        ```
+
+    === "Avec Scoop"
+
+        Dans Powershell :
+        
+        ```powershell
+        scoop install uv
+        ```
+
+=== "Linux"
+
+    Sur Linux, vous pouvez installer uv à l'aide du script proposé.
+
+    ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
+=== "macOS"
+
+    Sur macOS, vous pouvez installer uv à l'aide de
+    [Homebrew](https://brew.sh/).
+
+    ```bash
+    brew install uv
+    ```
+
+    Ou bien en utilisant le script comme sur Linux :
+
+    ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
 ### Git
 
 Git est un logiciel de gestion de versions décentralisé.
@@ -115,7 +173,7 @@ Si Git n'est pas déjà installé, suivez les instructions suivantes :
     === "Avec l'exécutable"
 
         Rendez-vous sur le 
-        [site officiel de Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git),
+        [site officiel de Git](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git),
         téléchargez le programme d'installation et exécutez-le.
 
     === "Avec Winget"
