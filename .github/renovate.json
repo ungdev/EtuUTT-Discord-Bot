@@ -6,20 +6,20 @@
     "prHourlyLimit": 0,
     "packageRules": [
         {
-            "matchManagers": [ "pip_requirements" ],
-            "matchFileNames": [ "requirements.txt" ],
+            "matchManagers": [ "pep621" ],
+            "matchDepTypes": [ "project.dependencies" ],
             "groupName": "Python (prod)",
             "groupSlug": "python-prod",
             "commitMessagePrefix": "chore(deps): "
         }, {
-            "matchManagers": [ "pip_requirements", "pre-commit" ],
-            "matchFileNames": [ "requirements-dev.txt", ".pre-commit-config.yaml" ],
+            "matchManagers": [ "pep621", "pre-commit" ],
+            "matchDepTypes": [ "dependency-groups.dev" ],
             "groupName": "Python (dev)",
             "groupSlug": "python-dev",
             "commitMessagePrefix": "chore(deps-dev): "
         }, {
-            "matchManagers": [ "pip_requirements" ],
-            "matchFileNames": [ "requirements-docs.txt" ],
+            "matchManagers": [ "pep621" ],
+            "matchDepTypes": [ "dependency-groups.docs" ],
             "groupName": "Python (docs)",
             "groupSlug": "python-docs",
             "commitMessagePrefix": "chore(deps-docs): "
@@ -36,7 +36,7 @@
     "commitMessageAction": "update",
     "commitMessageTopic": "{{depName}}",
     "enabledManagers": [
-        "pip_requirements",
+        "pep621",
         "github-actions",
         "dockerfile",
         "pre-commit"
