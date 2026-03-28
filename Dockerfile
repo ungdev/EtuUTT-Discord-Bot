@@ -1,14 +1,14 @@
-FROM ghcr.io/astral-sh/uv:alpine
+FROM ghcr.io/astral-sh/uv:python3.14-alpine
 
 # Set uv environment to production
-ENV UV_LINK_MODE=copy
-ENV UV_NO_DEV=1
-ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy \
+    UV_NO_DEV=1 \
+    UV_NO_MANAGED_PYTHON=1 \
+    UV_COMPILE_BYTECODE=1
 # Set workdir
 WORKDIR /usr/src/etuutt
 # Install requirements
 RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=.python-version,target=.python-version \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     uv sync --locked --no-install-project

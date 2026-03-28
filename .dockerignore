@@ -3,6 +3,5 @@
 !/etuutt_bot/**/*.py
 !/public/
 !/templates/
-!/.python-version
 !/pyproject.toml
 !/uv.lock
