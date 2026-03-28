@@ -22,7 +22,7 @@ dev = [
 ]
 docs = [
     "mkdocs-material ~= 9.7.6",
-    "mkdocstrings-python ~= 1.19.0",
+    "mkdocstrings-python ~= 2.0.3",
 ]
 
 [tool.ruff]
