@@ -29,7 +29,7 @@ async def main():
     # Automatically reads SENTRY_DSN environment var
     sentry_sdk.init(
         # Enable performance monitoring
-        enable_tracing=True,
+        traces_sample_rate=1,
         # Choose integrations
         # TODO: fine tuning integrations and settings (maybe use logging instead)
         integrations=[AioHttpIntegration(transaction_style="method_and_path_pattern")],
@@ -40,7 +40,6 @@ async def main():
 
     # Setup the logging (stream handler and file handler)
     setup_logging()
-    Path("data", "logs").mkdir(exist_ok=True)
     handler = handlers.RotatingFileHandler(
         filename=Path("data", "logs", "log"),
         maxBytes=10485760,  # 10Mo
@@ -63,4 +62,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    Path("data", "logs").mkdir(exist_ok=True)
     asyncio.run(main())
