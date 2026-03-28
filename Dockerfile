@@ -1,16 +1,27 @@
-ARG PYTHON_VERSION=3.13
-FROM python:${PYTHON_VERSION}-alpine
+FROM ghcr.io/astral-sh/uv:alpine
 
-# Set server url
-ENV SERVER_URL=http://0.0.0.0:3000
-# Set workdir and copy needed files
+# Set uv environment to production
+ENV UV_LINK_MODE=copy
+ENV UV_NO_DEV=1
+ENV UV_COMPILE_BYTECODE=1
+# Set workdir
 WORKDIR /usr/src/etuutt
-COPY . .
-
 # Install requirements
-RUN pip --no-cache-dir install -U pip -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=.python-version,target=.python-version \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    uv sync --locked --no-install-project
+# Copy project files
+COPY . .
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked
 
+# Set server port
+ARG SERVER_PORT=3000
+# Set server url
+ENV SERVER_URL=http://0.0.0.0:${SERVER_PORT}
 # Default port of the web server
-EXPOSE 3000
+EXPOSE ${SERVER_PORT}
 # Default command
-CMD ["python3", "-m", "etuutt_bot"]
+CMD ["uv", "run", "etuutt_bot"]
