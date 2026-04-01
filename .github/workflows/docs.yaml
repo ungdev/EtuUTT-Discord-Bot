@@ -5,8 +5,7 @@ on:
             - main
         paths-ignore:
             - .pre-commit-config.yaml
-            - requirements.txt
-            - requirements-dev.txt
+            - pyproject.toml
     workflow_dispatch:
 
 permissions:
