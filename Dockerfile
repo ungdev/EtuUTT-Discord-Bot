@@ -24,4 +24,4 @@ ENV SERVER_URL=http://0.0.0.0:${SERVER_PORT}
 # Default port of the web server
 EXPOSE ${SERVER_PORT}
 # Default command
-CMD ["uv", "run", "etuutt_bot"]
+CMD ["uv", "run", "-m", "etuutt_bot"]
