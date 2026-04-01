@@ -3,7 +3,7 @@
 A project of redoing the Discord bot made in JavaScript used at my school.  
 Be sure to have Python 3.10 or higher installed.
 
-Clone the projet and install [uv](https://docs.astral.sh/uv/getting-started/installation/):
+Clone the project and install [uv](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```bash
 git clone https://github.com/ungdev/EtuUTT-Discord-Bot.git
