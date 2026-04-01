@@ -14,8 +14,9 @@ uv sync
 > [!TIP]
 > The `uv sync` command creates a virtual environment and installs the dependencies inside.
 > By default, it installs the project dependencies and the dependencies of the dev group.
-> To install the dependencies of the other groups (like the docs), you can add the `--all-groups`
-> flag to the command.
+> To avoid installing the dev dependencies, use the `--no-dev` flag.
+> To install the dependencies of all the other groups (like the docs),
+> you can add the `--all-groups` flag to the command.
 
 ---
 Before launching the bot, you need to fill in the two configuration files (**`.env`** and
@@ -38,7 +39,7 @@ You also have to enable all the Privileged Gateway Intents as I assume they're e
 After having done all this you can launch the bot:
 
 ```bash
-python -m etuutt_bot
+uv run -m etuutt_bot
 ```
 
 ## Contributing

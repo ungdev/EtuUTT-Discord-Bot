@@ -14,7 +14,9 @@ directement à [la partie suivante](#mise-en-place-du-projet).
 ### Python
 
 Le projet est conçu pour fonctionner avec Python 3.10 ou au-dessus.  
-Notez qu'il est optionnel d'installer Python séparément, car uv est capable de l'installer.
+Notez qu'il est optionnel d'installer Python séparément,
+car uv est capable de l'installer automatiquement.
+Dans ce cas-là, vous pouvez passer directement à l'[installation d'uv](#uv).
 
 Pour vérifier votre version de Python, exécutez la commande suivante dans votre terminal :
 
@@ -250,15 +252,14 @@ Assurez-vous que vous êtes bien sur la branche `main`
 git checkout main
 ```
 
-Puis installez les dépendances (de préférence dans un
-[venv](https://docs.python.org/3/library/venv.html)).
+Puis installez les dépendances à l'aide d'uv.
 Vous pouvez choisir d'installer les dépendances
 pour compiler la documentation ou non.
 
 ```
-pip install -U -r requirements-dev.txt
+uv sync
 # ou
-pip install -U -r requirements-docs.txt
+uv sync --all-groups
 ```
 
 ## Configuration du projet
@@ -413,7 +414,7 @@ Maintenant que tout est configuré, vous pouvez lancer le bot.
 Pour cela, exécutez la commande suivante dans votre terminal :
 
 ```bash
-python -m etuutt_bot
+uv run -m etuutt_bot
 ```
 
 Rendez-vous dans le salon que vous avez configuré comme étant celui
