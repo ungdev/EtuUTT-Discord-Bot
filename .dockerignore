@@ -3,4 +3,5 @@
 !/etuutt_bot/**/*.py
 !/public/
 !/templates/
-!/requirements.txt
+!/pyproject.toml
+!/uv.lock
