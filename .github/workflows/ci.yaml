@@ -1,23 +1,20 @@
-name: CI bot etu UTT
-
-
+name: CI bot etu-utt
 on:
     pull_request:
         branches:
             - main
-
 
 jobs:
     ruff-lint:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v6
-            -   uses: chartboost/ruff-action@v1
+            -   uses: astral-sh/ruff-action@v3
 
     ruff-format:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v6
-            -   uses: chartboost/ruff-action@v1
+            -   uses: astral-sh/ruff-action@v3
                 with:
-                    args: "format --diff"
+                    args: "format --check --diff"

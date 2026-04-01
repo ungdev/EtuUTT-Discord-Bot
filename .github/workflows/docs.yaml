@@ -1,4 +1,4 @@
-name: deploy_docs
+name: Deploy docs
 on:
     push:
         branches:
