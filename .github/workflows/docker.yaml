@@ -4,6 +4,9 @@ on:
         branches:
             - prod
 
+permissions:
+    contents: read
+
 jobs:
     docker:
         runs-on: [ self-hosted, Linux, X64 ]
@@ -23,6 +26,8 @@ jobs:
 
             -   name: Checkout code
                 uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+                with:
+                    persist-credentials: false
 
             -   name: Build and push
                 uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7
