@@ -16,13 +16,16 @@
             "commitMessagePrefix": "chore(deps): "
         }, {
             "matchManagers": [ "pep621", "pre-commit" ],
-            "matchDepTypes": [ "dependency-groups.dev" ],
+            "matchJsonata": [
+                "depType = 'dependency-groups' and managerData.depGroup = 'dev'",
+                "depType = 'repository'"
+            ],
             "groupName": "Python (dev)",
             "groupSlug": "python-dev",
             "commitMessagePrefix": "chore(deps-dev): "
         }, {
             "matchManagers": [ "pep621" ],
-            "matchDepTypes": [ "dependency-groups.docs" ],
+            "matchJsonata": [ "depType = 'dependency-groups' and managerData.depGroup = 'docs'" ],
             "groupName": "Python (docs)",
             "groupSlug": "python-docs",
             "commitMessagePrefix": "chore(deps-docs): "
