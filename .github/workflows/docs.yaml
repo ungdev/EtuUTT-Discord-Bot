@@ -1,36 +1,38 @@
-name: deploy_docs
+name: Deploy docs
 on:
     push:
         branches:
             - main
         paths-ignore:
             - .pre-commit-config.yaml
-            - requirements.txt
-            - requirements-dev.txt
+            - pyproject.toml
     workflow_dispatch:
 
 permissions:
-    contents: write
+    contents: read
+    id-token: write
+    pages: write
 
 jobs:
     deploy:
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v4
-            -   uses: actions/setup-python@v5
+            -   uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
                 with:
-                    python-version: 3.x
-            -   name: Cache virtualenv
-                uses: actions/cache@v4
+                    persist-credentials: false
+            -   uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
                 with:
-                    key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version}}-${{ hashFiles('requirements.txt') }}
-                    path: .venv
-            -   name: Install dependencies
-                run: |
-                    python -m venv .venv
-                    source .venv/bin/activate
-                    python -m pip install --upgrade pip
-                    python -m pip install -r requirements-docs.txt
-                    echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
-                    echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
-            -   run: mkdocs gh-deploy --force
+                    python-version-file: ".python-version"
+            -   uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+                with:
+                    enable-cache: true
+                    prune-cache: false
+            -   run: uv run --group docs mkdocs build --strict
+            -   uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+                with:
+                    path: site/
+            -   uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+                id: deployment

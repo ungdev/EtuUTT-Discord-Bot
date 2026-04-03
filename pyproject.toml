@@ -1,7 +1,29 @@
 [project]
 name = "EtuUTT-Bot"
+version = "0.0.1"
 license = "MIT"
+readme = "README.md"
 requires-python = ">=3.10"
+dependencies = [
+    "aiohttp~=3.13.5",
+    "aiohttp-jinja2~=1.6.0",
+    "discord.py[speed]~=2.7.1",
+    "Jinja2~=3.1.6",
+    "pydantic~=2.12.5",
+    "pydantic-settings~=2.13.1",
+    "sentry-sdk[aiohttp]~=2.57.0",
+    "tomlkit~=0.14.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit~=4.2",
+    "ruff==0.15.8",
+]
+docs = [
+    "mkdocs-material~=9.7.6",
+    "mkdocstrings-python~=2.0.3",
+]
 
 [tool.ruff]
 line-length = 99

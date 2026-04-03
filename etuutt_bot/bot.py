@@ -1,5 +1,4 @@
 import logging
-from os import getenv
 from pathlib import Path
 
 import aiohttp
@@ -111,8 +110,8 @@ class EtuUTTBot(commands.Bot):
         if member.guild == self.watched_guild:
             await member.send(
                 "Bienvenue sur le serveur Discord des étudiants de l'UTT.\n"
-                "Ceci n'étant pas une zone de non droit, vous **devez** vous identifier "
-                f"en cliquant ici (**que vous soyez étudiant ou prof**) : {getenv('BOT_URL')}"
+                "Ceci n'étant pas une zone de non droit, vous **devez** vous identifier en cliquant"
+                f"ici (**que vous soyez étudiant ou enseignant**) : {self.settings.server_url}"
                 "Vous devez également lire les règles dans le channel `accueil`\n\n"
                 "En cas de problème, contactez l'un des administrateurs, "
                 "visibles en haut à droite.\n"

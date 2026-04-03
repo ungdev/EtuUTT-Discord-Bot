@@ -1,7 +1,7 @@
 repos:
     -   repo: https://github.com/pre-commit/pre-commit-hooks
         # Pre-commit hook version.
-        rev: v5.0.0
+        rev: v6.0.0
         hooks:
             -   id: check-yaml
                 exclude: mkdocs.yaml
@@ -9,18 +9,16 @@ repos:
                 args: [ --unsafe ]
                 files: mkdocs.yaml
             -   id: end-of-file-fixer
-            -   id: requirements-txt-fixer
-                files: requirements.*\.txt
             -   id: trailing-whitespace
                 exclude_types:
                     - markdown
 
     -   repo: https://github.com/astral-sh/ruff-pre-commit
         # Ruff version.
-        rev: v0.11.10
+        rev: v0.15.8
         hooks:
             # Run the linter.
-            -   id: ruff
+            -   id: ruff-check
                 args: [ --fix ]
             # Run the formatter.
             -   id: ruff-format
