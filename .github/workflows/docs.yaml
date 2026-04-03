@@ -33,6 +33,6 @@ jobs:
             -   run: uv run --group docs mkdocs build --strict
             -   uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
                 with:
-                    path: ./site/
+                    path: site/
             -   uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
                 id: deployment
