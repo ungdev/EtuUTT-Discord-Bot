@@ -142,11 +142,25 @@ Si uv n'est pas déjà installé, suivez les instructions suivantes :
 
 === "Linux"
 
-    Sur Linux, vous pouvez installer uv à l'aide du script proposé.
+    === "Debian/Ubuntu"
+    
+        Vous pouvez installer uv à l'aide du script proposé.
+        
+        ```bash
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        ```
 
-    ```bash
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    ```
+    === "Fedora"
+
+        ```bash
+        sudo dnf install uv
+        ```
+
+    === "Arch Linux"
+    
+        ```bash
+        sudo pacman -S uv
+        ```
 
 === "macOS"
 
