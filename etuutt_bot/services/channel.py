@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING
 
 from discord import (
     CategoryChannel,
@@ -13,8 +13,7 @@ from discord import (
 if TYPE_CHECKING:
     from etuutt_bot.bot import EtuUTTBot
 
-
-AnyChannel: TypeAlias = VoiceChannel | StageChannel | ForumChannel | TextChannel | CategoryChannel
+type AnyChannel = VoiceChannel | StageChannel | ForumChannel | TextChannel | CategoryChannel
 
 
 class ChannelService:
@@ -23,7 +22,7 @@ class ChannelService:
 
     def find_by_name(
         self, name: str, *, channel_type: type[AnyChannel] | None = None
-    ) -> AnyChannel:
+    ) -> AnyChannel | None:
         name = name.lower()
         channels = self._bot.watched_guild.channels
         if channel_type:

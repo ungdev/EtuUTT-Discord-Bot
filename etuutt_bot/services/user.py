@@ -3,12 +3,10 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, assert_never
 
-import discord
-
 from etuutt_bot.types import MemberType
 
 if TYPE_CHECKING:
-    from discord import Role
+    from discord import Member, Role
 
     from etuutt_bot.bot import EtuUTTBot
     from etuutt_bot.routes.role import ApiUserSchema
@@ -81,7 +79,7 @@ class UserService:
             return {guild.get_role(special_ids.teacher)}
         assert_never(member_type)
 
-    async def sync(self, member: discord.Member, user: ApiUserSchema):
+    async def sync(self, member: Member, user: ApiUserSchema):
         """Synchronise le membre du serveur avec les données de l'api du site étu.
 
         Args:

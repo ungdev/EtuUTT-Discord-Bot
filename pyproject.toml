@@ -25,11 +25,31 @@ docs = [
     "mkdocstrings-python~=2.0.3",
 ]
 
+[tool.uv]
+default-groups = ["dev", "docs"]
+
 [tool.ruff]
 line-length = 99
 
 [tool.ruff.lint]
-select = ["F", "E", "I", "N", "UP", "ASYNC", "B", "INP", "T20", "RET", "SIM", "ERA", "RUF"]
+select = [
+    "A",
+    "ASYNC",
+    "B",
+    "E",
+    "ERA",
+    "F",
+    "I",
+    "INP",
+    "N",
+    "PERF",
+    "RET",
+    "RUF",
+    "SIM",
+    "T20",
+    "TC",
+    "UP",
+]
 ignore = ["E501"]
 
 [tool.ruff.format]
