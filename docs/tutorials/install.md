@@ -267,13 +267,10 @@ git checkout main
 ```
 
 Puis installez les dépendances à l'aide d'uv.
-Vous pouvez choisir d'installer les dépendances
-pour compiler la documentation ou non.
+Nous avons configuré uv pour qu'il installe les dépendances des groups dev et docs par défaut.
 
 ```
 uv sync
-# ou
-uv sync --all-groups
 ```
 
 ## Configuration du projet

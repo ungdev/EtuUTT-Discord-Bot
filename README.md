@@ -12,11 +12,10 @@ uv sync
 ```
 
 > [!TIP]
-> The `uv sync` command creates a virtual environment and installs the dependencies inside.
-> By default, it installs the project dependencies and the dependencies of the dev group.
-> To avoid installing the dev dependencies, use the `--no-dev` flag.
-> To install the dependencies of all the other groups (like the docs),
-> you can add the `--all-groups` flag to the command.
+> The `uv sync` command creates a virtual environment and installs the dependencies inside.  
+> By default, it installs the project dependencies and the dependencies of the dev group.  
+> In this project, it is configured to also install the dependencies of the docs group.  
+> To only install the project dependencies, use the `--no-default-groups` flag.
 
 ---
 Before launching the bot, you need to fill in the two configuration files (**`.env`** and
