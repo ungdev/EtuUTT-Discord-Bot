@@ -3,7 +3,7 @@
 Pour installer le projet, vous aurez besoin de :
 
 - git ([documentation officielle](https://git-scm.com/book/fr/v2))
-- Python >=3.10 ([documentation officielle](https://docs.python.org/fr/3/))
+- Python >=3.12 ([documentation officielle](https://docs.python.org/fr/3/))
 - uv ([documentation officielle](https://docs.astral.sh/uv/))
 
 Si une ou plusieurs de ces dépendances ne sont pas présentes sur votre
@@ -13,7 +13,7 @@ directement à [la partie suivante](#mise-en-place-du-projet).
 
 ### Python
 
-Le projet est conçu pour fonctionner avec Python 3.10 ou au-dessus.  
+Le projet est conçu pour fonctionner avec Python 3.12 ou au-dessus.  
 Notez qu'il est optionnel d'installer Python séparément,
 car uv est capable de l'installer automatiquement.
 Dans ce cas-là, vous pouvez passer directement à l'[installation d'uv](#uv).
@@ -24,7 +24,7 @@ Pour vérifier votre version de Python, exécutez la commande suivante dans votr
 python --version
 ```
 
-Si la commande renvoie une version inférieure à 3.10
+Si la commande renvoie une version inférieure à 3.12
 ou si la commande n'est pas reconnue,
 vous devez installer Python.
 
@@ -67,7 +67,7 @@ vous devez installer Python.
         sudo apt install python-is-python3
         ```
 
-        Par défaut, Ubuntu 22.04 utilise Python 3.10.
+        Par défaut, Ubuntu 24.04 utilise Python 3.12.
         Ce n'est pas la plus récente, mais elle est compatible
         avec le projet.
 

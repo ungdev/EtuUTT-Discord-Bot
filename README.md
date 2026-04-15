@@ -1,7 +1,7 @@
 # EtuUTT-Discord-Bot
 
 A project of redoing the Discord bot made in JavaScript used at my school.  
-Be sure to have Python 3.10 or higher installed.
+Be sure to have Python 3.12 or higher installed.
 
 Clone the project and install [uv](https://docs.astral.sh/uv/getting-started/installation/):
 
