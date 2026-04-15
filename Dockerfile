@@ -2,7 +2,7 @@ FROM ghcr.io/astral-sh/uv:python3.14-alpine
 
 # Set uv environment to production
 ENV UV_LINK_MODE=copy \
-    UV_NO_DEV=1 \
+    UV_NO_DEFAULT_GROUPS=1 \
     UV_NO_MANAGED_PYTHON=1 \
     UV_COMPILE_BYTECODE=1
 # Set workdir
