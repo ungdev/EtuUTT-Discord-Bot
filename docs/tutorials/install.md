@@ -2,8 +2,9 @@
 
 Pour installer le projet, vous aurez besoin de :
 
-- git ([documentation officielle](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git))
-- Python >=3.10 ([documentation officielle](https://docs.python.org/3/))
+- git ([documentation officielle](https://git-scm.com/book/fr/v2))
+- Python >=3.12 ([documentation officielle](https://docs.python.org/fr/3/))
+- uv ([documentation officielle](https://docs.astral.sh/uv/))
 
 Si une ou plusieurs de ces dépendances ne sont pas présentes sur votre
 ordinateur, référez-vous aux instructions d'installation données ci-dessous.
@@ -12,7 +13,10 @@ directement à [la partie suivante](#mise-en-place-du-projet).
 
 ### Python
 
-Le projet est conçu pour fonctionner avec Python 3.10 ou au-dessus.
+Le projet est conçu pour fonctionner avec Python 3.12 ou au-dessus.  
+Notez qu'il est optionnel d'installer Python séparément,
+car uv est capable de l'installer automatiquement.
+Dans ce cas-là, vous pouvez passer directement à l'[installation d'uv](#uv).
 
 Pour vérifier votre version de Python, exécutez la commande suivante dans votre terminal :
 
@@ -20,7 +24,7 @@ Pour vérifier votre version de Python, exécutez la commande suivante dans votr
 python --version
 ```
 
-Si la commande renvoie une version inférieure à 3.10
+Si la commande renvoie une version inférieure à 3.12
 ou si la commande n'est pas reconnue,
 vous devez installer Python.
 
@@ -63,7 +67,7 @@ vous devez installer Python.
         sudo apt install python-is-python3
         ```
 
-        Par défaut, Ubuntu 22.04 utilise Python 3.10.
+        Par défaut, Ubuntu 24.04 utilise Python 3.12.
         Ce n'est pas la plus récente, mais elle est compatible
         avec le projet.
 
@@ -103,6 +107,76 @@ vous devez installer Python.
     brew install python
     ```
 
+### uv
+
+uv est un utilitaire permettant de gérer des environnements Python facilement et rapidement.
+Il est utilisé pour gérer l'installation des dépendances.
+
+Si uv n'est pas déjà installé, suivez les instructions suivantes :
+
+=== "Windows"
+
+    === "Avec l'exécutable"
+
+        Utilisez la commande suivante pour télécharger le script d'installation et l'exécuter :
+
+        ```powershell
+        powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+        ```
+
+    === "Avec Winget"
+
+        Dans Powershell avec accès admins :
+
+        ```powershell
+        winget install --id=astral-sh.uv  -e
+        ```
+
+    === "Avec Scoop"
+
+        Dans Powershell :
+        
+        ```powershell
+        scoop install uv
+        ```
+
+=== "Linux"
+
+    === "Debian/Ubuntu"
+    
+        Vous pouvez installer uv à l'aide du script proposé.
+        
+        ```bash
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        ```
+
+    === "Fedora"
+
+        ```bash
+        sudo dnf install uv
+        ```
+
+    === "Arch Linux"
+    
+        ```bash
+        sudo pacman -S uv
+        ```
+
+=== "macOS"
+
+    Sur macOS, vous pouvez installer uv à l'aide de
+    [Homebrew](https://brew.sh/).
+
+    ```bash
+    brew install uv
+    ```
+
+    Ou bien en utilisant le script comme sur Linux :
+
+    ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
 ### Git
 
 Git est un logiciel de gestion de versions décentralisé.
@@ -115,7 +189,7 @@ Si Git n'est pas déjà installé, suivez les instructions suivantes :
     === "Avec l'exécutable"
 
         Rendez-vous sur le 
-        [site officiel de Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git),
+        [site officiel de Git](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git),
         téléchargez le programme d'installation et exécutez-le.
 
     === "Avec Winget"
@@ -192,15 +266,11 @@ Assurez-vous que vous êtes bien sur la branche `main`
 git checkout main
 ```
 
-Puis installez les dépendances (de préférence dans un
-[venv](https://docs.python.org/3/library/venv.html)).
-Vous pouvez choisir d'installer les dépendances
-pour compiler la documentation ou non.
+Puis installez les dépendances à l'aide d'uv.
+Nous avons configuré uv pour qu'il installe les dépendances des groups dev et docs par défaut.
 
 ```
-pip install -U -r requirements-dev.txt
-# ou
-pip install -U -r requirements-docs.txt
+uv sync
 ```
 
 ## Configuration du projet
@@ -355,7 +425,7 @@ Maintenant que tout est configuré, vous pouvez lancer le bot.
 Pour cela, exécutez la commande suivante dans votre terminal :
 
 ```bash
-python -m etuutt_bot
+uv run -m etuutt_bot
 ```
 
 Rendez-vous dans le salon que vous avez configuré comme étant celui

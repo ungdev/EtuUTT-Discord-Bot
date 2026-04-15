@@ -1,13 +1,55 @@
 [project]
 name = "EtuUTT-Bot"
+version = "0.0.1"
 license = "MIT"
-requires-python = ">=3.10"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp~=3.13.5",
+    "aiohttp-jinja2~=1.6.0",
+    "discord.py[speed]~=2.7.1",
+    "Jinja2~=3.1.6",
+    "pydantic~=2.12.5",
+    "pydantic-settings~=2.13.1",
+    "sentry-sdk[aiohttp]~=2.58.0",
+    "tomlkit~=0.14.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit~=4.2",
+    "ruff==0.15.10",
+]
+docs = [
+    "mkdocs-material~=9.7.6",
+    "mkdocstrings-python~=2.0.3",
+]
+
+[tool.uv]
+default-groups = ["dev", "docs"]
 
 [tool.ruff]
 line-length = 99
 
 [tool.ruff.lint]
-select = ["F", "E", "I", "N", "UP", "ASYNC", "B", "INP", "T20", "RET", "SIM", "ERA", "RUF"]
+select = [
+    "A",
+    "ASYNC",
+    "B",
+    "E",
+    "ERA",
+    "F",
+    "I",
+    "INP",
+    "N",
+    "PERF",
+    "RET",
+    "RUF",
+    "SIM",
+    "T20",
+    "TC",
+    "UP",
+]
 ignore = ["E501"]
 
 [tool.ruff.format]

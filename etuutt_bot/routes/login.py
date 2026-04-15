@@ -1,8 +1,11 @@
+from typing import TYPE_CHECKING
+
 import aiohttp
 import aiohttp_jinja2
 from aiohttp import web
 
-from etuutt_bot.config import ApiConfig, GuildConfig
+if TYPE_CHECKING:
+    from etuutt_bot.config import ApiConfig, GuildConfig
 
 
 async def handler(req: web.Request) -> web.Response:

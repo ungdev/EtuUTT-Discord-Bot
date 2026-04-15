@@ -27,9 +27,9 @@ class SyncService:
             self._timezone = ZoneInfo(bot.settings.tz)
         # On utilise la timezone UTC en cas de problème
         except ZoneInfoNotFoundError:
-            from datetime import timezone
+            from datetime import UTC
 
-            self._timezone = timezone.utc
+            self._timezone = UTC
 
         @tasks.loop(time=time(0, tzinfo=self._timezone))
         async def daily_etu_sync():

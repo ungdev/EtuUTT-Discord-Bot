@@ -1,11 +1,11 @@
 ## Compiler la documentation localement
 
 Si le projet est installé suivant les étapes décrites dans la section [Installation](install.md)
-et que vous avez choisi d'installer les dépendances de documentation,
+et que vous avez installé les dépendances de documentation,
 vous pouvez compiler la documentation localement en exécutant la commande suivante :
 
 ```bash
-mkdocs build
+uv run mkdocs build
 ```
 
 La documentation sera générée dans le dossier `site`.
@@ -18,7 +18,7 @@ Lorsque vous voulez travailler sur la documentation, vous pouvez lancer
 le serveur de développement de MkDocs :
 
 ```bash
-mkdocs serve
+uv run mkdocs serve
 ```
 
 Les changements apportés à la documentation seront automatiquement détectés et la page web

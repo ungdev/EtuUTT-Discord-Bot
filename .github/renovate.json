@@ -1,25 +1,31 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [ "config:recommended" ],
+    "extends": [
+        "config:recommended",
+        "helpers:pinGitHubActionDigests"
+    ],
     "timezone": "Europe/Paris",
     "schedule": [ "* 22-23 * * 0", "* 0-5 * * 1" ],
     "prHourlyLimit": 0,
     "packageRules": [
         {
-            "matchManagers": [ "pip_requirements" ],
-            "matchFileNames": [ "requirements.txt" ],
+            "matchManagers": [ "pep621" ],
+            "matchDepTypes": [ "project.dependencies" ],
             "groupName": "Python (prod)",
             "groupSlug": "python-prod",
             "commitMessagePrefix": "chore(deps): "
         }, {
-            "matchManagers": [ "pip_requirements" ],
-            "matchFileNames": [ "requirements-dev.txt" ],
+            "matchManagers": [ "pep621", "pre-commit" ],
+            "matchJsonata": [
+                "depType = 'dependency-groups' and managerData.depGroup = 'dev'",
+                "depType = 'repository'"
+            ],
             "groupName": "Python (dev)",
             "groupSlug": "python-dev",
             "commitMessagePrefix": "chore(deps-dev): "
         }, {
-            "matchManagers": [ "pip_requirements" ],
-            "matchFileNames": [ "requirements-docs.txt" ],
+            "matchManagers": [ "pep621" ],
+            "matchJsonata": [ "depType = 'dependency-groups' and managerData.depGroup = 'docs'" ],
             "groupName": "Python (docs)",
             "groupSlug": "python-docs",
             "commitMessagePrefix": "chore(deps-docs): "
@@ -31,20 +37,19 @@
             "matchManagers": [ "dockerfile" ],
             "groupName": "Docker images",
             "commitMessagePrefix": "chore(deps-docker): "
-        }, {
-            "matchManagers": [ "pre-commit" ],
-            "groupName": "pre-commit hooks",
-            "commitMessagePrefix": "chore(deps-dev): "
         }
     ],
     "commitMessageAction": "update",
     "commitMessageTopic": "{{depName}}",
     "enabledManagers": [
-        "pip_requirements",
+        "pep621",
         "github-actions",
         "dockerfile",
         "pre-commit"
     ],
+    "lockFileMaintenance": {
+        "enabled": true
+    },
     "pre-commit": {
         "enabled": true
     }
