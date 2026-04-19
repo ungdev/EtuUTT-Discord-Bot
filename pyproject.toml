@@ -18,7 +18,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pre-commit~=4.2",
-    "ruff==0.15.10",
+    "ruff==0.15.11",
 ]
 docs = [
     "mkdocs-material~=9.7.6",
