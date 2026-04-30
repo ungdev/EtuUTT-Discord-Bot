@@ -6,6 +6,7 @@ on:
         paths-ignore:
             - .pre-commit-config.yaml
             - pyproject.toml
+            - uv.lock
     workflow_dispatch:
 
 permissions:
