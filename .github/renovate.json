@@ -11,9 +11,18 @@
         {
             "matchManagers": [ "pep621" ],
             "matchDepTypes": [ "project.dependencies" ],
-            "groupName": "Python (prod)",
-            "groupSlug": "python-prod",
-            "commitMessagePrefix": "chore(deps): "
+            "matchUpdateTypes": [ "major" ],
+            "groupName": "Python (prod-major)",
+            "groupSlug": "python-prod-major",
+            "commitMessagePrefix": "chore(deps-major): "
+        }, {
+            "matchManagers": [ "pep621" ],
+            "matchDepTypes": [ "project.dependencies" ],
+            "matchUpdateTypes": [ "patch", "minor" ],
+            "groupName": "Python (prod-minor)",
+            "groupSlug": "python-prod-minor",
+            "commitMessagePrefix": "chore(deps-minor): ",
+            "automerge": true
         }, {
             "matchManagers": [ "pep621", "pre-commit" ],
             "matchJsonata": [
@@ -22,17 +31,20 @@
             ],
             "groupName": "Python (dev)",
             "groupSlug": "python-dev",
-            "commitMessagePrefix": "chore(deps-dev): "
+            "commitMessagePrefix": "chore(deps-dev): ",
+            "automerge": true
         }, {
             "matchManagers": [ "pep621" ],
             "matchJsonata": [ "depType = 'dependency-groups' and managerData.depGroup = 'docs'" ],
             "groupName": "Python (docs)",
             "groupSlug": "python-docs",
-            "commitMessagePrefix": "chore(deps-docs): "
+            "commitMessagePrefix": "chore(deps-docs): ",
+            "automerge": true
         }, {
             "matchManagers": [ "github-actions" ],
             "groupName": "GitHub Actions",
-            "commitMessagePrefix": "chore(deps-ga): "
+            "commitMessagePrefix": "chore(deps-ga): ",
+            "automerge": true
         }, {
             "matchManagers": [ "dockerfile" ],
             "groupName": "Docker images",
@@ -50,6 +62,7 @@
     "lockFileMaintenance": {
         "enabled": true
     },
+    "platformAutomerge": true,
     "pre-commit": {
         "enabled": true
     }
