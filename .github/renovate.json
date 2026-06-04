@@ -60,7 +60,8 @@
         "pre-commit"
     ],
     "lockFileMaintenance": {
-        "enabled": true
+        "enabled": true,
+        "automerge": true
     },
     "platformAutomerge": true,
     "pre-commit": {
