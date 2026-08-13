@@ -17,7 +17,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pre-commit~=4.2",
+    "prek~=0.4",
     "ruff==0.16.2",
 ]
 docs = [
