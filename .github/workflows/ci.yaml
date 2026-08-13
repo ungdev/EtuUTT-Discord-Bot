@@ -14,19 +14,5 @@ jobs:
                 with:
                     persist-credentials: false
 
-            -   name: Install Python
-                uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-                with:
-                    python-version-file: .python-version
-
-            -   name: Install pre-commit
-                run: python3 -m pip install pre-commit
-
-            -   name: Cache pre-commit
-                uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-                with:
-                    path: ~/.cache/pre-commit
-                    key: pre-commit|${{ env.pythonLocation }}|${{ hashFiles('.pre-commit-config.yaml') }}
-
-            -   name: Run pre-commit
-                run: pre-commit run --show-diff-on-failure --color=always --all-files
+            -   name: Run prek
+                uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
