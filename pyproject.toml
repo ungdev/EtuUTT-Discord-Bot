@@ -1,14 +1,15 @@
 [project]
-name = "EtuUTT-Bot"
+name = "etuutt-bot"
 version = "0.0.1"
-license = "MIT"
 readme = "README.md"
+license = "MIT"
+license-files = [ "LICENSE" ]
 requires-python = ">=3.12"
 dependencies = [
     "aiohttp~=3.14.0",
     "aiohttp-jinja2~=1.6.0",
-    "discord.py[speed]~=2.7.1",
-    "Jinja2~=3.1.6",
+    "discord-py[speed]~=2.7.1",
+    "jinja2~=3.1.6",
     "pydantic~=2.13.4",
     "pydantic-settings~=2.15.0",
     "sentry-sdk[aiohttp]~=2.68.0",
@@ -26,10 +27,16 @@ docs = [
 ]
 
 [tool.uv]
-default-groups = ["dev", "docs"]
+required-version = "~=0.12"
+default-groups = [ "dev", "docs" ]
 
 [tool.ruff]
 line-length = 99
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
 
 [tool.ruff.lint]
 select = [
@@ -48,11 +55,8 @@ select = [
     "SIM",
     "T20",
     "TC",
+    "TID",
     "UP",
 ]
-ignore = ["E501"]
-
-[tool.ruff.format]
-indent-style = "space"
-line-ending = "lf"
-quote-style = "double"
+ignore = [ "E501" ]
+flake8-tidy-imports.ban-relative-imports = "all"
