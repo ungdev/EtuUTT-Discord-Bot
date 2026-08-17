@@ -143,7 +143,7 @@ Retenez simplement :
 - Si vous faites une PR avec du code qui ne respecte pas le format
   attendu, la PR est bloquée.
   Pensez bien à faire tourner Ruff avant de commit
-  (ou encore mieux, configurez pre-commit).
+  (ou encore mieux, configurez prek).
 - Si Ruff modifie une partie de votre code et que vous trouvez que le
   résultat n'est pas élégant, alors ça veut dire que le problème n'est
   pas que dans la forme. Profitez-en pour revoir un peu la logique du code.

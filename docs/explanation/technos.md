@@ -122,7 +122,7 @@ Ruff est un linter et un formateur de code.
 Il est extrêmement complet et fiable.
 Et surtout, sa vitesse d'exécution est absurdement rapide.
 
-### pre-commit
+### prek
 
 C'est un framework qui permet d'ajouter des « hooks » qui vont s'exécuter
 automatiquement juste avant de réaliser un commit Git.

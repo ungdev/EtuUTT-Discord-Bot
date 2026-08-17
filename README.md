@@ -45,7 +45,7 @@ uv run -m etuutt_bot
 
 Use [ruff](https://github.com/astral-sh/ruff) to lint and format the code before making a pull
 request.  
-I also use [pre-commit](https://github.com/pre-commit/pre-commit) to run ruff before each commit.
+I also use [prek](https://github.com/j178/prek) to run ruff before each commit.
 
 ## Acknowledgments
 
