@@ -176,7 +176,7 @@ Tout comme pour le format, Ruff doit tourner avant chaque commit.
 ## Documentation
 
 La documentation est écrite en markdown, avec les fonctionnalités
-offertes par MkDocs, MkDocs-material et leurs extensions.
+offertes par Zensical et des plugins.
 
 La documentation est intégralement en français, à l'exception
 des exemples, qui suivent les conventions données plus haut.
