@@ -22,8 +22,8 @@ dev = [
     "ruff==0.16.8",
 ]
 docs = [
-    "mkdocs-material~=9.7.6",
     "mkdocstrings-python~=2.0.3",
+    "zensical~=0.0.65",
 ]
 
 [tool.uv]

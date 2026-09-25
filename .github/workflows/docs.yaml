@@ -39,7 +39,7 @@ jobs:
                     prune-cache: false
 
             -   name: Build docs
-                run: uv run --only-group docs mkdocs build --strict
+                run: uv run --only-group docs zensical build --strict
 
             -   name: Upload Pages Artifact
                 uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
