@@ -2,7 +2,7 @@ site_name: EtuUTT bot Discord
 site_url: https://ungdev.github.io/EtuUTT-Discord-Bot/
 site_description: Le bot du serveur Discord des étudiants de l'UTT
 
-repo_name: EtuUTT-Discord-Bot
+repo_name: ungdev/EtuUTT-Discord-Bot
 repo_url: https://github.com/ungdev/EtuUTT-Discord-Bot
 
 theme:
@@ -96,7 +96,7 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.tasklist:
       clickable_checkbox: true
-  - pymdownx.tilde:
+  - pymdownx.tilde
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
