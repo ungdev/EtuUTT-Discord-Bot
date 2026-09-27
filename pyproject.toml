@@ -19,7 +19,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "prek~=0.4",
-    "ruff==0.16.8",
+    "ruff==0.16.9",
 ]
 docs = [
     "mkdocstrings-python~=2.0.3",
