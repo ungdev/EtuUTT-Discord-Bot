@@ -5,7 +5,7 @@ et que vous avez installé les dépendances de documentation,
 vous pouvez compiler la documentation localement en exécutant la commande suivante :
 
 ```bash
-uv run mkdocs build
+uv run zensical build
 ```
 
 La documentation sera générée dans le dossier `site`.
@@ -13,12 +13,12 @@ Vous pouvez l'explorer dans votre navigateur en ouvrant le fichier `index.html`.
 
 ## Éditer la documentation
 
-La documentation est écrite en Markdown et est générée à l'aide de [MkDocs](https://www.mkdocs.org/).
+La documentation est écrite en Markdown et est générée à l'aide de [Zensical](https://zensical.org/).
 Lorsque vous voulez travailler sur la documentation, vous pouvez lancer
-le serveur de développement de MkDocs :
+le serveur de développement de Zensical :
 
 ```bash
-uv run mkdocs serve
+uv run zensical serve
 ```
 
 Les changements apportés à la documentation seront automatiquement détectés et la page web
@@ -26,12 +26,12 @@ sera rechargée.
 
 Les fichiers de documentation sont situés dans le dossier `docs`.
 
-La documentation est écrite en Markdown, avec MkdDocs et l'extension Material.
+La documentation est écrite en Markdown, avec Zensical et le thème `classic`,
+héritage de [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 Si vous n'êtes pas familiers avec ces technologies, veuillez consulter les documentations officielles :
 
 - [Markdown](https://www.markdownguide.org/)
-- [MkDocs](https://www.mkdocs.org/)
-- [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
+- [Zensical](https://zensical.org/)
 
 ### Ajouter ou retirer un fichier
 
@@ -49,10 +49,10 @@ Votre section `nav` devra ressembler à ceci :
 
 ```yaml
 nav:
-    -   Accueil: index.md
-    -   Tutoriel:
-            -   Installation: tutoriel/install.md
-            -   foo: tutoriel/foo.md
+  - Accueil: index.md
+  - Tutoriel:
+      - Installation: tutoriel/install.md
+          - foo: tutoriel/foo.md
     - # ...
 ```
 
