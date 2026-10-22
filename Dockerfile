@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.15-alpine
+FROM ghcr.io/astral-sh/uv:python3.14-alpine
 
 # Set uv environment to production
 ENV UV_LINK_MODE=copy \
