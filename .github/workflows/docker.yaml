@@ -9,7 +9,7 @@ permissions:
 
 jobs:
     docker:
-        runs-on: [ self-hosted, Linux, X64 ]
+        runs-on: [ self-hosted, Linux, X64, sia-static-runners ]
         steps:
             -   name: Set up QEMU
                 uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
