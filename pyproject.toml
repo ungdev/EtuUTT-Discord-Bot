@@ -12,7 +12,7 @@ dependencies = [
     "jinja2~=3.1.6",
     "pydantic~=2.14.1",
     "pydantic-settings~=2.16.0",
-    "sentry-sdk[aiohttp]~=2.72.0",
+    "sentry-sdk[aiohttp]~=2.73.0",
     "tomlkit~=0.15.0",
 ]
 
