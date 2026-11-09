@@ -23,7 +23,7 @@ dev = [
 ]
 docs = [
     "mkdocstrings-python~=2.0.3",
-    "zensical~=0.0.65",
+    "zensical~=0.1.0",
 ]
 
 [tool.uv]
